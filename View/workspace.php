@@ -1,0 +1,1 @@
+<!-- Mostra todas as atividades do workspace -->
