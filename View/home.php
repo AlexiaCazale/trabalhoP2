@@ -15,3 +15,16 @@
 		</div>
 	</div>
 </div>
+
+<!doctype html>
+<html>
+	<head>
+		<title>Serviços</title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<?php
+			$ul->criar();
+		?>
+	</body>
+</html>
