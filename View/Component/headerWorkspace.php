@@ -16,22 +16,22 @@
 	<title>Document</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg" style="background-color: #BEAFED; border-bottom: unset;">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPillsExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#"><img src="/images/bootstrap-logo.svg" width="36" /></a>
     <div class="collapse navbar-collapse" id="navbarPillsExample">
-      <ul class="navbar-nav navbar-nav-pills">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Workspace name</a>
-        </li>
+      <ul class="navbar-nav navbar-nav-pills" style="display: flex; align-items: center; gap: 20px;">
+        <h4>
+         Workspace name
+		</h4>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Membros</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Membro 1</a></li>
+            <li><a class="dropdown-item" href="#">Membro 2</a></li>
           
           </ul>
         </li>

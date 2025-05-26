@@ -1,6 +1,6 @@
 <?php
-require_once "View/Component/header.php";
-require_once "View/Component/headerWorkspace.php";
+// require_once "View/Component/header.php";
+// require_once "View/Component/headerWorkspace.php";
 
 	require_once "rotas.php";
 	spl_autoload_register(function($class){
