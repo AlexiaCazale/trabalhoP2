@@ -22,7 +22,12 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPillsExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#"><img src="/images/bootstrap-logo.svg" width="36" /></a>
+    <ul class="navbar-nav navbar-nav-pills" style="display: flex; align-items: center; gap: 20px;">
+      <a class="navbar-brand" href="#"><img src="../Images/logo.png" width="36" /></a>
+        <h4>
+        TaskHub
+		    </h4>
+    </ul>
     </div>
   </div>
 </nav>
