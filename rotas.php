@@ -31,11 +31,11 @@
 
 	$route = new Rotas();
 	$route->get("/", [inicioController::class,"inicio"]);
-	$route->get("/criar_atividade", [nome_do_controller::class,"forms_atividade"]);
-	$route->get("/criar_workspace", [nome_do_controller::class,"forms_workspace"]);
-	$route->get("/form_cadastro", [nome_do_controller::class,"forms_cadastro"]);
-	$route->post("/form_login", [nome_do_controller::class,"forms_login"]);
-	$route->get("/home", [nome_do_controller::class,"buscar_workspaces"]);
-	$route->get("/workspace", [nome_do_controller::class,"mostrar_atividade_workspace"]);
+	$route->get("/criar_atividade", [workspaceController::class,"cadastrar_atiidade"]);
+	$route->get("/criar_workspace", [workspaceController::class,"cadastrar_workspace"]);
+	$route->get("/form_cadastro", [usuarioController::class,"cadastrar_usuario"]);
+	$route->post("/form_login", [usuarioController::class,"login_usuario"]);
+	$route->get("/home", [workspaceController::class,"buscar_workspaces"]);
+	$route->get("/workspace", [workspaceController::class,"mostrar_atividade_workspace"]);
 	
 ?>

@@ -8,10 +8,10 @@
 		{
 		if(empty(self::$conexao))
 		{
-			// $parametros = "mysql:host=localhost;port=3307;dbname=servico;charset=utf8mb4";
+			$parametros = "mysql:host=localhost;dbname=task_hub;charset=utf8mb4";
 			try
 			{
-				self::$conexao = new PDO($parametros, "root", "root");
+				self::$conexao = new PDO($parametros, "root", "");
 			}
 			catch(PDOException $e)
 			{
