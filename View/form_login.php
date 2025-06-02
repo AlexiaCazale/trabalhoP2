@@ -4,8 +4,7 @@
 
 ?>
 
-<div style="display: flex; justify-content: center; margin-top: 50px;
-">
+<div style="display: flex; justify-content: center; margin-top: 50px;">
 
 <div class="card" style="display: flex;
     align-items: center;
@@ -23,7 +22,7 @@
   <label for="validationTooltip01" class="form-label" style="color: black">E-mail</label>
   <input type="email" class="form-control" id="validationTooltip01" placeholder="nome@exemplo.com" required>
   <div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
   </div>
  </div>
 
@@ -31,7 +30,7 @@
   <label for="validationTooltip01" class="form-label" style="color: black">Senha</label>
   <input type="password" class="form-control" id="validationTooltip01" placeholder="Digite sua senha" required>
   <div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
   </div>
  </div>
 

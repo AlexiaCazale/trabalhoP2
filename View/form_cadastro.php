@@ -4,7 +4,6 @@
 
 ?>
 
-
 <div class="card" style="display: flex;
     align-items: center;
     background-color: #BEAFED;
@@ -29,7 +28,7 @@
   <label for="validationTooltip01" class="form-label" style="color: black">Nome</label>
 	  <input type="text" class="form-control" placeholder="Nome completo" id="validationTooltip01" aria-label="Nome completo">
 	  <div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
   </div>
 	</div>
 
@@ -37,7 +36,7 @@
 	<label for="validationTooltip01" class="form-label" style="color: black">Data de nascimento</label>
 		<input type="date" class="form-control" placeholder="Data de nascimento" id="validationTooltip01" aria-label="Data de nascimento">
 		<div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
   </div>
 	</div>
 </div>
@@ -47,7 +46,7 @@
   <label for="validationTooltip01" class="form-label" style="color: black">E-mail</label>
 	  <input type="email" class="form-control" placeholder="E-mail" id="validationTooltip01" aria-label="E-mail">
 	  <div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
   </div>
 </div>
 	
@@ -55,13 +54,13 @@
 	<label for="validationTooltip01" class="form-label" style="color: black">Senha</label>
 		<input type="password" class="form-control" placeholder="Sua senha" id="validationTooltip01" aria-label="Last name">
 		<div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
 </div>
 
 
 <div class="text-end" style="margin-top: 20px;">
   <button type="submit" class="btn btn-subtle me-2">Cancel</button>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Cadastrar</button>
 </div>
 
 </div>
