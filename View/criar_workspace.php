@@ -6,7 +6,8 @@
 
 <h1 style="font-size: 18px; margin: 60px 0 40px 150px;">Criar Workspace</h1>
 
-<form class="was-validated">
+<form class="was-validated"  action="/trabalhoP2/inserir" method="post"> 
+  <!-- inserir, por causa do DAO -->
 
 <div style="display: flex; flex-direction:column; align-items:center">
 
@@ -14,7 +15,7 @@
   <label for="validationTooltip01" class="form-label">Nome</label>
   <input type="text" class="form-control" id="validationTooltip01" placeholder="Defina um nome para a atividade" required>
   <div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
   </div>
  </div>
 
@@ -22,7 +23,7 @@
   <label for="validationTextarea" class="form-label">Descrição</label>
   <textarea class="form-control" id="validationTextarea" placeholder="Escreva uma desrição para sua atividade" required></textarea>
   <div class="invalid-feedback">
-    Campo obrigatório!.
+    Campo obrigatório!
   </div>
   </div>
 

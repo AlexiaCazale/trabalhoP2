@@ -9,7 +9,7 @@
 
 			$ul->setElemento(new li(new a("/trabalhoP2/form_login", "Login"))); 
 
-			$ul->setElemento(new li(new a("/trabalhoP2/home", "Home"))); 
+			$ul->setElemento(new li(new a("/trabalhoP2", "Home"))); 
 
 			$ul->setElemento(new li(new a("/trabalhoP2/criar_workspace", "Criar Workspace"))); 
 
