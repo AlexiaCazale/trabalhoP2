@@ -34,7 +34,6 @@
 
 	$route->get("/criar_atividade", [workspaceController::class, "cadastrar_atividade"]);
 	
-	// $route->get("/criar_workspace", [workspaceController::class,"cadastrar_workspace"]);
 	$route->get("/criar_workspace", [workspaceController::class, "cadastrar_workspace"]);
 	
 	$route->get("/form_login", [usuarioController::class, "login_usuario"]);
