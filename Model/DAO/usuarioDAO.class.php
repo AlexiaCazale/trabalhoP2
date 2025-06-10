@@ -3,6 +3,27 @@
     {
         public function __construct(private $db = null){}
 
+        public function buscar_usuarios() 
+        {
+            $sql = "SELECT * FROM usuario";
+            try 
+            {
+                $stm = $this -> db -> prepare($sql);
+                $stm -> execute();
+                $this -> db = null;
+
+                $_SESSION['mensagem'] = 'Usuários buscados com sucesso!';
+                // header('Location: /index.php');
+
+            }catch(PDOException $e){
+                $this -> db = null;
+                echo $e -> getMessage();
+                echo $e -> getCode();
+                $_SESSION['mensagem'] = 'Erro ao buscar usuários';
+                die();
+            }
+        }
+
         public function cadastrar_usuario($usuario)
         {
             $sql = "INSERT INTO usuario (nome, email, senha) VALUES(?, ?, ?)";
