@@ -43,18 +43,12 @@ erDiagram
     ATIVIDADE 1--1 MEMBRO_ATIVIDADE : Está_em
     USUARIO 1+--1 MEMBRO_ATIVIDADE : Faz_parte_de
 
-    WORKSPACE 1--1 EM_WORKSPACE : Está_em
-    ATIVIDADE 1+--1 EM_WORKSPACE : Está_em
+    ATIVIDADE 1--0+ COMENTARIO : Em
+    USUARIO 1--0+ COMENTARIO : Fez
 
     WORKSPACE {
         int id_workspace
         date criacao_workspace
-    }
-
-    EM_WORKSPACE {
-        int id_em_workspace
-        int id_workspace_fk
-        int id_atividade_fk
     }
 
     MEMBRO_WORKSPACE {
@@ -67,6 +61,7 @@ erDiagram
         int id_atividade
         string titulo_atividade
         string texto_atividade
+        int id_workspace_fk
     }
 
     MEMBRO_ATIVIDADE {
@@ -79,5 +74,12 @@ erDiagram
         int id_usuario
         string nome_usuario
     } 
+
+    COMENTARIO {
+        int id_comentario
+        string texto_comentario
+        int id_atividade_fk
+        int id_usuario_fk
+    }
 ```
 
