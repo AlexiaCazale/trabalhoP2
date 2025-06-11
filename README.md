@@ -34,7 +34,7 @@ classDiagram
 ```
 
 
-Diagrama de relacionamentos (bando de dados)
+Diagrama de relacionamentos (banco de dados)
 ```mermaid
 erDiagram
     WORKSPACE 1--1 MEMBRO_WORKSPACE : Está_em
