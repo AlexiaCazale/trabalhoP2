@@ -3,11 +3,6 @@
     {
         public function __construct(private $db = null){}
 
-		public function hidratar_atividade(array $atividades) 
-		{
-			
-		}
-
         public function buscar_atividades()
 		{
 			$sql = "SELECT * FROM atividade";

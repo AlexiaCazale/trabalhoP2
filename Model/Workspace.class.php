@@ -1,12 +1,12 @@
 <?php
-class Workspace
+class Workspace implements AtividadeContract, UsuarioContract 
 {
+    use TemUsuario, TemAtividade;
+
     public function __construct(
         private int $idWorkspace = 0,
         private string $nome = "",
-        private string $descricao = "",
-        private array $usuarios = [],
-        private array $atividades = []
+        private string $descricao = ""
     ) {
     }
 
@@ -33,22 +33,6 @@ class Workspace
     public function setDescricao(string $descricao)
     {
         $this->descricao = $descricao;
-    }
-    public function getUsuarios()
-    {
-        return $this->usuarios;
-    }
-    public function setUsuarios(Usuario $usuario)
-    {
-        $this->usuarios[] = $usuario;
-    }
-    public function getAtividades()
-    {
-        return $this->atividades;
-    }
-    public function setAtividades(Atividade $atividade)
-    {
-        $this->atividades[] = $atividade;
     }
 }
 

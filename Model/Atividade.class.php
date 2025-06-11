@@ -1,13 +1,14 @@
 <?php
-class Atividade
+class Atividade implements UsuarioContract
 {
+    use TemUsuario;
+
     public function __construct(
         private int $idAtividade = 0,
         private string $nome = "",
         private DateTime $dataEntrega,
         private DateTime $dataCriacao,
         private string $descricao = "",
-        private array $usuarios = [],
         private Workspace $workspace,
         private array $comentarios
     ) {
@@ -52,14 +53,6 @@ class Atividade
     public function setDescricao(string $descricao)
     {
         $this->descricao = $descricao;
-    }
-    public function getUsuarios()
-    {
-        return $this->usuarios;
-    }
-    public function setUsuarios(Usuario $usuario)
-    {
-        $this->usuarios[] = $usuario;
     }
     public function getWorkspaces()
     {
