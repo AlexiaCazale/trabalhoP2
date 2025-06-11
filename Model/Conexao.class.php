@@ -11,7 +11,7 @@
 			$parametros = "mysql:host=localhost;dbname=task_hub;charset=utf8mb4";
 			try
 			{
-				self::$conexao = new PDO($parametros, "root", "");
+				self::$conexao = new PDO($parametros, "root", "root");
 			}
 			catch(PDOException $e)
 			{

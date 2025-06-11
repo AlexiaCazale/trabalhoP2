@@ -4,19 +4,19 @@ class Workspace implements AtividadeContract, UsuarioContract
     use TemUsuario, TemAtividade;
 
     public function __construct(
-        private int $idWorkspace = 0,
+        private int $id = 0,
         private string $nome = "",
         private string $descricao = ""
     ) {
     }
 
-    public function getIdWorkspace()
+    public function getId()
     {
-        return $this->idWorkspace;
+        return $this->id;
     }
-    public function setIdWorkspace(int $id) 
+    public function setId(int $id) 
     {
-        $this->idWorkspace = $id;
+        $this->id = $id;
     }
     public function getNome()
     {

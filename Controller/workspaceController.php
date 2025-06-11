@@ -2,6 +2,8 @@
     class workspaceController
     {
         private $param;
+        use ConversorStdClass;
+        
 		public function __construct()
 		{
 			$this->param = Conexao::getInstancia();

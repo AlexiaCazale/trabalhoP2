@@ -4,7 +4,7 @@ class Usuario implements AtividadeContract
     use TemAtividade;
 
     public function __construct(
-        private int $idUsuario = 0,
+        private int $id = 0,
         private string $nome = "",
         private string $email = "",
         private string $senha = "",
@@ -12,13 +12,13 @@ class Usuario implements AtividadeContract
     ) {
     }
 
-    public function getIdUsuario()
+    public function getId()
     {
-        return $this->idUsuario;
+        return $this->id;
     }
-    public function setIdUsuario(int $id)
+    public function setId(int $id)
     {
-        $this->idUsuario = $id;
+        $this->id = $id;
     }
     public function getNome()
     {

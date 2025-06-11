@@ -1,18 +1,18 @@
 <?php
     class Comentario {
         public function __construct(
-            private int $idComentario = 0,
+            private int $id = 0,
             private string $texto = "",
             private Usuario $usuario
         ) {}
 
-        public function getIdComentario() 
+        public function getId() 
         {
-            return $this->idComentario;
+            return $this->id;
         }
-        public function setIdComentario(int $id)
+        public function setId(int $id)
         {
-            $this->idComentario = $id;
+            $this->id = $id;
         }
         public function getTexto() 
         {

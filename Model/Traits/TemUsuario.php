@@ -14,3 +14,5 @@ trait TemUsuario
         $this->usuarios[] = $usuario;
     }
 }
+
+?>

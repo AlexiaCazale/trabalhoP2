@@ -1,5 +1,16 @@
 # Documentação da TaskHub
 
+## Estrutura para documentação dentro do código
+
+```php
+/**
+     * Texto que explica a função ou método.
+     *
+     * @param Tipo $parametro
+     * @return string|null Valor de retorno.
+     */
+```
+
 <br>
 <h2>Diagramas</h2>
 

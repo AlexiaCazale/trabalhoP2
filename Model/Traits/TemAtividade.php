@@ -14,3 +14,5 @@ trait TemAtividade
         $this->atividades[] = $atividade;
     }
 }
+
+?>

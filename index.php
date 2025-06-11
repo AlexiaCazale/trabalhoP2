@@ -1,6 +1,4 @@
 <?php
-// require_once "View/Component/header.php";
-// require_once "View/Component/headerWorkspace.php";
 
 	require_once "rotas.php";
 	spl_autoload_register(function($class){
@@ -20,13 +18,20 @@
 		{
 			require_once 'Model/DAO/'. $class . '.class.php';
 		}
+		else if(file_exists('Model/Traits/'. $class . '.php')) 
+		{
+			require_once 'Model/Traits/'. $class . '.php';
+		}
+		else if(file_exists('Model/Contracts/'. $class . '.interface.php')) 
+		{
+			require_once 'Model/Contracts/'. $class . '.interface.php';
+		}
 		else
 		{
 			die("Arquivo não existe " . $class);
 		}
 	});
 
-	
 	
 	$uri = parse_url($_SERVER["REQUEST_URI"])["path"];
 	$uri = substr($uri, strpos($uri,'/',1));

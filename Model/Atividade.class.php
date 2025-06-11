@@ -1,10 +1,11 @@
 <?php
+
 class Atividade implements UsuarioContract
 {
     use TemUsuario;
 
     public function __construct(
-        private int $idAtividade = 0,
+        private int $id = 0,
         private string $nome = "",
         private DateTime $dataEntrega,
         private DateTime $dataCriacao,
@@ -14,13 +15,13 @@ class Atividade implements UsuarioContract
     ) {
     }
 
-    public function getIdAtividade()
+    public function getId()
     {
-        return $this->idAtividade;
+        return $this->id;
     }
-    public function setIdAtividade(int $id)
+    public function setId(int $id)
     {
-        $this->idAtividade = $id;
+        $this->id = $id;
     }
     public function getNome()
     {

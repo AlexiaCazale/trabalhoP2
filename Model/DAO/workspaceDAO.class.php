@@ -1,7 +1,12 @@
 <?php 
     class workspaceDAO
     {
-        public function __construct(private $db = null){}
+        private $db;
+
+        public function __construct()
+        {
+            $this->db = Conexao::getInstancia();
+        }
 
         public function buscar_workspaces()
 		{
@@ -20,17 +25,44 @@
 			}
 		}
 
-        public function inserir($workspace){
-			$sql = "INSERT INTO workspace (nome, descricao) 
-			VALUES (?, ?)";
-			// TODO: Adicionar membros
-			
-			try {
+		public function buscar_um_workspace(Workspace $workspace)
+		{
+			$sql = "SELECT * FROM workspace WHERE id_workspace = ?";
+			try
+			{
 				$stm = $this->db->prepare($sql);
-				$stm->execute([$workspace['nome'], $workspace['descricao']]);
-				return true;
-			} catch(PDOException $e) {
-				die("Erro ao inserir workspace: " . $e->getMessage());
+				$stm->execute([
+					"id_workspace" => $workspace->getId()
+				]);
+				$this->db = null;
+			}
+			catch(PDOException $e)
+			{
+				$this->db = null;
+				die("Problema ao buscar um workspace");
+			}
+		}
+
+		public function cadastrar_workspace(Workspace $workspace){
+			$sql = 
+			"INSERT 
+			INTO usuario (nome_workspace, descricao_workspace) 
+			VALUES (:nome, :descricao)";
+
+			try
+			{
+				$stm = $this->db->prepare($sql);
+				$stm->execute([
+                    "nome" => $workspace->getNome(),
+                    "descricao" => $workspace->getDescricao()
+                ]);
+				$this->db = null;
+				return;
+			}
+			catch(PDOException $e)
+			{
+				$this->db = null;
+				die("Problema ao cadastrar um workspace");
 			}
         }
 
