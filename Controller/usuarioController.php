@@ -1,41 +1,51 @@
 <?php
 	class usuarioController
     {
-        private $param;
 		use ConversorStdClass;
-		
-		public function __construct()
-		{
-			$this->param = Conexao::getInstancia();
-		}
 
-        public function login_usuario(){
+        public function login_usuario(): void
+		{
 			if (empty($_POST)) 
 			{
 				require_once "View/form_login.php";
 			} 
 			else 
 			{
-				$usuarioDAO = new UsuarioDAO();
-				$usuario_para_login = new Usuario(
+				$usuarioDAO = new usuarioDAO();
+				$usuarioParaLogin = new Usuario(
 					email: $_POST['email'],
 					senha: $_POST['senha']
 				);
-				var_dump($this->stdClassToModelClass($usuarioDAO->buscar_um_usuario($usuario_para_login), "Usuario"));
+				// Checar login
+				$usuarioEncontrado = $usuarioDAO->buscar_um_usuario($usuarioParaLogin);
+				$usuarioEncontrado = $this->stdClassToModelClass($usuarioEncontrado, Usuario::class);
+				if (password_verify(
+						password: $usuarioParaLogin->getSenha(), 
+						hash: $usuarioEncontrado->getSenha()
+						)
+					) 
+				{
+					var_dump("Login feito");
+				}
+				else
+				{
+					var_dump("Senha errada");
+				}
 			}
 		}
 
-        public function cadastrar_usuario(){
+        public function cadastrar_usuario(): void
+		{
 			if (empty($_POST)) 
 			{
 				require_once "View/form_cadastro.php";
 			} else {
-				$usuarioDAO = new UsuarioDAO();
+				$usuarioDAO = new usuarioDAO();
 				$usuario = new Usuario(
-					0,
-					$_POST['nome'],
-					$_POST['email'],
-					$_POST['senha']
+					id: 0,
+					nome: filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS),
+					email: filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL),
+					senha: password_hash($_POST["senha"], PASSWORD_BCRYPT)
 				);
 				$usuarioDAO->cadastrar_usuario($usuario);
 			}

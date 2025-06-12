@@ -10,8 +10,8 @@ class Atividade implements UsuarioContract
         private DateTime $dataEntrega,
         private DateTime $dataCriacao,
         private string $descricao = "",
-        private Workspace $workspace,
-        private array $comentarios
+        private ?Workspace $workspace = null,
+        private ?array $comentarios = null
     ) {
     }
 
