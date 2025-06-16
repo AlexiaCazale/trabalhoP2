@@ -1,5 +1,5 @@
 <?php
-class Workspace implements AtividadeContract, UsuarioContract 
+class Workspace implements IAtividade, IUsuario 
 {
     use TemUsuario, TemAtividade;
 

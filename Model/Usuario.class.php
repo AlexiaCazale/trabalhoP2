@@ -1,5 +1,5 @@
 <?php
-class Usuario implements AtividadeContract
+class Usuario implements IAtividade
 {
     use TemAtividade;
 
@@ -8,6 +8,7 @@ class Usuario implements AtividadeContract
         private string $nome = "",
         private string $email = "",
         private string $senha = "",
+        private string $avatar = "",
         private array $workspaces = []
     ) {
     }
@@ -43,6 +44,14 @@ class Usuario implements AtividadeContract
     public function setSenha(string $senha)
     {
         $this->senha = $senha;
+    }
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+    public function setAvatar(string $avatar) 
+    {
+        $this->avatar = $avatar;
     }
     public function getWorkspaces()
     {

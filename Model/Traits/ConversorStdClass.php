@@ -13,7 +13,7 @@ trait ConversorStdClass
         foreach ((array)$stdClassObject as $dbColumnName => $value) {
             $parts = explode('_', $dbColumnName);
             if (count($parts) > 1) {
-                 array_pop($parts); // Remove o último elemento 
+                array_pop($parts); // Remove o último elemento
             }
             $modelPropertyName = implode('_', $parts); 
             $modelPropertyName = lcfirst(str_replace('_', '', ucwords($modelPropertyName, '_')));

@@ -1,7 +1,7 @@
 <?php
     class workspaceController
     {
-        // use ConversorStdClass;
+        use ConversorStdClass;
 
         public function cadastrar_workspace(){
 
@@ -18,15 +18,17 @@
         }
 
         public function mostrar_atividade_workspace(){
+            /*
             $atividade_arr = [
                 "id_atividade" => 0,
                 "nome_atividade" => "Teste",
-                "data_entrega_atividade" => new DateTime()->setTime(0, 0, 0, 0),
-                "data_criacao_atividade" => new DateTime()->setTime(0, 0, 0, 0),
+                "data_entrega_atividade" => (new DateTime())->setTime(0, 0, 0, 0),
+                "data_criacao_atividade" => (new DateTime())->setTime(0, 0, 0, 0),
                 "descricao_atividade" => "Teste descrição"
-            ]; 
+            ];
+            var_dump($this->stdClassToModelClass((object) $atividade_arr, Atividade::class));
+            */ 
 
-            // $this->stdClassToModelClass((object) $atividade_arr, Atividade::class);
 
             //require_once "View/workspace.php";
         }

@@ -13,7 +13,8 @@ require_once "View/Component/header.php";
 
     <div class="col-md-4 position-relative">
       <label for="validationTooltip01" class="form-label">Nome</label>
-      <input type="text" class="form-control" id="validationTooltip01" placeholder="Defina um nome para a atividade" required>
+      <input type="text" class="form-control" id="validationTooltip01" placeholder="Defina um nome para a atividade"
+        required>
       <div class="invalid-feedback">
         Campo obrigatório!
       </div>
@@ -21,7 +22,8 @@ require_once "View/Component/header.php";
 
     <div class="col-md-4">
       <label for="validationTextarea" class="form-label">Descrição</label>
-      <textarea class="form-control" id="validationTextarea" placeholder="Escreva uma desrição para sua atividade" required></textarea>
+      <textarea class="form-control" id="validationTextarea" placeholder="Escreva uma desrição para sua atividade"
+        required></textarea>
       <div class="invalid-feedback">
         Campo obrigatório!
       </div>
@@ -29,8 +31,7 @@ require_once "View/Component/header.php";
 
     <div class="col-md-4">
       <label for="validationServer04" class="form-label">Membros</label>
-      <select class="form-select is-invalid" id="validationServer04"
-        required>
+      <select class="form-select is-invalid" id="validationServer04" required>
         <option selected disabled value="">Selecione um membro...</option>
         <option>...</option>
       </select>

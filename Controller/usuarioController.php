@@ -22,10 +22,9 @@
 				if (password_verify(
 						password: $usuarioParaLogin->getSenha(), 
 						hash: $usuarioEncontrado->getSenha()
-						)
-					) 
+						)) 
 				{
-					var_dump("Login feito");
+					(new inicioController)->inicio();
 				}
 				else
 				{

@@ -1,6 +1,6 @@
 <?php
 
-class Atividade implements UsuarioContract
+class Atividade implements IUsuario
 {
     use TemUsuario;
 
@@ -55,11 +55,11 @@ class Atividade implements UsuarioContract
     {
         $this->descricao = $descricao;
     }
-    public function getWorkspaces()
+    public function getWorkspace()
     {
         return $this->workspace;
     }
-    public function setWorkspaces(Workspace $workspace)
+    public function setWorkspace(Workspace $workspace)
     {
         $this->workspace = $workspace;
     }

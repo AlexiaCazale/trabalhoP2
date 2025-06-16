@@ -22,9 +22,13 @@
 		{
 			require_once 'Model/Traits/'. $class . '.php';
 		}
-		else if(file_exists('Model/Contracts/'. $class . '.interface.php')) 
+		else if(file_exists('Model/Interfaces/'. $class . '.interface.php')) 
 		{
-			require_once 'Model/Contracts/'. $class . '.interface.php';
+			require_once 'Model/Interfaces/'. $class . '.interface.php';
+		}
+		else if(file_exists('Model/Services/'. $class . '.service.php')) 
+		{
+			require_once 'Model/Services/'. $class . '.service.php';
 		}
 		else
 		{

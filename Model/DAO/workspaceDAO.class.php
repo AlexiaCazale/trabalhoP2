@@ -8,7 +8,7 @@
             $this->db = Conexao::getInstancia();
         }
 
-        public function buscar_workspaces()
+        public function buscar_workspaces(): array
 		{
 			$sql = "SELECT * FROM workspace";
 			try
@@ -16,7 +16,7 @@
 				$stm = $this->db->prepare($sql);
 				$stm->execute();
 				$this->db = null;
-				return $stm->fetchAll(PDO::FETCH_OBJ);
+				return $stm->fetchAll(PDO::FETCH_ASSOC);
 			}
 			catch(PDOException $e)
 			{
@@ -25,7 +25,7 @@
 			}
 		}
 
-		public function buscar_um_workspace(Workspace $workspace)
+		public function buscar_um_workspace(Workspace $workspace): void
 		{
 			$sql = "SELECT * FROM workspace WHERE id_workspace = ?";
 			try
@@ -43,7 +43,8 @@
 			}
 		}
 
-		public function cadastrar_workspace(Workspace $workspace){
+		public function cadastrar_workspace(Workspace $workspace): void
+		{
 			$sql = 
 			"INSERT 
 			INTO usuario (nome_workspace, descricao_workspace) 

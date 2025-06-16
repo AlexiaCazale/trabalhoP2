@@ -40,8 +40,6 @@
 
 	$route->get("/form_cadastro", [usuarioController::class, "cadastrar_usuario"]);
 	
-	$route->get("/home", [workspaceController::class, "buscar_workspaces"]); // Ainda aponta para método inexistente
-	
 	$route->get("/workspace", [workspaceController::class, "mostrar_atividade_workspace"]);
 	
 	//POST

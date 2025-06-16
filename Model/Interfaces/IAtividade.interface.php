@@ -1,6 +1,6 @@
 <?php
 
-interface AtividadeContract
+interface IAtividade
 {
     public function getAtividades(): array;
     public function setAtividades(Atividade $atividade): void;

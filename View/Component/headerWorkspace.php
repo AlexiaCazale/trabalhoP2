@@ -31,7 +31,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPillsExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#"><img src="View/Images/logo.png" width="36" /></a>
+    <a class="navbar-brand" href="/trabalhoP2"><img src="View/Images/logo.png" width="36" /></a>
     <div class="collapse navbar-collapse" id="navbarPillsExample">
       <ul class="navbar-nav navbar-nav-pills" style="display: flex; align-items: center; gap: 20px;">
         <h4>
