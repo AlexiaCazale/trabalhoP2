@@ -8,6 +8,11 @@
             $this->db = Conexao::getInstancia();
         }
 
+		public function get_db() 
+		{
+			return $this->db;
+		}
+
         public function buscar_workspaces(): array
 		{
 			$sql = "SELECT * FROM workspace";
@@ -21,7 +26,7 @@
 			catch(PDOException $e)
 			{
 				$this->db = null;
-				die("Problema ao buscar os workspaces");
+				die("Problema ao buscar os workspaces: " . $e->getMessage());
 			}
 		}
 
@@ -39,7 +44,7 @@
 			catch(PDOException $e)
 			{
 				$this->db = null;
-				die("Problema ao buscar um workspace");
+				die("Problema ao buscar um workspace:" . $e->getMessage());
 			}
 		}
 
@@ -47,7 +52,7 @@
 		{
 			$sql = 
 			"INSERT 
-			INTO usuario (nome_workspace, descricao_workspace) 
+			INTO workspace (nome_workspace, descricao_workspace) 
 			VALUES (:nome, :descricao)";
 
 			try
@@ -63,7 +68,7 @@
 			catch(PDOException $e)
 			{
 				$this->db = null;
-				die("Problema ao cadastrar um workspace");
+				die("Problema ao cadastrar um workspace: " . $e->getMessage());
 			}
         }
 

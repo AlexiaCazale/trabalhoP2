@@ -8,7 +8,7 @@ class Usuario implements IAtividade
         private string $nome = "",
         private string $email = "",
         private string $senha = "",
-        private string $avatar = "",
+        private ?string $avatar = "", // Pode ser nulo
         private array $workspaces = []
     ) {
     }

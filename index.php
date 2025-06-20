@@ -1,5 +1,7 @@
 <?php
 
+	session_start(); // Inicia a sessão globalmente
+
 	require_once "rotas.php";
 	spl_autoload_register(function($class){
 		if(file_exists('Controller/' . $class . '.php'))

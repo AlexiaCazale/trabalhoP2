@@ -1,5 +1,8 @@
 <?php
     class Comentario {
+
+        // Não utiliza o traço TemUsuario por sempre conter apenas 1 usuário
+
         public function __construct(
             private int $id = 0,
             private string $texto = "",

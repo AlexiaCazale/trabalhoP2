@@ -38,9 +38,13 @@
 	
 	$route->get("/form_login", [usuarioController::class, "login_usuario"]);
 
+	$route->get("/logout", [usuarioController::class, "logout_usuario"]);
+
 	$route->get("/form_cadastro", [usuarioController::class, "cadastrar_usuario"]);
 	
 	$route->get("/workspace", [workspaceController::class, "mostrar_atividade_workspace"]);
+
+	$route->get("/buscar_usuario", [usuarioController::class, "buscar_usuario_por_email"]);
 	
 	//POST
 	$route->post("/criar_atividade", [workspaceController::class, "cadastrar_atividade"]);
@@ -49,6 +53,6 @@
 	
 	$route->post("/form_cadastro", [usuarioController::class, "cadastrar_usuario"]);
 
-	$route->post("/inserir", [workspaceController::class, "cadastrar_workspace"]);
+	$route->post("/criar_workspace", [workspaceController::class, "cadastrar_workspace"]);
 
 ?>

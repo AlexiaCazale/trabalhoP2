@@ -5,10 +5,40 @@
 
         public function cadastrar_workspace(){
 
-        require_once "View/criar_workspace.php";
+            if (empty($_POST)) 
+            {
+                require_once "View/criar_workspace.php";
+            } 
+            else 
+            {   
+                $workspaceDAO = new workspaceDAO();
+
+                $workspaceCriado = new Workspace(
+                    id: 0,
+                    nome: $_POST['nome'],
+                    descricao: $_POST['descricao']
+                );
+
+                $workspaceDAO->cadastrar_workspace($workspaceCriado);
+            }
         }
 
-        public function cadastrar_atividade(){
+        public function cadastrar_usuarios_em_workspace(Workspace $workspace, array $emails_de_usuarios) 
+        {
+            $usuarioDAO = new usuarioDAO;
+
+            $ultimoId = (new workspaceDAO)->get_db()->lastInsertId();
+            
+            $workspace->setId($ultimoId);
+
+            foreach ($emails_de_usuarios as $i) 
+            {
+                $usuario = new Usuario(email: $i);
+                $usuarioEncontrado = $this->stdClassToModelClass($usuarioDAO->buscar_um_usuario($usuario), Usuario::class);
+            }    
+        }
+
+        public function cadastrar_atividade_em_workspace(){
             require_once "View/criar_atividade.php";
         }
 
@@ -30,7 +60,7 @@
             */ 
 
 
-            //require_once "View/workspace.php";
+            require_once "View/workspace.php";
         }
 
     }

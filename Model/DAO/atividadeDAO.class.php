@@ -26,7 +26,7 @@ class atividadeDAO
 			);
 		} catch (PDOException $e) {
 			$this->db = null;
-			die("Erro ao cadastrar atividade");
+			die("Erro ao cadastrar atividade:" . $e->getMessage());
 		}
 	}
 
@@ -40,7 +40,7 @@ class atividadeDAO
 			return $stm->fetchAll(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
 			$this->db = null;
-			die("Erro ao buscar atividade");
+			die("Erro ao buscar atividade:" . $e->getMessage());
 		}
 	}
 }
