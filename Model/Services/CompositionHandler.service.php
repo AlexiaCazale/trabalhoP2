@@ -1,43 +1,50 @@
 <?php
 
-class CompositionHandler 
+class CompositionHandler
 {
-    static public function createUsersAvatar(IUsuario $obj): div // Recebe qualquer estrutura que possua usuários
-    {
-        $div = new div(class: "avatar-stack flex justify-items-end", style: "'display: flex; justify-content: start;'");
-        foreach ($obj->getUsuarios() as $usuario) {
-            $div->setElemento(new img("avatar", $usuario->getAvatar()));
-        }
-        return $div;
-    }
+	static public function createUsersAvatar(IUsuario $obj): div // Recebe qualquer estrutura que possua usuários
+	{
+		$div = new div(class: "avatar-stack flex justify-items-end", style: "'display: flex; justify-content: start;'");
+		foreach ($obj->getUsuarios() as $usuario) {
+			$div->setElemento(new img(class:"avatar", src:$usuario->getAvatar() != null ? $usuario->getAvatar() : "View/Images/user_img.png"));
+		}
+		return $div;
+	}
 
-    static public function createWorkspaces(Usuario $usuario): div
-    {
+	static public function createWorkspaces(Usuario $usuario): div
+	{
         $div = new div(style:"'display: flex; flex-direction: column; gap: 20px'");
+
         foreach($usuario->getWorkspaces() as $workspace)
         {
-            $div_users = CompositionHandler::createUsersAvatar($workspace);
+            $divCard = new div(class:"card", style:"'margin-left: 20px; width: 421px; border-radius: 18px; background-color: #BEAFED; border: unset'");
 
-            $div_users->setElemento(new a("/trabalhoP2", "alterar"));
-            $div_users->setElemento(new a("/trabalhoP2", "remover"));
+            $divCardBody = new div(class:"card-body", style:"'border: unset'");
+            $divCardBody->setElemento(new heading(5, $workspace->getNome(), class:"card-title"));
 
-            $div_card_body = new div(class: "card_body", style:"'border: unset'");
-            $div_card_body->setElemento(new heading(5, $workspace->getNome(), class: "card-title"));
+            $divAvatarIcon = new div(style:"'display: flex; justify-content: space-between; align-items: center'");
 
-            $div_card = new div(class: "card", style:"'margin-left: 20px; width: 421px; border-radius: 18px; background-color: #BEAFED; border: unset'");
-            $div_card->setElemento($div_card_body);
-
-            var_dump($div_card->getElemento()[0]);
+            $divAvatarIcon->setElemento(CompositionHandler::createUsersAvatar($workspace));
             
-            $div->setElemento($div_card);
+            $divIcons = new div(style:"'display: flex; gap: 10px'");
+            $divIcons->setElemento(new a("/trabalhoP2", "Alterar"));
+            $divIcons->setElemento(new a("/trabalhoP2", "Remover"));
+
+            $divAvatarIcon->setElemento($divIcons);
+
+            $divCardBody->setElemento($divAvatarIcon);
+
+            $divCard->setElemento($divCardBody);
+
+            $div->setElemento($divCard);
         }
 
-        return $div;
-    }
+		return $div;
+	}
 
-    static public function createQuickAccess()
-    {
-        $ul = new ul();
+	static public function createQuickAccess()
+	{
+		$ul = new ul();
 		$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro")));
 
 		$ul->setElemento(new li(new a("/trabalhoP2/form_login", "Login")));
@@ -50,8 +57,8 @@ class CompositionHandler
 
 		$ul->setElemento(new li(new a("/trabalhoP2/criar_atividade", "Criar atividade")));
 
-        return $ul;
-    }
+		return $ul;
+	}
 }
 
 ?>

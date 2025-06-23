@@ -2,17 +2,17 @@
 
 trait TemUsuario
 {
-    private array $usuarios = [];
+	private array $usuarios = [];
 
-    public function getUsuarios(): array 
-    {
-        return $this->usuarios;
-    }
+	public function getUsuarios(): array
+	{
+		return $this->usuarios;
+	}
 
-    public function setUsuarios(Usuario $usuario): void
-    {
-        $this->usuarios[] = $usuario;
-    }
+	public function setUsuarios(Usuario $usuario): void
+	{
+		$this->usuarios[] = $usuario;
+	}
 }
 
 ?>

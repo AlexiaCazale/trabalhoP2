@@ -7,14 +7,14 @@ require_once "View/Component/header.php";
 <div style="display: flex; flex-direction:column; align-items:center">
 
   <div class="col-md-4 position-relative">
-    <span>Nome</span>
+	<span>Nome</span>
   </div>
   <div class="col-md-4 position-relative">
-    <span>Data de nascimento</span>
+	<span>Data de nascimento</span>
   </div>
   <div class="col-md-4 position-relative">
-    <span>E-mail</span>
+	<span>E-mail</span>
   </div>
   <div class="col-md-4 position-relative">
-    <span>Nome</span>
+	<span>Nome</span>
   </div>

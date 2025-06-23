@@ -14,7 +14,7 @@ class usuarioController
 				senha: $_POST['senha']
 			);
 			$usuarioEncontrado = $this->stdClassToModelClass(
-				$usuarioDAO->buscar_um_usuario($usuarioParaLogin), 
+				$usuarioDAO->buscar_um_usuario($usuarioParaLogin),
 				Usuario::class
 			);
 			if (
@@ -29,15 +29,13 @@ class usuarioController
 				$_SESSION['usuario_email'] = $usuarioEncontrado->getEmail();
 				$_SESSION['usuario_id'] = $usuarioEncontrado->getId();
 				session_regenerate_id(true);
-				
-				var_dump($_SESSION);
 
 				header('Location: /trabalhoP2/');
 				exit();
 			} else {
 				var_dump("Senha errada");
 			}
-			
+
 		}
 	}
 
@@ -68,12 +66,9 @@ class usuarioController
 
 	public function buscar_usuario_por_email(): string|bool|null
 	{
-		if (empty($_GET))
-		{
+		if (empty($_GET)) {
 			return json_encode(["erro" => "Não foi possível buscar os dados"]);
-		}
-		else 
-		{
+		} else {
 			$usuariosEncontrados = (new usuarioDAO())->buscar_emails(new Usuario(email: $_GET['email']));
 			echo json_encode($usuariosEncontrados);
 			return null;

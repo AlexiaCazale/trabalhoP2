@@ -10,21 +10,18 @@ class inicioController
 
 		$ul = CompositionHandler::createQuickAccess();
 
-		if (isset($_SESSION['usuario_id'])) 
-		{
-			$workspacesHidratados = [];
+		if (isset($_SESSION['usuario_id'])) {
 			$usuarioDAO = new usuarioDAO();
-			$usuarioLogado = new Usuario(id:$_SESSION['usuario_id']);
+			$usuarioLogado = new Usuario(id: $_SESSION['usuario_id']);
 			$workspacesEncontrados = $usuarioDAO->buscar_workspaces($usuarioLogado);
-			foreach($workspacesEncontrados as $workspaces)
-			{
-				$usuarioLogado->setWorkspaces($this->stdClassToModelClass($workspaces, Workspace::class));
+			foreach ($workspacesEncontrados as $workspaces) {
+				$workspaceHidratado = $this->stdClassToModelClass($workspaces, Workspace::class);
+				workspaceController::buscar_usuarios_em_workspace($workspaceHidratado);
+				$usuarioLogado->setWorkspaces($workspaceHidratado);
 			}
 
 			$tagWorkspaces = CompositionHandler::createWorkspaces($usuarioLogado);
-		} 
-		else 
-		{
+		} else {
 			$tagWorkspaces = new div();
 		}
 

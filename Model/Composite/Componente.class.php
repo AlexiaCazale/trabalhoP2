@@ -12,7 +12,7 @@ abstract class Componente implements IComponente
 
 	public function classTagId()
 	{
-		return $this->tagId != null ? "id={$this->tagId}" : ""; 
+		return $this->tagId != null ? "id={$this->tagId}" : "";
 	}
 
 	public function classString()

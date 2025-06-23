@@ -1,6 +1,6 @@
 <?php
-	interface IComponente
-	{
-		public function criar();
-	}
+interface IComponente
+{
+	public function criar();
+}
 ?>
