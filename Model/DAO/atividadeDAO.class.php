@@ -6,7 +6,7 @@ class atividadeDAO
 
 	public ?PDO $db;
 
-	public function buscar_atividades()
+	public function __construct()
 	{
 		$this->db = Conexao::getInstancia();
 	}
