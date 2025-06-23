@@ -4,6 +4,7 @@ class a extends Componente
 	public function __construct(
 		private string $rota,
 		private string $texto,
+		protected ?string $tagId = null,
 		protected ?string $class = null,
 		protected ?string $style = null
 	) {
@@ -11,7 +12,7 @@ class a extends Componente
 
 	public function criar()
 	{
-		echo "<a {$this->classString()} {$this->styleString()} href='{$this->rota}'>$this->texto</a>";
+		echo "<a {$this->classTagId()} {$this->classString()} {$this->styleString()} href='{$this->rota}'>$this->texto</a>";
 	}
 
 }

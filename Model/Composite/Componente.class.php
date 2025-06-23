@@ -2,12 +2,18 @@
 abstract class Componente implements IComponente
 {
 	public function __construct(
+		protected ?string $tagId = null,
 		protected ?string $class = null,
 		protected ?string $style = null
 	) {
 	}
 
 	abstract public function criar();
+
+	public function classTagId()
+	{
+		return $this->tagId != null ? "id={$this->tagId}" : ""; 
+	}
 
 	public function classString()
 	{

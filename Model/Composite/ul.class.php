@@ -3,6 +3,7 @@ class ul extends Componente
 {
 	public function __construct(
 		private array $elementos = array(),
+		protected ?string $tagId = null,
 		protected ?string $class = null,
 		protected ?string $style = null
 	) {
@@ -10,7 +11,7 @@ class ul extends Componente
 
 	public function criar()
 	{
-		echo "<ul {$this->classString()} {$this->styleString()}>";
+		echo "<ul {$this->classTagId()} {$this->classString()} {$this->styleString()}>";
 		foreach ($this->elementos as $dado) {
 			$dado->criar();
 		}

@@ -4,6 +4,7 @@ class img extends Componente
 {
     public function __construct(
         private string $src,
+        protected ?string $tagId = null,
         protected ?string $class = null,
 		protected ?string $style = null
     ) {
@@ -11,7 +12,7 @@ class img extends Componente
 
     public function criar()
     {
-        echo "<img {$this->classString()} {$this->styleString()} src={$this->src}/>";
+        echo "<img {$this->classTagId()} {$this->classString()} {$this->styleString()} src={$this->src}/>";
     }
 }
 
