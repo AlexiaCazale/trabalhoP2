@@ -27,6 +27,7 @@ class usuarioController
 				$_SESSION['usuario_primeiro_nome'] = explode(' ', $usuarioEncontrado->getNome())[0];
 				$_SESSION['usuario_ultimo_nome'] = end(explode(' ', $usuarioEncontrado->getNome()));
 				$_SESSION['usuario_email'] = $usuarioEncontrado->getEmail();
+				$_SESSION['usuario_id'] = $usuarioEncontrado->getId();
 				session_regenerate_id(true);
 				
 				var_dump($_SESSION);

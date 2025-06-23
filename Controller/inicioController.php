@@ -1,23 +1,32 @@
 <?php
 class inicioController
 {
+	use ConversorStdClass;
+
 	public function inicio()
 	{
 		// Esse método faz com que a home só possa ser carregada por esse controlador, isso limita a  
 		// utilização dessa página
 
-		$ul = new ul();
-		$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro")));
+		$ul = CompositionHandler::createQuickAccess();
 
-		$ul->setElemento(new li(new a("/trabalhoP2/form_login", "Login")));
+		if (isset($_SESSION['usuario_id'])) 
+		{
+			$workspacesHidratados = [];
+			$usuarioDAO = new usuarioDAO();
+			$usuarioLogado = new Usuario(id:$_SESSION['usuario_id']);
+			$workspacesEncontrados = $usuarioDAO->buscar_workspaces($usuarioLogado);
+			foreach($workspacesEncontrados as $workspaces)
+			{
+				$usuarioLogado->setWorkspaces($this->stdClassToModelClass($workspaces, Workspace::class));
+			}
 
-		$ul->setElemento(new li(new a("/trabalhoP2", "Home")));
-
-		$ul->setElemento(new li(new a("/trabalhoP2/criar_workspace", "Criar Workspace")));
-
-		$ul->setElemento(new li(new a("/trabalhoP2/workspace", "Workspace")));
-
-		$ul->setElemento(new li(new a("/trabalhoP2/criar_atividade", "Criar atividade")));
+			$tagWorkspaces = CompositionHandler::createWorkspaces($usuarioLogado);
+		} 
+		else 
+		{
+			$tagWorkspaces = new div();
+		}
 
 		require_once "View/home.php";
 	}

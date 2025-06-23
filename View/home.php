@@ -3,15 +3,21 @@
 require_once "View/Component/header.php";
 ?>
 
+
 <div style="display: flex; justify-content: space-around; align-items: baseline;">
 	<div>
 		<h1 style="margin: 50px 20px 10px 20px; font-size: 20px; text-align: start; color: black">Bem-vindo(a), <?php echo isset($_SESSION['usuario_primeiro_nome']) ? (string) $_SESSION['usuario_primeiro_nome'] : "usuário" ?></h1>
 
 		<p style="margin-left: 20px; font-size: 16px; text-align: start; color: black">Workspaces</p>
-
+		
+		<?php $tagWorkspaces->criar() ?>
+		
 		<div style="display: flex; flex-direction: column; gap: 20px">
-
+			
 			<!-- CARDS COM OS DADOS DO WORKSPACE -->
+			<!-- Alterar por <?php $tagWorkspaces->criar() ?> -->
+			
+
 			<div class="card" style="margin-left: 20px; width: 421px; border-radius: 18px; background-color: #BEAFED; border: unset">
 				<div class="card-body" style="border: unset">
 					<h5 class="card-title">Workspace name</h5>

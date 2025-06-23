@@ -1,5 +1,5 @@
 <?php
-	interface componente
+	interface IComponente
 	{
 		public function criar();
 	}
