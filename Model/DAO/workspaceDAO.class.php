@@ -1,6 +1,8 @@
 <?php 
     class workspaceDAO
     {
+		# TODO Desativar workspace, adicionar usuário ao workspace, remover usuário e alterar dados do workspace
+
         private $db;
 
         public function __construct()

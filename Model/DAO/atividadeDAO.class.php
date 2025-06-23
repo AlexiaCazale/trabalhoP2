@@ -1,6 +1,9 @@
 <?php
 class atividadeDAO
 {
+
+	# TODO Adicionar usuários a uma atividade, remover usuário, alterar dados da atividade, desativar a atividade, buscar comentários e excluir comentários
+
 	public ?PDO $db;
 
 	public function buscar_atividades()

@@ -1,6 +1,8 @@
 <?php
 class usuarioDAO
 {
+    # TODO Buscar atividades de um usuário, alterar dados do usuári, inativar o usuário e remover comentário
+
     private $db;
 
     public function __construct()

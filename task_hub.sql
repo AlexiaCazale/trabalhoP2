@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 10/06/2025 às 18:36
+-- Tempo de geração: 23/06/2025 às 16:53
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -33,7 +33,8 @@ CREATE TABLE `atividade` (
   `nome_atividade` varchar(500) NOT NULL,
   `descricao_atividade` varchar(5000) NOT NULL,
   `data_entrega` date NOT NULL,
-  `data_criacao` date NOT NULL
+  `data_criacao` date NOT NULL,
+  `ativo_atividade` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -64,12 +65,12 @@ CREATE TABLE `membro_atividade` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `membro_workplace`
+-- Estrutura para tabela `membro_workspace`
 --
 
-CREATE TABLE `membro_workplace` (
-  `id_membro_workplace` int(11) NOT NULL,
-  `id_workplace_fk` int(11) NOT NULL,
+CREATE TABLE `membro_workspace` (
+  `id_membro_workspace` int(11) NOT NULL,
+  `id_workspace_fk` int(11) NOT NULL,
   `id_usuario_fk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -83,19 +84,22 @@ CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `nome_usuario` varchar(200) NOT NULL,
   `email_usuario` varchar(200) NOT NULL,
-  `senha_usuario` varchar(2000) NOT NULL
+  `senha_usuario` varchar(2000) NOT NULL,
+  `avatar_usuario` varchar(1000) DEFAULT NULL,
+  `ativo_usuario` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `workplace`
+-- Estrutura para tabela `workspace`
 --
 
-CREATE TABLE `workplace` (
-  `id_workplace` int(11) NOT NULL,
-  `nome_workplace` varchar(200) NOT NULL,
-  `descicao_workplace` varchar(1000) NOT NULL
+CREATE TABLE `workspace` (
+  `id_workspace` int(11) NOT NULL,
+  `nome_workspace` varchar(200) NOT NULL,
+  `descricao_workspace` varchar(1000) NOT NULL,
+  `ativo_workspace` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -126,24 +130,25 @@ ALTER TABLE `membro_atividade`
   ADD KEY `id_atividade_fk` (`id_atividade_fk`);
 
 --
--- Índices de tabela `membro_workplace`
+-- Índices de tabela `membro_workspace`
 --
-ALTER TABLE `membro_workplace`
-  ADD PRIMARY KEY (`id_membro_workplace`),
-  ADD KEY `id_workplace_fk` (`id_workplace_fk`,`id_usuario_fk`),
+ALTER TABLE `membro_workspace`
+  ADD PRIMARY KEY (`id_membro_workspace`),
+  ADD KEY `id_workplace_fk` (`id_workspace_fk`,`id_usuario_fk`),
   ADD KEY `id_usuario_fk` (`id_usuario_fk`);
 
 --
 -- Índices de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `email_usuario` (`email_usuario`);
 
 --
--- Índices de tabela `workplace`
+-- Índices de tabela `workspace`
 --
-ALTER TABLE `workplace`
-  ADD PRIMARY KEY (`id_workplace`);
+ALTER TABLE `workspace`
+  ADD PRIMARY KEY (`id_workspace`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -162,10 +167,10 @@ ALTER TABLE `membro_atividade`
   MODIFY `id_membro_atividade` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `membro_workplace`
+-- AUTO_INCREMENT de tabela `membro_workspace`
 --
-ALTER TABLE `membro_workplace`
-  MODIFY `id_membro_workplace` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `membro_workspace`
+  MODIFY `id_membro_workspace` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
@@ -174,10 +179,10 @@ ALTER TABLE `usuario`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `workplace`
+-- AUTO_INCREMENT de tabela `workspace`
 --
-ALTER TABLE `workplace`
-  MODIFY `id_workplace` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `workspace`
+  MODIFY `id_workspace` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
@@ -187,7 +192,7 @@ ALTER TABLE `workplace`
 -- Restrições para tabelas `atividade`
 --
 ALTER TABLE `atividade`
-  ADD CONSTRAINT `atividade_ibfk_1` FOREIGN KEY (`id_workplace_fk`) REFERENCES `workplace` (`id_workplace`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `atividade_ibfk_1` FOREIGN KEY (`id_workplace_fk`) REFERENCES `workspace` (`id_workspace`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `comentario`
@@ -204,11 +209,11 @@ ALTER TABLE `membro_atividade`
   ADD CONSTRAINT `membro_atividade_ibfk_2` FOREIGN KEY (`id_usuario_fk`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Restrições para tabelas `membro_workplace`
+-- Restrições para tabelas `membro_workspace`
 --
-ALTER TABLE `membro_workplace`
-  ADD CONSTRAINT `membro_workplace_ibfk_1` FOREIGN KEY (`id_workplace_fk`) REFERENCES `workplace` (`id_workplace`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `membro_workplace_ibfk_2` FOREIGN KEY (`id_usuario_fk`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `membro_workspace`
+  ADD CONSTRAINT `membro_workspace_ibfk_1` FOREIGN KEY (`id_workspace_fk`) REFERENCES `workspace` (`id_workspace`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `membro_workspace_ibfk_2` FOREIGN KEY (`id_usuario_fk`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
