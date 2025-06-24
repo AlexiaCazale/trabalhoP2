@@ -1,7 +1,10 @@
 <?php
 class usuarioDAO
 {
-	# TODO Buscar atividades de um usuário, alterar dados do usuári, inativar o usuário e remover comentário
+	# TODO Buscar atividades de um usuário 
+	# TODO Alterar dados do usuário 
+	# TODO Inativar o usuário 
+	# TODO Remover comentário
 
 	private $db;
 
@@ -12,7 +15,7 @@ class usuarioDAO
 
 	public function buscar_usuarios()
 	{
-		$sql = "SELECT * FROM usuario";
+		$sql = "SELECT * FROM usuario"; // Adicionar um LIMIT e OFFSET; Criar uma classe para fazer a paginação?
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute();

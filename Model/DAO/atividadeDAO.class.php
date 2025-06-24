@@ -2,7 +2,12 @@
 class atividadeDAO
 {
 
-	# TODO Adicionar usuários a uma atividade, remover usuário, alterar dados da atividade, desativar a atividade, buscar comentários e excluir comentários
+	# TODO Adicionar usuários a uma atividade
+	# TODO Remover usuário 
+	# TODO Alterar dados da atividade 
+	# TODO Desativar a atividade
+	# TODO Buscar comentários
+	# TODO Excluir comentários
 
 	public ?PDO $db;
 

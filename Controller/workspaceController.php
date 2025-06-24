@@ -35,20 +35,34 @@ class workspaceController
 		}
 	}
 
-    static public function buscar_usuarios_em_workspace(Workspace $workspace)
-    {
-        $workspaceDAO = new workspaceDAO();
-        $usuarios = $workspaceDAO->buscar_usuarios_do_workspace($workspace);
-
-        foreach($usuarios as $usuario) {
-            $workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));
-        }
-
-    }
-
-	public function cadastrar_atividade_em_workspace()
+	static public function buscar_usuarios_em_workspace(Workspace $workspace)
 	{
-		require_once "View/criar_atividade.php";
+		$workspaceDAO = new workspaceDAO();
+		$usuarios = $workspaceDAO->buscar_usuarios_do_workspace($workspace);
+
+		foreach ($usuarios as $usuario) {
+			$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));
+		}
+
+	}
+
+	public function cadastrar_atividade_em_workspace(Workspace $workspace)
+	{
+		if (empty($_POST)) {
+			require_once "View/criar_atividade.php";
+		} else {
+			/*
+			$atividade = new Atividade(
+				id: $_POST['id_atv'],
+				nome: $_POST['nome_atv'],
+				dataEntrega: $_POST['data_ent_atv'],
+				dataCriacao: $_POST['data_cri_atv'],
+				workspace: $workspace,
+				comentarios: null // TODO Decidir se os comentários serão removidos
+			);
+			*/
+		}
+
 	}
 
 	public function alterar_workspace()

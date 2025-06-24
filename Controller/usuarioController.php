@@ -42,11 +42,15 @@ class usuarioController
 	public function mostrar_perfil(): void {
 
 		$usuarioDAO = new usuarioDAO();
-
-		$usuarioEncontrado = $this->stdClassToModelClass(
-			$usuarioDAO->buscar_um_usuario(new Usuario(id: $_SESSION['usuario_id'])),
-			Usuario::class
-		);
+		if (isset($_SESSION['usuario_id'])) {
+			$usuarioEncontrado = $this->stdClassToModelClass(
+				$usuarioDAO->buscar_um_usuario(new Usuario(id: $_SESSION['usuario_id'])),
+				Usuario::class
+			);
+		} else {
+			header("Location: /trabalhoP2/form_login");
+			exit();
+		}
 
 		require_once "View/perfil_usuario.php";
 	}
