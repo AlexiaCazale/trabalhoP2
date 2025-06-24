@@ -7,25 +7,20 @@ require_once "Component/headerWorkspace.php";
 	<div class="card" style="backgroud-color: #BEAFED; max-width: 280px; max-height: 300px; overflow: auto;">
 
 		<div class="card-body">
-			<h5 class="card-title">Nome da atividade</h5>
+			<h5 class="card-title"><?php echo $workspace->getNome() ?></h5>
 			<p class="card-text">
-				With supporting text below as a natural lead-in to additional content.
+				<?php echo $workspace->getDescricao() ?>
 			</p>
 		</div>
 
-		<div class="avatar-stack justify-content-center flex-row">
-			<img class="avatar" src="/images/avatar/1.jpg" />
-			<img class="avatar" src="/images/avatar/2.jpg" />
-			<img class="avatar" src="/images/avatar/4.jpg" />
-			<img class="avatar" src="/images/avatar/5.jpg" />
-			<span class="avatar">+6</span>
-		</div>
+		<?php $avatares->criar() ?>
 
 		<div class="text-center" style="margin: 10px;">
 			<b>Para: </b> September 14, 2022
 		</div>
 
 		<div class="card-footer flex justify-content-end" style="display: flex; gap: 10px;">
+			<a href="/trabalhoP2/criar_atividade?id=<?php echo $workspace->getId() ?>">Criar Atividade</a>
 			<button type="button" class="btn btn-danger">Excluir</button>
 			<button type="button" class="btn btn-discovery">Editar</button>
 		</div>
@@ -33,3 +28,22 @@ require_once "Component/headerWorkspace.php";
 	</div>
 
 </div>
+
+<?php 
+
+foreach ($workspace->getAtividades() as $atividade) {
+	$atividade->setUsuarios(new Usuario());
+	$dataEntrega = explode(' ', $atividade->getDataEntrega())[0];
+	$divAvatares = CompositionHandler::createUsersAvatar($atividade);
+	echo "
+	<div class='border'>
+		<p>Nome: {$atividade->getNome()}</p>
+		<p>Descrição: {$atividade->getDescricao()}</p>
+		<p>Data para entrega: {$dataEntrega}</p>" 
+		. $divAvatares->criar() . "
+		
+	</div>
+	";
+}
+
+?>

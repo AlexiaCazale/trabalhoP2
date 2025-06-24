@@ -5,15 +5,22 @@ class Atividade implements IUsuario
 	use TemUsuario;
 
 	public function __construct(
-		private ?int $id = 0,
+		private ?int $id = null,
 		private ?string $nome = "",
-		private ?DateTime $dataEntrega,
-		private ?DateTime $dataCriacao,
+		private DateTime|string $dataEntrega,
+		private DateTime|string $dataCriacao,
 		private ?string $descricao = "",
 		private ?Workspace $workspace = null,
 		private ?array $comentarios = null,
 		private ?bool $ativo = true
 	) {
+		if (is_string($dataCriacao)) {
+			$this->setDataCriacao($dataCriacao);
+		}
+		
+		if (is_string($dataEntrega)) {
+			$this->setDataEntrega($dataEntrega);
+		}
 	}
 
 	public function getId()
@@ -36,7 +43,7 @@ class Atividade implements IUsuario
 	{
 		return $this->dataEntrega;
 	}
-	public function setDataEntrega(DateTime $data)
+	public function setDataEntrega(DateTime|string $data)
 	{
 		$this->dataEntrega = $data;
 	}
@@ -44,7 +51,7 @@ class Atividade implements IUsuario
 	{
 		return $this->dataCriacao;
 	}
-	public function setDataCriacao(DateTime $data)
+	public function setDataCriacao(DateTime|string $data)
 	{
 		$this->dataCriacao = $data;
 	}

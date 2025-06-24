@@ -74,7 +74,7 @@ class workspaceDAO
 				JOIN membro_workspace mw ON w.id_workspace = mw.id_workspace_fk
 				JOIN usuario u ON mw.id_usuario_fk = u.id_usuario
 				WHERE w.id_workspace = :id AND u.ativo_usuario;";
-		
+
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -87,9 +87,38 @@ class workspaceDAO
 		}
 	}
 
-	public function mostrar_atividade_workspace()
+	public function cadastrar_usuario_ao_workspace(Workspace $workspace, Usuario $usuario)
 	{
+		$sql = "INSERT INTO membro_workspace (id_workspace_fk, id_usuario_fk) 
+				VALUES (:id_workspace, :id_usuario)";
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"id_workspace" => $workspace->getId(),
+				"id_usuario" => $usuario->getId()
+			]);
+			return $stmt->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Problema ao cadastrar o usuário no workspace: " . $e->getMessage());
+		}
+	}
 
+	public function buscar_atividades_do_workspace(Workspace $workspace)
+	{
+		$sql = "SELECT a.* FROM atividade a
+				JOIN workspace w ON a.id_workspace_fk = w.id_workspace
+				WHERE w.id_workspace = :id;";
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"id" => $workspace->getId()
+			]);
+			return $stmt->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Problema ao buscar as atividades: " . $e->getMessage());
+		}
 	}
 }
 ?>

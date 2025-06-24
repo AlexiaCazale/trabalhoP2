@@ -2,9 +2,11 @@
 
 class CompositionHandler
 {
-	static public function createUsersAvatar(IUsuario $obj): div // Recebe qualquer estrutura que possua usuários
+	static public function createUsersAvatar(IUsuario $obj, ?string $class = null, ?string $style = null): div // Recebe qualquer estrutura que possua usuários
 	{
-		$div = new div(class: "avatar-stack flex justify-items-end", style: "'display: flex; justify-content: start;'");
+		$div = new div(
+			class: $class == null ? "avatar-stack flex justify-items-end" : $class, 
+			style: $style == null ? "'display: flex; justify-content: start;'" : $style);
 		foreach ($obj->getUsuarios() as $usuario) {
 			$div->setElemento(new img(class:"avatar", src:$usuario->getAvatar() != null ? $usuario->getAvatar() : "View/Images/user_img.png"));
 		}

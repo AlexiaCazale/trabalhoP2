@@ -52,18 +52,18 @@ class workspaceController
 			require_once "View/criar_atividade.php";
 		} else {
 			$atividade = new Atividade(
-				id: $_POST['id_atv'],
+				id: 0,
 				nome: $_POST['nome_atv'],
+				descricao: $_POST['desc_atv'],
 				dataEntrega: $_POST['data_ent_atv'],
-				dataCriacao: $_POST['data_cri_atv'],
-				workspace: new Workspace(),
+				dataCriacao: time(),
+				workspace: new Workspace($_POST['id_workspace']),
 				comentarios: null // TODO Decidir se os comentários serão removidos
 			);
 
 			$atividadeDAO = new atividadeDAO();
 			$atividadeDAO->cadastrar_atividade($atividade);
 		}
-
 	}
 
 	public function alterar_workspace()
@@ -83,10 +83,18 @@ class workspaceController
 			$workspace = new Workspace($_GET['id']);
 
 			$workspace = ConversorStdClass::stdClassToModelClass($workspaceDAO->buscar_um_workspace($workspace), Workspace::class);
-		
-			var_dump($workspace);
-		}
 
+			foreach ($workspaceDAO->buscar_usuarios_do_workspace($workspace) as $usuario) {
+				$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));			
+			}
+
+			foreach ($workspaceDAO->buscar_atividades_do_workspace($workspace) as $atividade) {
+				$workspace->setAtividades(ConversorStdClass::stdClassToModelClass($atividade, Atividade::class));
+			}
+
+			$avatares = CompositionHandler::createUsersAvatar($workspace, class: "'avatar-stack justify-content-center flex-row'");
+
+		}
 		require_once "View/workspace.php";
 	}
 

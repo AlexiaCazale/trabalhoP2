@@ -23,7 +23,9 @@ trait ConversorStdClass
 			$modelPropertyName = lcfirst(str_replace('_', '', ucwords($modelPropertyName, '_')));
 
 			// Adiciona o valor ao array de argumentos nomeados
-			$constructorArgs[$modelPropertyName] = $value;
+			if (property_exists($targetClassName, $modelPropertyName)) {
+				$constructorArgs[$modelPropertyName] = $value;
+			}
 		}
 
 		try {
