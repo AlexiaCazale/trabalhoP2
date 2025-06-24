@@ -43,6 +43,8 @@ $route->get("/workspace", [workspaceController::class, "mostrar_atividade_worksp
 
 $route->get("/buscar_usuario", [usuarioController::class, "buscar_usuario_por_email"]);
 
+$route->get("/perfil", [usuarioController::class, "mostrar_perfil"]);
+
 //POST
 $route->post("/criar_atividade", [workspaceController::class, "cadastrar_atividade"]);
 

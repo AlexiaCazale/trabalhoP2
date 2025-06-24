@@ -39,6 +39,18 @@ class usuarioController
 		}
 	}
 
+	public function mostrar_perfil(): void {
+
+		$usuarioDAO = new usuarioDAO();
+
+		$usuarioEncontrado = $this->stdClassToModelClass(
+			$usuarioDAO->buscar_um_usuario(new Usuario(id: $_SESSION['usuario_id'])),
+			Usuario::class
+		);
+
+		require_once "View/perfil_usuario.php";
+	}
+
 	public function logout_usuario(): void
 	{
 		session_unset();
