@@ -1,5 +1,15 @@
 # Documentação da TaskHub
 
+## Utilização de Interfaces e Traços
+### Interfaces
+Interfaces são utilizadas para construir "contratos" que definem métodos que devem, obrigatóriamente, ser implementados numa classe. As interfaces também podem ser utilizadas para possibilitar o polimorfismo, o qual abstrai a estrutura de alguns componente.
+
+#### Polimorfismo
+Conceito de OOP que visa criar estruturas únicas que podem processar diferentes tipos de objetos. As interfaces são utilizadas para definir que, ao invés de passar um parâmetro tipado com uma classe, uma função aceite qualquer objeto que contenha as assinaturas implementadas por ela.
+
+### Traços 
+Os traços são usados para implementar propriedades e métodos à uma classe. São utilizados, nesse projeto, para reduzir código repetido entre várias classes. Em alguns casos, implementam os métodos definidos pelas interfaces.  
+
 ## Estrutura para documentação dentro do código
 
 ```php
@@ -14,7 +24,7 @@
 <br>
 <h2>Diagramas</h2>
 
-Diagrama de classes
+Diagrama de classes **Adicionar os métodos**
 ```mermaid 
 classDiagram
     class Workspace{

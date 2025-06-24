@@ -2,6 +2,10 @@
 
 trait ConversorStdClass
 {
+	/**
+	 * @method [?object] stdClassToModelClass() transforma um objeto stdClass retornado pelo PDO em um objeto de uma das nossas classes
+	 */
+
 	public static function stdClassToModelClass(stdClass $stdClassObject, string $targetClassName): ?object
 	{
 		if (!class_exists($targetClassName)) {
