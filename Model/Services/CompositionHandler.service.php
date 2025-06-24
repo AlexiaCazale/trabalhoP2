@@ -47,7 +47,7 @@ class CompositionHandler
 	static public function createQuickAccess()
 	{
 		$ul = new ul();
-		$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro", style: "'color: red'")));
+		$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro")));
 
 		$ul->setElemento(new li(new a("/trabalhoP2/form_login", "Login")));
 

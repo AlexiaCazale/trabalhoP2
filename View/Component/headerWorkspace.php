@@ -35,7 +35,7 @@
 	<div class="collapse navbar-collapse" id="navbarPillsExample">
 	  <ul class="navbar-nav navbar-nav-pills" style="display: flex; align-items: center; gap: 20px;">
 		<h4>
-		 Workspace name
+		 <?php echo $workspace->getNome() ?>
 			</h4>
 		<li class="nav-item dropdown">
 		  <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Membros</a>
