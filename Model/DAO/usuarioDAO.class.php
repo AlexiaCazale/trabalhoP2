@@ -59,7 +59,7 @@ class usuarioDAO
 
 	public function buscar_workspaces(Usuario $usuario)
 	{
-		$sql = "SELECT w.*, u.id_usuario 
+		$sql = "SELECT w.* 
         FROM workspace w 
         JOIN membro_workspace mw ON w.id_workspace = mw.id_workspace_fk 
         JOIN usuario u ON mw.id_usuario_fk = u.id_usuario 

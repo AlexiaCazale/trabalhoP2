@@ -20,7 +20,7 @@ class CompositionHandler
             $divCard = new div(class:"card", style:"'margin-left: 20px; width: 421px; border-radius: 18px; background-color: #BEAFED; border: unset'");
 
             $divCardBody = new div(class:"card-body", style:"'border: unset'");
-            $divCardBody->setElemento(new heading(5, $workspace->getNome(), class:"card-title"));
+            $divCardBody->setElemento(new a("/trabalhoP2/workspace?id={$workspace->getId()}", $workspace->getNome()));
 
             $divAvatarIcon = new div(style:"'display: flex; justify-content: space-between; align-items: center'");
 

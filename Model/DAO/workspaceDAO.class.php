@@ -32,15 +32,15 @@ class workspaceDAO
 		}
 	}
 
-	public function buscar_um_workspace(Workspace $workspace): void
+	public function buscar_um_workspace(Workspace $workspace): mixed
 	{
-		$sql = "SELECT * FROM workspace WHERE id_workspace = ?";
+		$sql = "SELECT * FROM workspace WHERE id_workspace = :id_workspace";
 		try {
-			$stm = $this->db->prepare($sql);
-			$stm->execute([
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
 				"id_workspace" => $workspace->getId()
 			]);
-			$this->db = null;
+			return $stmt->fetch(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Problema ao buscar um workspace:" . $e->getMessage());

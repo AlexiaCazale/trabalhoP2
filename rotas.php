@@ -29,7 +29,7 @@ class rotas
 $route = new Rotas();
 $route->get("/", [inicioController::class, "inicio"]); // Ou apenas "/" se o basePath for tratado antes
 
-$route->get("/criar_atividade", [workspaceController::class, "cadastrar_atividade"]);
+$route->get("/criar_atividade", [workspaceController::class, "cadastrar_atividade_em_workspace"]);
 
 $route->get("/criar_workspace", [workspaceController::class, "cadastrar_workspace"]);
 
@@ -46,7 +46,7 @@ $route->get("/buscar_usuario", [usuarioController::class, "buscar_usuario_por_em
 $route->get("/perfil", [usuarioController::class, "mostrar_perfil"]);
 
 //POST
-$route->post("/criar_atividade", [workspaceController::class, "cadastrar_atividade"]);
+$route->post("/criar_atividade", [workspaceController::class, "cadastrar_atividade_em_workspace"]);
 
 $route->post("/form_login", [usuarioController::class, "login_usuario"]);
 

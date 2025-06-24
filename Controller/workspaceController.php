@@ -46,21 +46,22 @@ class workspaceController
 
 	}
 
-	public function cadastrar_atividade_em_workspace(Workspace $workspace)
+	public function cadastrar_atividade_em_workspace()
 	{
 		if (empty($_POST)) {
 			require_once "View/criar_atividade.php";
 		} else {
-			/*
 			$atividade = new Atividade(
 				id: $_POST['id_atv'],
 				nome: $_POST['nome_atv'],
 				dataEntrega: $_POST['data_ent_atv'],
 				dataCriacao: $_POST['data_cri_atv'],
-				workspace: $workspace,
+				workspace: new Workspace(),
 				comentarios: null // TODO Decidir se os comentários serão removidos
 			);
-			*/
+
+			$atividadeDAO = new atividadeDAO();
+			$atividadeDAO->cadastrar_atividade($atividade);
 		}
 
 	}
@@ -73,17 +74,18 @@ class workspaceController
 
 	public function mostrar_atividade_workspace()
 	{
-		/*
-		$atividade_arr = [
-			"id_atividade" => 0,
-			"nome_atividade" => "Teste",
-			"data_entrega_atividade" => (new DateTime())->setTime(0, 0, 0, 0),
-			"data_criacao_atividade" => (new DateTime())->setTime(0, 0, 0, 0),
-			"descricao_atividade" => "Teste descrição"
-		];
-		var_dump($this->stdClassToModelClass((object) $atividade_arr, Atividade::class));
-		*/
+		if (empty($_GET['id'])) {
+			header("Location: /trabalhoP2");
+			exit();
+		} else {
+			$workspaceDAO = new workspaceDAO();
+			
+			$workspace = new Workspace($_GET['id']);
 
+			$workspace = ConversorStdClass::stdClassToModelClass($workspaceDAO->buscar_um_workspace($workspace), Workspace::class);
+		
+			var_dump($workspace);
+		}
 
 		require_once "View/workspace.php";
 	}
