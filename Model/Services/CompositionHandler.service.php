@@ -2,7 +2,7 @@
 
 class CompositionHandler
 {
-	static public function createUsersAvatar(IUsuario $obj, ?string $class = null, ?string $style = null): div // Recebe qualquer estrutura que possua usuários
+	public static function createUsersAvatar(IUsuario $obj, ?string $class = null, ?string $style = null): div // Recebe qualquer estrutura que possua usuários
 	{
 		$div = new div(
 			class: $class == null ? "avatar-stack flex justify-items-end" : $class, 
@@ -13,7 +13,7 @@ class CompositionHandler
 		return $div;
 	}
 
-	static public function createWorkspaces(Usuario $usuario): div
+	public static function createWorkspaces(Usuario $usuario): div
 	{
         $div = new div(style:"'display: flex; flex-direction: column; gap: 20px'");
 
@@ -44,7 +44,7 @@ class CompositionHandler
 		return $div;
 	}
 
-	static public function createQuickAccess()
+	public static function createQuickAccess()
 	{
 		$ul = new ul();
 		$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro")));

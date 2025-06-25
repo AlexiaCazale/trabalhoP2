@@ -13,11 +13,6 @@ class workspaceDAO
 		$this->db = Conexao::getInstancia();
 	}
 
-	public function get_db()
-	{
-		return $this->db;
-	}
-
 	public function buscar_workspaces(): array
 	{
 		$sql = "SELECT * FROM workspace";
@@ -87,7 +82,7 @@ class workspaceDAO
 		}
 	}
 
-	public function cadastrar_usuario_ao_workspace(Workspace $workspace, Usuario $usuario)
+	public function cadastrar_usuario_no_workspace(Workspace $workspace, Usuario $usuario)
 	{
 		$sql = "INSERT INTO membro_workspace (id_workspace_fk, id_usuario_fk) 
 				VALUES (:id_workspace, :id_usuario)";
@@ -118,6 +113,16 @@ class workspaceDAO
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Problema ao buscar as atividades: " . $e->getMessage());
+		}
+	}
+
+	public function buscar_ultimo_id()
+	{
+		try {
+			return $this->db->lastInsertId();
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao buscar último id do workspace: " . $e->getMessage());
 		}
 	}
 }

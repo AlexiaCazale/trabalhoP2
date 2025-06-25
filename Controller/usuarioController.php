@@ -1,8 +1,6 @@
 <?php
 class usuarioController
 {
-	use ConversorStdClass;
-
 	public function login_usuario(): void
 	{
 		if (empty($_POST)) {
@@ -13,7 +11,7 @@ class usuarioController
 				email: $_POST['email'],
 				senha: $_POST['senha']
 			);
-			$usuarioEncontrado = $this->stdClassToModelClass(
+			$usuarioEncontrado = ConversorStdClass::stdClassToModelClass(
 				$usuarioDAO->buscar_um_usuario($usuarioParaLogin),
 				Usuario::class
 			);
@@ -43,7 +41,7 @@ class usuarioController
 
 		$usuarioDAO = new usuarioDAO();
 		if (isset($_SESSION['usuario_id'])) {
-			$usuarioEncontrado = $this->stdClassToModelClass(
+			$usuarioEncontrado = ConversorStdClass::stdClassToModelClass(
 				$usuarioDAO->buscar_um_usuario(new Usuario(id: $_SESSION['usuario_id'])),
 				Usuario::class
 			);

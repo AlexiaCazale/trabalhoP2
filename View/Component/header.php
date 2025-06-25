@@ -14,8 +14,7 @@
   <title>TaskHub</title>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg" style="background-color: #9A8ACF; border-bottom: unset;">
+<nav class="navbar navbar-expand-lg" style="background-color: #9A8ACF; border-bottom: unset;">
 	<div class="container-fluid">
 	  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPillsExample"
 		aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">

@@ -1,6 +1,6 @@
 <?php
 
-trait ConversorStdClass
+class ConversorStdClass
 {
 	/**
 	 * @method [?object] stdClassToModelClass() transforma um objeto stdClass retornado pelo PDO em um objeto de uma das nossas classes

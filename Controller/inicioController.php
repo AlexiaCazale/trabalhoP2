@@ -1,8 +1,6 @@
 <?php
 class inicioController
 {
-	use ConversorStdClass;
-
 	public function inicio()
 	{
 		// Esse método faz com que a home só possa ser carregada por esse controlador, isso limita a  
@@ -15,7 +13,7 @@ class inicioController
 			$usuarioLogado = new Usuario(id: $_SESSION['usuario_id']);
 			$workspacesEncontrados = $usuarioDAO->buscar_workspaces($usuarioLogado);
 			foreach ($workspacesEncontrados as $workspaces) {
-				$workspaceHidratado = $this->stdClassToModelClass($workspaces, Workspace::class);
+				$workspaceHidratado = ConversorStdClass::stdClassToModelClass($workspaces, Workspace::class);
 				workspaceController::buscar_usuarios_em_workspace($workspaceHidratado);
 				$usuarioLogado->setWorkspaces($workspaceHidratado);
 			}

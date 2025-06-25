@@ -1,8 +1,6 @@
 <?php
 class workspaceController
 {
-	use ConversorStdClass;
-
 	public function cadastrar_workspace()
 	{
 
@@ -21,21 +19,14 @@ class workspaceController
 		}
 	}
 
-	public function cadastrar_usuarios_em_workspace(Workspace $workspace, array $emails_de_usuarios)
+	public function cadastrar_usuario_no_workspace()
 	{
-		$usuarioDAO = new usuarioDAO;
+		// TODO Alterar os $_GET por $_POST
 
-		$ultimoId = (new workspaceDAO)->get_db()->lastInsertId();
-
-		$workspace->setId($ultimoId);
-
-		foreach ($emails_de_usuarios as $i) {
-			$usuario = new Usuario(email: $i);
-			$usuarioEncontrado = $this->stdClassToModelClass($usuarioDAO->buscar_um_usuario($usuario), Usuario::class);
-		}
+		$_POST ? var_dump($_POST) : var_dump("Nada enviado");
 	}
 
-	static public function buscar_usuarios_em_workspace(Workspace $workspace)
+	public static function buscar_usuarios_em_workspace(Workspace $workspace)
 	{
 		$workspaceDAO = new workspaceDAO();
 		$usuarios = $workspaceDAO->buscar_usuarios_do_workspace($workspace);
