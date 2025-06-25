@@ -1,8 +1,3 @@
-<!-- Mostra todas as atividades do workspace -->
-<?php
-require_once "Component/headerWorkspace.php";
-?>
-
 <div style="display: flex; align-items: center; justify-content: center; margin: 40px;">
 	<div class="card" style="backgroud-color: #BEAFED; max-width: 280px; max-height: 300px; overflow: auto;">
 

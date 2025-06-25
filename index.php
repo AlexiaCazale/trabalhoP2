@@ -18,7 +18,10 @@ spl_autoload_register(function ($class) {
 		require_once 'Model/Interfaces/' . $class . '.interface.php';
 	} else if (file_exists('Model/Services/' . $class . '.service.php')) {
 		require_once 'Model/Services/' . $class . '.service.php';
-	} else {
+	} else if (file_exists('View/' . $class . '.class.php')) {
+		require_once 'View/' . $class . '.class.php';
+	} 
+	else {
 		die("Arquivo não existe " . $class);
 	}
 });

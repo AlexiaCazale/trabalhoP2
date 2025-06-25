@@ -4,7 +4,7 @@ class usuarioController
 	public function login_usuario(): void
 	{
 		if (empty($_POST)) {
-			require_once "View/form_login.php";
+			ViewRenderer::render("form_login");
 		} else {
 			$usuarioDAO = new usuarioDAO();
 			$usuarioParaLogin = new Usuario(
@@ -50,7 +50,9 @@ class usuarioController
 			exit();
 		}
 
-		require_once "View/perfil_usuario.php";
+		ViewRenderer::render("perfil_usuario", [
+			"usuarioEncontrado" => $usuarioEncontrado
+		]);
 	}
 
 	public function logout_usuario(): void
@@ -65,7 +67,7 @@ class usuarioController
 	public function cadastrar_usuario(): void
 	{
 		if (empty($_POST)) {
-			require_once "View/form_cadastro.php";
+			ViewRenderer::render("form_cadastro");
 		} else {
 			$usuarioDAO = new usuarioDAO();
 			$usuario = new Usuario(
@@ -75,6 +77,9 @@ class usuarioController
 				senha: password_hash($_POST["senha"], PASSWORD_BCRYPT)
 			);
 			$usuarioDAO->cadastrar_usuario($usuario);
+
+			header('Location: /trabalhoP2/');
+			exit();
 		}
 	}
 

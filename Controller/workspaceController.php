@@ -5,7 +5,7 @@ class workspaceController
 	{
 
 		if (empty($_POST)) {
-			require_once "View/criar_workspace.php";
+			ViewRenderer::render("criar_workspace");
 		} else {
 			$workspaceDAO = new workspaceDAO();
 
@@ -16,6 +16,12 @@ class workspaceController
 			);
 
 			$workspaceDAO->cadastrar_workspace($workspaceCriado);
+			$id_workspace = $workspaceDAO->buscar_ultimo_id();
+
+			var_dump($id_workspace);
+			
+			header("Location: /trabalhoP2/workspace?id={$id_workspace}");
+			exit();
 		}
 	}
 
@@ -86,7 +92,11 @@ class workspaceController
 			$avatares = CompositionHandler::createUsersAvatar($workspace, class: "'avatar-stack justify-content-center flex-row'");
 
 		}
-		require_once "View/workspace.php";
+		
+		ViewRenderer::render("workspace", [
+			"avatares" => $avatares,
+			"workspace" => $workspace
+		]);
 	}
 
 }

@@ -55,8 +55,6 @@ class workspaceDAO
 				"nome" => $workspace->getNome(),
 				"descricao" => $workspace->getDescricao()
 			]);
-			$this->db = null;
-			return;
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Problema ao cadastrar um workspace: " . $e->getMessage());

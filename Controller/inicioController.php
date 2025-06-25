@@ -23,7 +23,10 @@ class inicioController
 			$tagWorkspaces = new div();
 		}
 
-		require_once "View/home.php";
+		ViewRenderer::render("home", [
+			"tagWorkspaces" => $tagWorkspaces,
+			"ul" => $ul
+		]);
 	}
 }
 ?>
