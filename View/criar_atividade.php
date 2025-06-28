@@ -21,6 +21,7 @@
 <form id="form_atividade" method="post" action="" novalidate>
 
 	<input type="hidden" name="id_workspace" value="<?= $id ?>" />
+	<a style="font-size: 16px; margin: 10px 0 40px 150px; display: flex; gap: 5px; align-items: center; cursor: pointer; text-decoration: none;" href="/trabalhoP2"><i class="ph ph-arrow-left"></i>Voltar para Home</a>
 
 
 	<div style="display: flex; flex-direction:column; align-items:center">

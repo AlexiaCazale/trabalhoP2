@@ -80,13 +80,13 @@
 			<div class="modal-body">
 				<form id="form_usuario_workspace" action="/trabalhoP2/usuario_em_workspace" method="POST">
 					<label for="email_inp">Email:</label>
-					<input type="email" id="email_inp" name="email">
+					<input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;" >
 
 					<input type="hidden" value="<?= $workspace->getId() ?>" name="id_workspace">
 
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<input type="submit" class="btn btn-primary" value="Save changes">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<input type="submit" class="btn btn-primary" value="Salvar">
 					</div>
 				</form>
 			</div>
@@ -121,12 +121,12 @@
 					<input type="hidden" name="id_workspace" value="<?= $id ?>" />
 
 
-					<div style="display: flex; flex-direction:column; align-items:center">
+					<div style="display: flex; flex-direction:column;">
 
 						<div class="col-md-4 position-relative">
 							<label for="nome_inp" class="form-label">Nome</label>
 							<input type="text" class="form-control" id="nome_inp" name="nome_atv"
-								placeholder="Defina um nome para a atividade" required>
+								placeholder="Defina um nome para a atividade" style="width: 450px;" required>
 							<div class="invalid-feedback">
 								Campo obrigatório!.
 							</div>
@@ -135,7 +135,7 @@
 						<div class="col-md-4">
 							<label for="data_inp" class="form-label">Data de entrega</label>
 							<input type="date" class="form-control" id="data_inp" name="data_ent_atv"
-								placeholder="Defina um nome para a atividade" required>
+								placeholder="Defina um nome para a atividade" style="width: 450px;" required>
 							<div class="invalid-feedback">
 								Campo obrigatório!.
 							</div>
@@ -144,7 +144,7 @@
 						<div class="col-md-4">
 							<label for="desc_inp" class="form-label">Descrição</label>
 							<textarea class="form-control" id="desc_inp" name="desc_atv"
-								placeholder="Escreva uma desrição para sua atividade" required></textarea>
+								placeholder="Escreva uma descrição para sua atividade" style="width: 450px;" required></textarea>
 							<div class="invalid-feedback">
 								Campo obrigatório!.
 							</div>
@@ -152,8 +152,8 @@
 
 						<input type="hidden" name="id_workspace" value="<?= $workspace->getId() ?>" />
 
-						<div class="mb-3" style="margin-top: 15px;">
-							<input type="reset" class="btn btn-subtle me-2" value="Cancelar" />
+						<div class="mb-3" style="margin-top: 15px; display: flex; justify-content: end; gap: 5px">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 							<input type="submit" class="btn btn-primary" value="Salvar" />
 						</div>
 					</div>

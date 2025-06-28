@@ -14,7 +14,7 @@
 </script>
 
 <h1 style="font-size: 18px; margin: 60px 0 40px 150px;">Criar Workspace</h1>
-<h2 style="font-size: 16px; margin: 20px 0 40px 150px; display: flex; gap: 5px; align-items: center; cursor: pointer"><i class="ph ph-arrow-left"></i>Voltar para Home</h2>
+<a style="font-size: 16px; margin: 20px 0 40px 150px; display: flex; gap: 5px; align-items: center; cursor: pointer; text-decoration: none;" href="/trabalhoP2"><i class="ph ph-arrow-left"></i>Voltar para Home</a>
 
 <form id="form_workspace" action="" method="post" novalidate>
   <!-- inserir, por causa do DAO -->
@@ -39,12 +39,12 @@
 	  </div>
 	</div>
 
-	<div class="col-md-4">
+	<!-- <div class="col-md-4">
 	  <label for="inp_usuarios" class="form-label">Membros</label>
 	  <textarea class="form-control" id="inp_usuarios" name="usuarios" placeholder="Escreva o email dos usuários" oninput="searchMemberData(this)"></textarea>
 	  <div class="invalid-feedback">
 	  </div>
-	</div>
+	</div> -->
 
 	<div class="mb-3" style="margin-top: 15px;">
 	  <input class="btn btn-subtle me-2" type="reset" value="Cancelar">
