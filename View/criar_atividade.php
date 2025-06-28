@@ -1,6 +1,27 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("form_atividade");
+
+    form.addEventListener("submit", function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      form.classList.add("was-validated");
+    }, false);
+  });
+</script>
+
+
 <h1 style="font-size: 18px; margin: 60px 0 40px 150px;">Criar nota</h1>
 
-<form class="was-validated" method="POST" action="">
+<?php $id = isset($_GET['id']) ? intval($_GET['id']) : 0; ?>
+
+<form id="form_atividade" method="post" action="/trabalhoP2/workspace?id=<?= $id ?>" novalidate>
+
+<input type="hidden" name="id_workspace" value="<?= $id ?>" />
+
 
 	<div style="display: flex; flex-direction:column; align-items:center">
 
@@ -28,11 +49,11 @@
 			</div>
 		</div>
 
-		<input type="hidden" name="id_workspace" value="<?php echo $_GET['id'] ?>">
+		<input type="hidden" name="id_workspace" value="<?= $id ?>"/>
 
 		<div class="mb-3" style="margin-top: 15px;">
-			<input class="btn" type="reset" value="Cancelar">
-			<input class="btn btn-secondary" type="submit" value="Salvar">
+			<input type="reset" class="btn btn-subtle me-2" value="Cancelar" />
+			<input type="submit" class="btn btn-primary" value="Salvar" />
 		</div>
 	</div>
 </form>

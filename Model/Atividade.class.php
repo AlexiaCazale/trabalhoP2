@@ -7,11 +7,11 @@ class Atividade implements IUsuario
 	public function __construct(
 		private ?int $id = null,
 		private ?string $nome = "",
-		private DateTime|string $dataEntrega,
-		private DateTime|string $dataCriacao,
+		private DateTime|string $dataEntrega = "",
+		private DateTime|string $dataCriacao = "",
 		private ?string $descricao = "",
 		private ?Workspace $workspace = null,
-		private ?array $comentarios = null,
+		private ?array $comentarios = [],
 		private ?bool $ativo = true
 	) {
 		if (is_string($dataCriacao)) {

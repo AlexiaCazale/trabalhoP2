@@ -19,8 +19,8 @@ class atividadeDAO
 	public function cadastrar_atividade(Atividade $atividade)
 	{
 		$sql = "INSERT 
-			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
-			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega)";
+			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega, data_criacao) 
+			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega, :data_criacao)";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute(
@@ -28,7 +28,8 @@ class atividadeDAO
 					"id_workspace_fk" => $atividade->getWorkspace()->getId(),
 					"nome_atividade" => $atividade->getNome(),
 					"descricao_atividade" => $atividade->getDescricao(),
-					"data_entrega" => $atividade->getDataEntrega()
+					"data_entrega" => $atividade->getDataEntrega(),
+					"data_criacao" => $atividade->getDataCriacao(),
 				]
 			);
 		} catch (PDOException $e) {
