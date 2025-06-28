@@ -45,9 +45,6 @@ $route->get("/buscar_usuario", [usuarioController::class, "buscar_usuario_por_em
 
 $route->get("/perfil", [usuarioController::class, "mostrar_perfil"]);
 
-// Rotas para teste
-$route->get("/usuario_em_workspace", [workspaceController::class, "cadastrar_usuario_no_workspace"]);
-
 //POST
 $route->post("/criar_atividade", [workspaceController::class, "cadastrar_atividade_em_workspace"]);
 
@@ -58,5 +55,7 @@ $route->post("/form_cadastro", [usuarioController::class, "cadastrar_usuario"]);
 $route->post("/criar_workspace", [workspaceController::class, "cadastrar_workspace"]);
 
 $route->post("/usuario_em_workspace", [workspaceController::class, "cadastrar_usuario_no_workspace"])
+
+$route->post("/usuario_em_atividade", [])
 
 ?>

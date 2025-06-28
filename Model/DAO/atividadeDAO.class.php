@@ -19,8 +19,8 @@ class atividadeDAO
 	public function cadastrar_atividade(Atividade $atividade)
 	{
 		$sql = "INSERT 
-			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega, data_criacao) 
-			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega, :data_criacao)";
+			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
+			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega)";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute(
@@ -28,8 +28,7 @@ class atividadeDAO
 					"id_workspace_fk" => $atividade->getWorkspace()->getId(),
 					"nome_atividade" => $atividade->getNome(),
 					"descricao_atividade" => $atividade->getDescricao(),
-					"data_entrega" => $atividade->getDataEntrega(),
-					"data_criacao" => $atividade->getDataCriacao(),
+					"data_entrega" => $atividade->getDataEntrega()
 				]
 			);
 		} catch (PDOException $e) {
@@ -40,7 +39,7 @@ class atividadeDAO
 
 	public function buscar_uma_atividade(Atividade $atividade)
 	{
-		$sql = "SELECT * FROM atividade WHERE idAtividade = :id";
+		$sql = "SELECT * FROM atividade WHERE id_atividade = :id";
 		try {
 			$stm = $this->db->prepare($sql);
 			$stm->execute(["id" => $atividade->getId()]);
@@ -52,7 +51,23 @@ class atividadeDAO
 		}
 	}
 
+	public function buscar_usuarios_em_atividade(Atividade $atividade) {
+
+	}
+
 	public function cadastrar_usuario_em_atividade(Atividade $atividade, Usuario $usuario) {
+		// Código abaixo ainda não é usado #TODO aplicar ele como condição para inserir o usuário
+
+		$sqlUsuarioExisteEmWorkspace = 
+		"SELECT u.nome_usuario, a.id_atividade, a.id_workspace_fk, w.id_workspace, ma.id_membro_atividade, mw.id_membro_workspace FROM atividade a
+		JOIN workspace w ON a.id_workspace_fk = w.id_workspace 
+		JOIN membro_atividade ma ON a.id_atividade = ma.id_atividade_fk
+		JOIN usuario u ON ma.id_usuario_fk = u.id_usuario
+		JOIN membro_workspace mw ON u.id_usuario = mw.id_usuario_fk
+		WHERE u.email_usuario = 'bruno2@gmail.com' AND mw.id_usuario_fk = ma.id_usuario_fk AND w.id_workspace = mw.id_workspace_fk;
+		";
+
+
 		$sql = "INSERT INTO membro_atividade (id_usuario_fk, id_atividade_fk) 
 				VALUES (:id_usuario, :id_atividade)";
 		try {

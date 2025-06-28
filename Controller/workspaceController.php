@@ -79,15 +79,15 @@ class workspaceController
 				comentarios: null // TODO Decidir se os comentários serão removidos
 			);
 
-			$atividadeDAO = new atividadeDAO();
-			$atividadeDAO->cadastrar_atividade($atividade);
+			(new atividadeDAO())->cadastrar_atividade($atividade);
+
+			header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
 		}
 	}
 
 	public function alterar_workspace()
 	{
-
-		require_once "View/editar_workspace.php";
+		ViewRenderer::render("editar_workspace");
 	}
 
 	public function mostrar_atividade_workspace()
