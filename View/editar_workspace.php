@@ -1,9 +1,3 @@
-<?php
-
-require_once "View/Component/header.php";
-
-?>
-
 <h1 style="font-size: 18px; margin: 60px 0 40px 150px;">Editar Workspace</h1>
 
 <form class="was-validated">

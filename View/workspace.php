@@ -16,8 +16,8 @@
 
 		<div class="card-footer flex justify-content-end" style="display: flex; gap: 10px;">
 			<a href="/trabalhoP2/criar_atividade?id=<?php echo $workspace->getId() ?>">Criar Atividade</a>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-				Launch demo modal
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				Abrir Modal
 			</button>
 			<button type="button" class="btn btn-danger">Excluir</button>
 			<button type="button" class="btn btn-discovery">Editar</button>
@@ -38,8 +38,8 @@ foreach ($workspace->getAtividades() as $atividade) {
 		<p>Nome: {$atividade->getNome()}</p>
 		<p>Descrição: {$atividade->getDescricao()}</p>
 		<p>Data para entrega: {$dataEntrega}</p>"
-		. $divAvatares->criar() . "
-		
+		. $divAvatares->criar() . 
+		"
 	</div>
 	";
 }
@@ -47,22 +47,24 @@ foreach ($workspace->getAtividades() as $atividade) {
 ?>
 
 <!-- Modal para registro do usuário no workspace -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
 			</div>
 			<div class="modal-body">
-				...
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<form action="/trabalhoP2/usuario_em_workspace" method="POST">
+					<label for="email_inp">Email:</label>
+					<input type="email" id="email_inp" name="email">
+
+					<input type="hidden" value="<?php echo $workspace->getId() ?>" name="id_workspace">
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<input type="submit" class="btn btn-primary" value="Save changes">
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

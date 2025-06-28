@@ -1,10 +1,3 @@
-<!-- Cria atividade que será exibida no Workspace -->
-<?php
-
-require_once "View/Component/headerWorkspace.php";
-
-?>
-
 <h1 style="font-size: 18px; margin: 60px 0 40px 150px;">Criar nota</h1>
 
 <form class="was-validated" method="POST" action="">

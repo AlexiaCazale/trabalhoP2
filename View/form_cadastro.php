@@ -1,9 +1,3 @@
-<?php
-
-require_once "View/Component/header.php";
-
-?>
-
 <div class="card" style="display: flex;
 	align-items: center;
 	background-color: #BEAFED;

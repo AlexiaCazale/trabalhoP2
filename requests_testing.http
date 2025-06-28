@@ -1,6 +1,0 @@
-POST http://localhost/trabalhoP2/usuario_em_workspace
-Content-Type: application/json
-
-{
-    "teste": "valor"
-}

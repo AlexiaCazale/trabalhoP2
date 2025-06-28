@@ -1,9 +1,3 @@
-<?php
-
-require_once "View/Component/header.php";
-
-?>
-
 <div style="display: flex; justify-content: center; margin-top: 50px;">
 
   <div class="card" style="display: flex;

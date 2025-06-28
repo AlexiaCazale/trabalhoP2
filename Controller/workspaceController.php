@@ -19,7 +19,7 @@ class workspaceController
 			$id_workspace = $workspaceDAO->buscar_ultimo_id();
 
 			var_dump($id_workspace);
-			
+
 			header("Location: /trabalhoP2/workspace?id={$id_workspace}");
 			exit();
 		}
@@ -29,7 +29,26 @@ class workspaceController
 	{
 		// TODO Alterar os $_GET por $_POST
 
-		$_POST ? var_dump($_POST) : var_dump("Nada enviado");
+		if (empty($_POST)) {
+			return;
+		} else {
+			$usuario = new Usuario(email: $_POST['email']);
+			$workspace = new Workspace($_POST['id_workspace']);
+
+			$usuarioDAO = new usuarioDAO();
+			$workspaceDAO = new workspaceDAO();
+
+			try {
+				$usuario = ConversorStdClass::stdClassToModelClass(
+					$usuarioDAO->buscar_um_usuario($usuario),
+					Usuario::class
+				);
+			} catch (Exception $e) {
+				die("Erro ao buscar o usuário: " . $e->getMessage());
+			}
+
+			$workspaceDAO->cadastrar_usuario_no_workspace($workspace, $usuario);
+		}
 	}
 
 	public static function buscar_usuarios_em_workspace(Workspace $workspace)
@@ -71,18 +90,20 @@ class workspaceController
 
 	public function mostrar_atividade_workspace()
 	{
+		UserAuth::userIsLogged();
+
 		if (empty($_GET['id'])) {
 			header("Location: /trabalhoP2");
 			exit();
 		} else {
 			$workspaceDAO = new workspaceDAO();
-			
+
 			$workspace = new Workspace($_GET['id']);
 
 			$workspace = ConversorStdClass::stdClassToModelClass($workspaceDAO->buscar_um_workspace($workspace), Workspace::class);
 
 			foreach ($workspaceDAO->buscar_usuarios_do_workspace($workspace) as $usuario) {
-				$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));			
+				$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));
 			}
 
 			foreach ($workspaceDAO->buscar_atividades_do_workspace($workspace) as $atividade) {
@@ -92,7 +113,7 @@ class workspaceController
 			$avatares = CompositionHandler::createUsersAvatar($workspace, class: "'avatar-stack justify-content-center flex-row'");
 
 		}
-		
+
 		ViewRenderer::render("workspace", [
 			"avatares" => $avatares,
 			"workspace" => $workspace
