@@ -45,15 +45,17 @@ class workspaceController
 
 	public function cadastrar_atividade_em_workspace()
 	{
+		$dataCriacao = date('Y-m-d H:i:s');
+
 		if (empty($_POST)) {
-			require_once "View/criar_atividade.php";
+			ViewRenderer::render("criar_atividade");
 		} else {
 			$atividade = new Atividade(
 				id: 0,
 				nome: $_POST['nome_atv'],
 				descricao: $_POST['desc_atv'],
 				dataEntrega: $_POST['data_ent_atv'],
-				dataCriacao: time(),
+				dataCriacao: $dataCriacao,
 				workspace: new Workspace($_POST['id_workspace']),
 				comentarios: null // TODO Decidir se os comentários serão removidos
 			);

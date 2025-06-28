@@ -1,31 +1,14 @@
-<div style="display: flex; align-items: center; justify-content: center; margin: 40px;">
-	<div class="card" style="backgroud-color: #BEAFED; max-width: 280px; max-height: 300px; overflow: auto;">
 
-		<div class="card-body">
-			<h5 class="card-title"><?php echo $workspace->getNome() ?></h5>
-			<p class="card-text">
-				<?php echo $workspace->getDescricao() ?>
-			</p>
-		</div>
-
-		<?php $avatares->criar() ?>
-
-		<div class="text-center" style="margin: 10px;">
-			<b>Para: </b> September 14, 2022
-		</div>
-
-		<div class="card-footer flex justify-content-end" style="display: flex; gap: 10px;">
-			<a href="/trabalhoP2/criar_atividade?id=<?php echo $workspace->getId() ?>">Criar Atividade</a>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-				Launch demo modal
-			</button>
-			<button type="button" class="btn btn-danger">Excluir</button>
-			<button type="button" class="btn btn-discovery">Editar</button>
-		</div>
-
+<div style="margin: 50px 20px 10px 20px; display: flex; flex-direction: column; gap: 15px">
+	<div>
+		<h1 style=" font-size: 20px; text-align: start; color: black"><?php echo $workspace->getNome() ?></h1>
+		<p><?php echo $workspace->getDescricao() ?> </p>
 	</div>
 
+	<a href="/trabalhoP2/criar_atividade?id=<?php echo $workspace->getId() ?>" style="text-decoration: none; display: flex; align-items: center; gap: 3px"><i class="ph ph-plus-circle" style="font-size: 20px;"></i>Adicionar atividade</a>
 </div>
+
+<div style="display: flex; align-items: center; margin: 40px;">
 
 <?php
 
@@ -33,18 +16,35 @@ foreach ($workspace->getAtividades() as $atividade) {
 	$atividade->setUsuarios(new Usuario());
 	$dataEntrega = explode(' ', $atividade->getDataEntrega())[0];
 	$divAvatares = CompositionHandler::createUsersAvatar($atividade);
+	// Cards de atividade 
 	echo "
-	<div class='border'>
-		<p>Nome: {$atividade->getNome()}</p>
-		<p>Descrição: {$atividade->getDescricao()}</p>
-		<p>Data para entrega: {$dataEntrega}</p>"
-		. $divAvatares->criar() . "
-		
+	<div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%;'>
+
+		<div class='card-body'>
+			<h5 class='card-title'>{$atividade->getNome()}</h5>
+			<p class='card-text'>
+				{$atividade->getDescricao()}
+			</p>
+		</div>
+
+		<div class='text-center' style='margin: 10px;'>
+			<b>Para: </b> 
+			{$atividade->getDataEntrega()}
+		</div>
+
+		<div class='card-footer flex justify-content-start' style='display: flex; gap: 10px; align-items: center;'>
+			<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
+			<i type='button' class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
+		</div>
+
 	</div>
 	";
 }
-
 ?>
+
+</div>
+
+
 
 <!-- Modal para registro do usuário no workspace -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
