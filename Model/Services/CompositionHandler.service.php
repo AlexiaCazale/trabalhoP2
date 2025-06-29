@@ -42,8 +42,8 @@ class CompositionHandler
             $divAvatarIcon->setElemento(CompositionHandler::createUsersAvatar($workspace));
             
             $divIcons = new div(style:"'display: flex; gap: 10px'");
-            $divIcons->setElemento(new a("/trabalhoP2", iconeAntes:"<i class='ph ph-pencil-simple-line'></i>", style: "'text-decoration: none; color: black'"));
-            $divIcons->setElemento(new a("/trabalhoP2", iconeAntes: "<i class='ph ph-trash' color='red'></i>", style: "'text-decoration: none; color: black'"));
+            $divIcons->setElemento(new a("/trabalhoP2", "<i class='ph ph-pencil-simple-line'></i>", style: "'text-decoration: none; color: black'"));
+            $divIcons->setElemento(new a("/trabalhoP2",  "<i class='ph ph-trash' color='red'></i>", style: "'text-decoration: none; color: black'"));
 
             $divAvatarIcon->setElemento($divIcons);
 
