@@ -41,15 +41,8 @@ class atividadeDAO
 	{
 		$sql = 
 		"UPDATE atividade 
-		SET (
-			nome_workspace = :nome, 
-			descricao_atividade = :descricao,  
-			data_entrega_atividade = :data_entrega, 
-			data_criacao_atividade = :data_criacao, 
-			ativo_atividade = :ativo, 
-			concluido_atividade = :concluido, 
-			data_concluido_atividade = :data_concluido
-		)";
+		SET nome_atividade = :nome, descricao_atividade = :descricao, data_entrega_atividade = :data_entrega
+		WHERE id_atividade = :id";
 
 		try {
 			$stmt = $this->db->prepare($sql);
@@ -57,10 +50,7 @@ class atividadeDAO
 				"nome" => $atividade->getNome(),
 				"descricao" => $atividade->getDescricao(),
 				"data_entrega" => $atividade->getDataEntrega(),
-				"data_criacao" => $atividade->getDataCriacao(),
-				"ativo" => $atividade->getAtivo(),
-				"concluido" => $atividade->getConcluido(),
-				"data_concluido" => $atividade->getConcluido()
+				"id" => $atividade->getId()
 			]);
 		} catch (PDOException $e) {
 			$this->db = null;
@@ -92,8 +82,7 @@ class atividadeDAO
 		try {
 			$stm = $this->db->prepare($sql);
 			$stm->execute(["id" => $atividade->getId()]);
-			$this->db = null;
-			return $stm->fetchAll(PDO::FETCH_OBJ);
+			return $stm->fetch(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Erro ao buscar atividade:" . $e->getMessage());
@@ -138,6 +127,24 @@ class atividadeDAO
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Erro ao buscar os usuários da atividade: " . $e->getMessage());
+		}
+	}
+
+	public function buscarWorkspaceDaAtividade(Atividade $atividade) {
+		$sql = 
+		"SELECT w.* FROM atividade a
+		JOIN workspace w ON a.id_workspace_fk = w.id_workspace
+		WHERE a.id_atividade = :id";
+
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"id" => $atividade->getId()
+			]);
+			return $stmt->fetch(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao buscar o workspace da atividade: " . $e->getMessage());
 		}
 	}
 

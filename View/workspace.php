@@ -67,6 +67,7 @@
 		</div>
 		";
 
+		// Modal para adicionar um usuário à atividade
 		echo "
 		<div class='modal fade' id='modalUsuarioAtividade{$atividade->getId()}' tabindex='-1' aria-labelledby='modalUsuarioAtividade{$atividade->getId()}' aria-hidden='true'>
 			<div class='modal-dialog' role='document'>
@@ -92,6 +93,7 @@
 		</div>
 		";
 
+		// Modal para alterar uma atividade
 		echo "
 		<div class='modal fade' id='modalEditarAtividade{$atividade->getId()}' tabindex='-1'>
 			<div class='modal-dialog'>
@@ -104,12 +106,17 @@
 						<form id='form-editar-{$atividade->getId()}' action='/trabalhoP2/alterar_atividade' method='POST'>
 							<div class='mb-3'>
 								<label>Nome</label>
-								<input type='text' name='nome' class='form-control' value='{$atividade->getNome()}'>
+								<input type='text' name='nome_atividade' class='form-control' value='{$atividade->getNome()}'>
 							</div>
 							<div class='mb-3'>
 								<label>Descrição</label>
-								<textarea name='descricao' class='form-control'>{$atividade->getDescricao()}</textarea>
+								<textarea name='descricao_atividade' class='form-control'>{$atividade->getDescricao()}</textarea>
 							</div>
+							<div class='mb-3'>
+								<label>Data de entrega</label>
+								<input type='date' name='data_entrega_atividade' class='form-control' value='{$atividade->getDataEntrega()}'>
+							</div>
+							<input name='id_atividade' type='hidden' value='{$atividade->getId()}'>
 							<div class='modal-footer'>
 								<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
 								<input type='submit' class='btn btn-primary' value'Alterar'></input>
