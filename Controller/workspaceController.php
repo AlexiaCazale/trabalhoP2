@@ -60,11 +60,13 @@ class workspaceController
 		$workspaceDAO = new workspaceDAO();
 		$usuarios = $workspaceDAO->buscarUsuariosDoWorkspace($workspace);
 
+		$workspace->limparUsuarios(); // ✅ Limpa antes de adicionar
+
 		foreach ($usuarios as $usuario) {
 			$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));
 		}
-
 	}
+
 
 	public function cadastrarAtividadeEmWorkspace()
 	{
@@ -115,6 +117,9 @@ class workspaceController
             $workspace = new Workspace($_GET['id']); //
             $usuario = new Usuario($_SESSION['usuario_id']); //
 
+			$usuarioDAO = new usuarioDAO();
+			$usuariosTodos = $usuarioDAO->buscarUsuarios();
+
             if (!$this->usuarioFazParteDoWorkspace($workspace, $usuario)) {
                 // TODO Renderizar a View de erro
                 header("Location: /trabalhoP2"); //
@@ -144,7 +149,8 @@ class workspaceController
 
         ViewRenderer::render("workspace", [
             "avatares" => $avatares,
-            "workspace" => $workspace
+            "workspace" => $workspace,
+			"usuarios" => $usuariosTodos,
         ]); //
     }
 

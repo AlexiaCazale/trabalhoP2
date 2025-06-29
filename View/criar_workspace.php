@@ -23,7 +23,7 @@
 
 	<div class="col-md-4 position-relative">
 	  <label for="inp_nome" class="form-label">Nome</label>
-	  <input type="text" class="form-control" id="inp_nome" name="nome" placeholder="Defina um nome para a atividade"
+	  <input type="text" class="form-control" id="inp_nome" name="nome" placeholder="Defina um nome para o workspace"
 		required>
 	  <div class="invalid-feedback">
 		Campo obrigatório!
@@ -32,7 +32,7 @@
 
 	<div class="col-md-4">
 	  <label for="inp_descricao" class="form-label">Descrição</label>
-	  <textarea class="form-control" id="inp_descricao" name="descricao" placeholder="Escreva uma desrição para sua atividade"
+	  <textarea class="form-control" id="inp_descricao" name="descricao" placeholder="Escreva uma desrição para seu workspace"
 		required></textarea>
 	  <div class="invalid-feedback">
 		Campo obrigatório!
