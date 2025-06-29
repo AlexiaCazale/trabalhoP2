@@ -93,5 +93,23 @@ class usuarioController
 			return null;
 		}
 	}
+
+		public function detalharWorkspace(): void
+	{
+		UserAuth::userIsLogged();
+
+		$workspaceDAO = new workspaceDAO();
+		$usuarioDAO = new usuarioDAO();
+
+		$workspace = $workspaceDAO->buscarPorId($_GET['id']); // Ajuste para pegar o workspace
+
+		$usuariosEncontrados = $usuarioDAO->buscarUsuarios(); // Pega todos os usuários ativos
+
+		ViewRenderer::render("detalhe_workspace", [
+			"workspace" => $workspace,
+			"usuariosEncontrados" => $usuariosEncontrados,
+		]);
+	}
+
 }
 ?>

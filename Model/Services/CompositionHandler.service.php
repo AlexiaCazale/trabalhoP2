@@ -8,7 +8,7 @@ class CompositionHandler
 			class: $class == null ? "avatar-stack flex justify-items-end" : $class,
 			style: $style == null ? "'display: flex; justify-content: start;'" : $style);
 		foreach ($obj->getUsuarios() as $usuario) {
-            $avatarSrc = $usuario->getAvatar() != null ? $usuario->getAvatar() : "View/Images/user_img.png";
+            $avatarSrc = $usuario->getAvatar() != null ? $usuario->getAvatar() : "View/Images/user.png";
 
             // Define os atributos para a tooltip
             $tooltipAttributes = [
@@ -52,7 +52,10 @@ class CompositionHandler
             $divCard->setElemento($divCardBody);
 
             $div->setElemento($divCard);
+
+       
         }
+
 
 		return $div;
 	}

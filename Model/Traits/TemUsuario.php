@@ -22,6 +22,10 @@ trait TemUsuario
 	{
 		$this->usuarios[] = $usuario;
 	}
+
+	  public function limparUsuarios(): void {
+        $this->usuarios = [];
+    }
 }
 
 ?>
