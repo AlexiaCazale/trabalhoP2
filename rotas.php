@@ -25,8 +25,9 @@ class rotas
 	}
 }
 
-//GET
 $route = new Rotas();
+
+//GET
 $route->get("/", [inicioController::class, "inicio"]); // Ou apenas "/" se o basePath for tratado antes
 
 $route->get("/criar_atividade", [workspaceController::class, "cadastrarAtividadeEmWorkspace"]);
@@ -45,6 +46,10 @@ $route->get("/buscar_usuario", [usuarioController::class, "buscarUsuarioPorEmail
 
 $route->get("/perfil", [usuarioController::class, "mostrarPerfil"]);
 
+$route->get("/desativar_workspace", [workspaceController::class, "desativarWorkspace"]);
+
+$route->get("/desativar_atividade", [atividadeController::class, "desativarAtividade"]);
+
 //POST
 $route->post("/criar_atividade", [workspaceController::class, "cadastrarAtividadeEmWorkspace"]);
 
@@ -57,5 +62,9 @@ $route->post("/criar_workspace", [workspaceController::class, "cadastrarWorkspac
 $route->post("/usuario_em_workspace", [workspaceController::class, "cadastrarUsuarioNoWorkspace"]);
 
 $route->post("/usuario_em_atividade", [atividadeController::class, "cadastrarUsuarioNaAtividade"]);
+
+$route->post("/alterar_workspace", [workspaceController::class, "alterarWorkspace"]);
+
+$route->post("/alterar_atividade", [atividadeController::class, "alterarAtividade"]);
 
 ?>

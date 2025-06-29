@@ -2,16 +2,16 @@
 	<div>
 		<h1 style=" font-size: 20px; text-align: start; color: black"><?php echo $workspace->getNome() ?></h1>
 		<p><?php echo $workspace->getDescricao() ?> </p>
-		<?php 
-			foreach ($workspace->getAtividades() as $atividade) {
+		<?php
+		foreach ($workspace->getAtividades() as $atividade) {
 			$divAvatares = CompositionHandler::createUsersAvatar($atividade);
-				echo "
+			echo "
 					<div>
 						{$divAvatares->criar()}
 					</div>";
-			}
+		}
 		?>
-	
+
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalWorkspace'>
 			Adicionar usuário
 		</button>
@@ -26,7 +26,6 @@
 	<?php
 
 	foreach ($workspace->getAtividades() as $atividade) {
-		$dataEntrega = explode(' ', $atividade->getDataEntrega())[0];
 		$divAvatares = CompositionHandler::createUsersAvatar($atividade); // Cria o objeto div para os avatares.
 
 		// Inicia o buffer de saída para capturar o HTML dos avatares
@@ -57,7 +56,12 @@
 						Adicionar usuário
 					</button>
 					<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
-					<i type='button' class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
+					<button class='btn btn-link p-0' 
+						data-bs-toggle='modal'
+						data-bs-target='#modalEditarAtividade{$atividade->getId()}'
+						title='Editar Atividade'>
+    						<i class='ph ph-pencil-simple-line' style='font-size: 20px; cursor: pointer;'></i>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -87,15 +91,44 @@
 			</div>
 		</div>
 		";
+
+		echo "
+		<div class='modal fade' id='modalEditarAtividade{$atividade->getId()}' tabindex='-1'>
+			<div class='modal-dialog'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h5 class='modal-title'>Editar Atividade</h5>
+						<button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+					</div>
+					<div class='modal-body'>
+						<form id='form-editar-{$atividade->getId()}' action='/trabalhoP2/alterar_atividade' method='POST'>
+							<div class='mb-3'>
+								<label>Nome</label>
+								<input type='text' name='nome' class='form-control' value='{$atividade->getNome()}'>
+							</div>
+							<div class='mb-3'>
+								<label>Descrição</label>
+								<textarea name='descricao' class='form-control'>{$atividade->getDescricao()}</textarea>
+							</div>
+							<div class='modal-footer'>
+								<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
+								<input type='submit' class='btn btn-primary' value'Alterar'></input>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		";
 	}
 	?>
 </div>
 
 <script>
-	document.addEventListener("DOMContentLoaded", function () {
+	document.addEventListener("DOMContentLoaded", function() {
 		const form = document.getElementById("form_usuario_workspace");
 
-		form.addEventListener("submit", function (event) {
+		form.addEventListener("submit", function(event) {
 			if (!form.checkValidity()) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -106,6 +139,8 @@
 	});
 </script>
 
+<script src="View/Scripts/changeAtividade.js"></script>
+
 <div class="modal fade" id="modalWorkspace" tabindex="-1" aria-labelledby="modalWorkspace" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -113,9 +148,9 @@
 				<h5 class="modal-title" id="titleModalWorkspace">Adicionar usuário ao workspace</h5>
 			</div>
 			<div class="modal-body">
-				<form id="form_usuario_workspace" method="POST">
+				<form id="form_usuario_workspace" method="POST" action="usuario_em_workspace">
 					<label for="email_inp">Email:</label>
-					<input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;" >
+					<input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;">
 
 					<input type="hidden" value="<?= $workspace->getId() ?>" name="id_workspace">
 
@@ -130,10 +165,10 @@
 </div>
 
 <script>
-	document.addEventListener("DOMContentLoaded", function () {
+	document.addEventListener("DOMContentLoaded", function() {
 		const form = document.getElementById("form_atividade");
 
-		form.addEventListener("submit", function (event) {
+		form.addEventListener("submit", function(event) {
 			if (!form.checkValidity()) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -152,7 +187,7 @@
 			</div>
 			<div class="modal-body">
 				<form id="form_atividade" method="post" action="/trabalhoP2/criar_atividade" novalidate>
-					
+
 					<div style="display: flex; flex-direction:column;">
 
 						<div class="col-md-4 position-relative">
@@ -190,7 +225,7 @@
 						</div>
 					</div>
 				</form>
-					<!-- <div class="modal-footer">
+				<!-- <div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 						<input type="submit" class="btn btn-primary" value="Save changes">
 					</div> -->

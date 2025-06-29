@@ -22,6 +22,18 @@ class atividadeController {
 			die("Erro ao buscar o usuário: " . $e->getMessage());
 		}
 		$atividadeDAO->cadastrarUsuarioNaAtividade($atividade, $usuario);
+
+        var_dump($_SERVER['HTTP_REFERER']);
+	}
+
+    public function alterarAtividade()
+	{
+		
+	}
+
+	public function desativarAtividade()
+	{
+		
 	}
 
     public function buscarUsuariosEmAtividade(Atividade $atividade) {

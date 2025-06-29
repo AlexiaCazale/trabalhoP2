@@ -51,6 +51,8 @@ class workspaceController
 			die("Erro ao buscar o usuário: " . $e->getMessage());
 		}
 		$workspaceDAO->cadastrarUsuarioNoWorkspace($workspace, $usuario);
+
+		header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
 	}
 
 	public static function buscarUsuariosEmWorkspace(Workspace $workspace)
@@ -92,6 +94,11 @@ class workspaceController
 	public function alterarWorkspace()
 	{
 		ViewRenderer::render("editar_workspace");
+	}
+
+	public function desativarWorkspace()
+	{
+		
 	}
 
 	public function mostrarAtividadeWorkspace()
