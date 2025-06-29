@@ -6,11 +6,9 @@
    <span>Nome: <?php echo $usuarioEncontrado->getNome() ?></span>
   </div>
   <div class="col-md-4 position-relative">
-    <span>Data de nascimento</span>
-  </div>
-  <div class="col-md-4 position-relative">
     <span>E-mail: <?php echo $usuarioEncontrado->getEmail() ?></span>
   </div>
   <div class="col-md-4 position-relative">
-    <span>Nome</span>
+    <span>Workspaces:</span>
+    <?php $tagWorkspaces->criar() // Usa CompositionHandler::createWorkspaces?>
   </div>
