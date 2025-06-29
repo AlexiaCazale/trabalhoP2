@@ -21,6 +21,7 @@ class img extends Componente
 
 		// Garante que o valor do atributo src também esteja entre aspas e escapado
 		echo "<img {$this->classTagId()} {$this->classString()} {$this->styleString()} src=\"" . htmlspecialchars($this->src) . "\"{$htmlAttributes}/>";
+		echo "<img {$this->classTagId()} {$this->classString()} {$this->styleString()} src={$this->src} />";
 	}
 }
 

@@ -9,7 +9,7 @@ class Conexao
 	public static function getInstancia()
 	{
 		if (empty(self::$conexao)) {
-			$parametros = "mysql:host=localhost;dbname=task_hub;charset=utf8mb4";
+			$parametros = "mysql:host=localhost;port=3307;dbname=task_hub;charset=utf8mb4";
 			try {
 				self::$conexao = new PDO($parametros, "root", "root");
 			} catch (PDOException $e) {

@@ -78,7 +78,7 @@ class usuarioController
 			);
 			$usuarioDAO->cadastrarUsuario($usuario);
 
-			header('Location: /trabalhoP2/');
+			header('Location: /trabalhoP2/form_login');
 			exit();
 		}
 	}
