@@ -40,7 +40,7 @@
 		</div>
 
 		<div class='card-footer flex justify-content-start' style='display: flex; gap: 10px; align-items: center;'>
-			<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalAtividade'>
+			<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade'>
 				Adicionar usuário
 			</button>
 			<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
@@ -151,13 +151,12 @@
 						</div>
 
 						<input type="hidden" name="id_workspace" value="<?= $workspace->getId() ?>" />
-
-						<div class="mb-3" style="margin-top: 15px;">
-							<input type="reset" class="btn btn-subtle me-2" value="Cancelar" />
-							<input type="submit" class="btn btn-primary" value="Salvar" />
-						</div>
 					</div>
 				</form>
+				<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<input type="submit" class="btn btn-primary" value="Save changes">
+					</div>
 			</div>
 		</div>
 	</div>

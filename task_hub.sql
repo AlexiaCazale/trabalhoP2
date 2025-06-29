@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Tempo de geração: 23/06/2025 às 16:53
+-- Host: 127.0.0.1
+-- Tempo de geração: 29/06/2025 às 18:22
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `atividade` (
   `id_atividade` int(11) NOT NULL,
-  `id_workplace_fk` int(11) NOT NULL,
+  `id_workspace_fk` int(11) NOT NULL,
   `nome_atividade` varchar(500) NOT NULL,
   `descricao_atividade` varchar(5000) NOT NULL,
-  `data_entrega` date NOT NULL,
-  `data_criacao` date NOT NULL,
+  `data_entrega_atividade` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `data_criacao_atividade` timestamp NOT NULL DEFAULT current_timestamp(),
   `ativo_atividade` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -111,7 +111,7 @@ CREATE TABLE `workspace` (
 --
 ALTER TABLE `atividade`
   ADD PRIMARY KEY (`id_atividade`),
-  ADD KEY `id_workplace_fk` (`id_workplace_fk`);
+  ADD KEY `id_workplace_fk` (`id_workspace_fk`);
 
 --
 -- Índices de tabela `comentario`
@@ -192,7 +192,7 @@ ALTER TABLE `workspace`
 -- Restrições para tabelas `atividade`
 --
 ALTER TABLE `atividade`
-  ADD CONSTRAINT `atividade_ibfk_1` FOREIGN KEY (`id_workplace_fk`) REFERENCES `workspace` (`id_workspace`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `atividade_ibfk_1` FOREIGN KEY (`id_workspace_fk`) REFERENCES `workspace` (`id_workspace`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `comentario`
