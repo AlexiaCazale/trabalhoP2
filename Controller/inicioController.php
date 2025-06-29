@@ -11,10 +11,10 @@ class inicioController
 		if (isset($_SESSION['usuario_id'])) {
 			$usuarioDAO = new usuarioDAO();
 			$usuarioLogado = new Usuario(id: $_SESSION['usuario_id']);
-			$workspacesEncontrados = $usuarioDAO->buscar_workspaces($usuarioLogado);
+			$workspacesEncontrados = $usuarioDAO->buscarWorkspaces($usuarioLogado);
 			foreach ($workspacesEncontrados as $workspaces) {
 				$workspaceHidratado = ConversorStdClass::stdClassToModelClass($workspaces, Workspace::class);
-				workspaceController::buscar_usuarios_em_workspace($workspaceHidratado);
+				workspaceController::buscarUsuariosEmWorkspace($workspaceHidratado);
 				$usuarioLogado->setWorkspaces($workspaceHidratado);
 			}
 

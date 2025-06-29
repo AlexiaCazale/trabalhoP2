@@ -13,7 +13,7 @@ class usuarioDAO
 		$this->db = Conexao::getInstancia();
 	}
 
-	public function buscar_usuarios()
+	public function buscarUsuarios()
 	{
 		$sql = "SELECT * FROM usuario"; // Adicionar um LIMIT e OFFSET; Criar uma classe para fazer a paginação?
 		try {
@@ -26,7 +26,7 @@ class usuarioDAO
 		}
 	}
 
-	public function buscar_um_usuario(Usuario $usuario): mixed
+	public function buscarUmUsuario(Usuario $usuario): mixed
 	{
 		$sql = "SELECT * FROM usuario WHERE id_usuario = :id OR email_usuario = :email LIMIT 1";
 		try {
@@ -42,7 +42,7 @@ class usuarioDAO
 		}
 	}
 
-	public function buscar_emails(Usuario $usuario)
+	public function buscarEmails(Usuario $usuario)
 	{
 		$sql = "SELECT id_usuario, email_usuario, avatar_usuario FROM usuario WHERE email_usuario LIKE CONCAT(:substr, '%') ;";
 		try {
@@ -57,7 +57,7 @@ class usuarioDAO
 		}
 	}
 
-	public function buscar_workspaces(Usuario $usuario)
+	public function buscarWorkspaces(Usuario $usuario)
 	{
 		$sql = "SELECT w.* 
         FROM workspace w 
@@ -77,7 +77,7 @@ class usuarioDAO
 		}
 	}
 
-	public function cadastrar_usuario(Usuario $usuario)
+	public function cadastrarUsuario(Usuario $usuario)
 	{
 		$sql = "INSERT 
         INTO usuario (nome_usuario, email_usuario, senha_usuario) 

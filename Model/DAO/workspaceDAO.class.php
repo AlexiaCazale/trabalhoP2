@@ -13,7 +13,7 @@ class workspaceDAO
 		$this->db = Conexao::getInstancia();
 	}
 
-	public function buscar_workspaces(): array
+	public function buscarWorkspaces(): array
 	{
 		$sql = "SELECT * FROM workspace";
 		try {
@@ -27,7 +27,7 @@ class workspaceDAO
 		}
 	}
 
-	public function buscar_um_workspace(Workspace $workspace): mixed
+	public function buscarUmWorkspace(Workspace $workspace): mixed
 	{
 		$sql = "SELECT * FROM workspace WHERE id_workspace = :id_workspace";
 		try {
@@ -42,7 +42,7 @@ class workspaceDAO
 		}
 	}
 
-	public function cadastrar_workspace(Workspace $workspace): void
+	public function cadastrarWorkspace(Workspace $workspace): void
 	{
 		$sql =
 			"INSERT 
@@ -61,7 +61,29 @@ class workspaceDAO
 		}
 	}
 
-	public function buscar_usuarios_do_workspace(Workspace $workspace)
+	public function usuarioEstaNoWorkspace(Workspace $workspace, Usuario $usuario)
+	{
+		$sql = "SELECT * FROM workspace w 
+				JOIN membro_workspace mw ON w.id_workspace = mw.id_workspace_fk
+				JOIN usuario u ON mw.id_usuario_fk = u.id_usuario 
+				WHERE u.id_usuario = :id_usuario and w.id_workspace = :id_workspace;";
+
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"id_usuario" => $usuario->getId(),
+				"id_workspace" => $workspace->getId()
+			]);
+			$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+			return count($result) !== 0;
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Problema ao buscar um usuário: " . $e->getMessage());
+		}
+	}
+
+	public function buscarUsuariosDoWorkspace(Workspace $workspace)
 	{
 		$sql = "SELECT u.id_usuario, u.nome_usuario, u.email_usuario, u.avatar_usuario FROM workspace w 
 				JOIN membro_workspace mw ON w.id_workspace = mw.id_workspace_fk
@@ -76,11 +98,11 @@ class workspaceDAO
 			return $stmt->fetchAll(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
 			$this->db = null;
-			die("Problema ao cadastrar um workspace: " . $e->getMessage());
+			die("Problema ao buscar um usuário: " . $e->getMessage());
 		}
 	}
 
-	public function cadastrar_usuario_no_workspace(Workspace $workspace, Usuario $usuario)
+	public function cadastrarUsuarioNoWorkspace(Workspace $workspace, Usuario $usuario)
 	{
 		$sql = "INSERT INTO membro_workspace (id_workspace_fk, id_usuario_fk) 
 				VALUES (:id_workspace, :id_usuario)";
@@ -97,7 +119,7 @@ class workspaceDAO
 		}
 	}
 
-	public function buscar_atividades_do_workspace(Workspace $workspace)
+	public function buscarAtividadesDoWorkspace(Workspace $workspace)
 	{
 		$sql = "SELECT a.* FROM atividade a
 				JOIN workspace w ON a.id_workspace_fk = w.id_workspace
@@ -114,7 +136,7 @@ class workspaceDAO
 		}
 	}
 
-	public function buscar_ultimo_id()
+	public function buscarUltimoId()
 	{
 		try {
 			return $this->db->lastInsertId();
@@ -124,4 +146,3 @@ class workspaceDAO
 		}
 	}
 }
-?>

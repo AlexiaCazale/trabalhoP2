@@ -29,32 +29,32 @@ class rotas
 $route = new Rotas();
 $route->get("/", [inicioController::class, "inicio"]); // Ou apenas "/" se o basePath for tratado antes
 
-$route->get("/criar_atividade", [workspaceController::class, "cadastrar_atividade_em_workspace"]);
+$route->get("/criar_atividade", [workspaceController::class, "cadastrarAtividadeEmWorkspace"]);
 
-$route->get("/criar_workspace", [workspaceController::class, "cadastrar_workspace"]);
+$route->get("/criar_workspace", [workspaceController::class, "cadastrarWorkspace"]);
 
-$route->get("/form_login", [usuarioController::class, "login_usuario"]);
+$route->get("/form_login", [usuarioController::class, "loginUsuario"]);
 
-$route->get("/logout", [usuarioController::class, "logout_usuario"]);
+$route->get("/logout", [usuarioController::class, "logoutUsuario"]);
 
-$route->get("/form_cadastro", [usuarioController::class, "cadastrar_usuario"]);
+$route->get("/form_cadastro", [usuarioController::class, "cadastrarUsuario"]);
 
-$route->get("/workspace", [workspaceController::class, "mostrar_atividade_workspace"]);
+$route->get("/workspace", [workspaceController::class, "mostrarAtividadeWorkspace"]);
 
-$route->get("/buscar_usuario", [usuarioController::class, "buscar_usuario_por_email"]);
+$route->get("/buscar_usuario", [usuarioController::class, "buscarUsuarioPorEmail"]);
 
-$route->get("/perfil", [usuarioController::class, "mostrar_perfil"]);
+$route->get("/perfil", [usuarioController::class, "mostrarPerfil"]);
 
 //POST
-$route->post("/criar_atividade", [workspaceController::class, "cadastrar_atividade_em_workspace"]);
+$route->post("/criar_atividade", [workspaceController::class, "cadastrarAtividadeEmWorkspace"]);
 
-$route->post("/form_login", [usuarioController::class, "login_usuario"]);
+$route->post("/form_login", [usuarioController::class, "loginUsuario"]);
 
-$route->post("/form_cadastro", [usuarioController::class, "cadastrar_usuario"]);
+$route->post("/form_cadastro", [usuarioController::class, "cadastrarUsuario"]);
 
-$route->post("/criar_workspace", [workspaceController::class, "cadastrar_workspace"]);
+$route->post("/criar_workspace", [workspaceController::class, "cadastrarWorkspace"]);
 
-$route->post("/usuario_em_workspace", [workspaceController::class, "cadastrar_usuario_no_workspace"]);
+$route->post("/usuario_em_workspace", [workspaceController::class, "cadastrarUsuarioNoWorkspace"]);
 
 $route->post("/usuario_em_atividade", []);
 

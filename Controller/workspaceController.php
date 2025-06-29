@@ -1,8 +1,9 @@
 <?php
 class workspaceController
 {
-	public function cadastrar_workspace()
+	public function cadastrarWorkspace()
 	{
+		UserAuth::userIsLogged();
 
 		if (empty($_POST)) {
 			ViewRenderer::render("criar_workspace");
@@ -15,9 +16,14 @@ class workspaceController
 				descricao: $_POST['descricao']
 			);
 
-			$workspaceDAO->cadastrar_workspace($workspaceCriado);
-			$id_workspace = $workspaceDAO->buscar_ultimo_id();
-
+			$workspaceDAO->cadastrarWorkspace($workspaceCriado);
+			$id_workspace = $workspaceDAO->buscarUltimoId();
+			
+			$workspaceDAO->cadastrarUsuarioNoWorkspace(
+				new Workspace($id_workspace),
+				new Usuario($_SESSION["usuario_id"])
+			);
+			
 			var_dump($id_workspace);
 
 			header("Location: /trabalhoP2/workspace?id={$id_workspace}");
@@ -25,36 +31,33 @@ class workspaceController
 		}
 	}
 
-	public function cadastrar_usuario_no_workspace()
+	public function cadastrarUsuarioNoWorkspace(?Workspace $workspace = null, ?Usuario $usuario = null)
 	{
 		// TODO Alterar os $_GET por $_POST
 
-		if (empty($_POST)) {
+		if (empty($_POST) and ($workspace === null and $usuario === null)) {
 			return;
-		} else {
+		} else if ($workspace == null and $usuario === null) {
 			$usuario = new Usuario(email: $_POST['email']);
 			$workspace = new Workspace($_POST['id_workspace']);
-
-			$usuarioDAO = new usuarioDAO();
-			$workspaceDAO = new workspaceDAO();
-
-			try {
-				$usuario = ConversorStdClass::stdClassToModelClass(
-					$usuarioDAO->buscar_um_usuario($usuario),
-					Usuario::class
-				);
-			} catch (Exception $e) {
-				die("Erro ao buscar o usuário: " . $e->getMessage());
-			}
-
-			$workspaceDAO->cadastrar_usuario_no_workspace($workspace, $usuario);
 		}
+		$usuarioDAO = new usuarioDAO();
+		$workspaceDAO = new workspaceDAO();
+		try {
+			$usuario = ConversorStdClass::stdClassToModelClass(
+				$usuarioDAO->buscarUmUsuario($usuario),
+				Usuario::class
+			);
+		} catch (Exception $e) {
+			die("Erro ao buscar o usuário: " . $e->getMessage());
+		}
+		$workspaceDAO->cadastrarUsuarioNoWorkspace($workspace, $usuario);
 	}
 
-	public static function buscar_usuarios_em_workspace(Workspace $workspace)
+	public static function buscarUsuariosEmWorkspace(Workspace $workspace)
 	{
 		$workspaceDAO = new workspaceDAO();
-		$usuarios = $workspaceDAO->buscar_usuarios_do_workspace($workspace);
+		$usuarios = $workspaceDAO->buscarUsuariosDoWorkspace($workspace);
 
 		foreach ($usuarios as $usuario) {
 			$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));
@@ -62,7 +65,7 @@ class workspaceController
 
 	}
 
-	public function cadastrar_atividade_em_workspace()
+	public function cadastrarAtividadeEmWorkspace()
 	{
 		$dataCriacao = date('Y-m-d H:i:s');
 
@@ -79,18 +82,18 @@ class workspaceController
 				comentarios: null // TODO Decidir se os comentários serão removidos
 			);
 
-			(new atividadeDAO())->cadastrar_atividade($atividade);
+			(new atividadeDAO())->cadastrarAtividade($atividade);
 
 			header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
 		}
 	}
 
-	public function alterar_workspace()
+	public function alterarWorkspace()
 	{
 		ViewRenderer::render("editar_workspace");
 	}
 
-	public function mostrar_atividade_workspace()
+	public function mostrarAtividadeWorkspace()
 	{
 		UserAuth::userIsLogged();
 
@@ -101,25 +104,35 @@ class workspaceController
 			$workspaceDAO = new workspaceDAO();
 
 			$workspace = new Workspace($_GET['id']);
+			$usuario = new Usuario($_SESSION['usuario_id']);
+			
+			if (!$this->usuarioFazParteDeWorkspace($workspace, $usuario)) { 
+				// TODO Renderizar a View de erro
+				header("Location: /trabalhoP2");
+				exit();
+			}
 
-			$workspace = ConversorStdClass::stdClassToModelClass($workspaceDAO->buscar_um_workspace($workspace), Workspace::class);
+			$workspace = ConversorStdClass::stdClassToModelClass($workspaceDAO->buscarUmWorkspace($workspace), Workspace::class);
 
-			foreach ($workspaceDAO->buscar_usuarios_do_workspace($workspace) as $usuario) {
+			foreach ($workspaceDAO->buscarUsuariosDoWorkspace($workspace) as $usuario) {
 				$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));
 			}
 
-			foreach ($workspaceDAO->buscar_atividades_do_workspace($workspace) as $atividade) {
+			foreach ($workspaceDAO->buscarAtividadesDoWorkspace($workspace) as $atividade) {
 				$workspace->setAtividades(ConversorStdClass::stdClassToModelClass($atividade, Atividade::class));
 			}
 
 			$avatares = CompositionHandler::createUsersAvatar($workspace, class: "'avatar-stack justify-content-center flex-row'");
-
 		}
 
 		ViewRenderer::render("workspace", [
 			"avatares" => $avatares,
 			"workspace" => $workspace
 		]);
+	}
+
+	private function usuarioFazParteDeWorkspace(Workspace $workspace, Usuario $usuario) {
+		return (new workspaceDAO())->usuarioEstaNoWorkspace($workspace, $usuario);
 	}
 
 }

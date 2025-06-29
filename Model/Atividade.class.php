@@ -12,7 +12,9 @@ class Atividade implements IUsuario
 		private ?string $descricao = "",
 		private ?Workspace $workspace = null,
 		private ?array $comentarios = [],
-		private ?bool $ativo = true
+		private ?bool $ativo = true,
+		private ?bool $concluido = false,
+		private DateTime|string|null $dataConcluido = null
 	) {
 		if (is_string($dataCriacao)) {
 			$this->setDataCriacao($dataCriacao);
@@ -20,6 +22,10 @@ class Atividade implements IUsuario
 		
 		if (is_string($dataEntrega)) {
 			$this->setDataEntrega($dataEntrega);
+		}
+
+		if (is_string($dataConcluido)) {
+			$this->setDataConcluido($dataConcluido);
 		}
 	}
 
@@ -78,6 +84,30 @@ class Atividade implements IUsuario
 	public function setComentarios(Comentario $comentario)
 	{
 		$this->comentarios[] = $comentario;
+	}
+	public function getAtivo()
+	{
+		return $this->ativo;
+	}
+	public function setAtivo(bool $ativo)
+	{
+		$this->ativo = $ativo;
+	}
+	public function getConcluido() 
+	{
+		return $this->concluido;
+	}
+	public function setConcluido(bool $concluido) 
+	{
+		$this->concluido = $concluido;
+	}
+	public function getDataConcluido() 
+	{
+		return $this->dataConcluido;
+	}
+	public function setDataConcluido(DateTime|string|null $data)
+	{
+		$this->dataConcluido = $data;
 	}
 }
 

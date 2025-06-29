@@ -16,7 +16,7 @@ class atividadeDAO
 		$this->db = Conexao::getInstancia();
 	}
 
-	public function cadastrar_atividade(Atividade $atividade)
+	public function cadastrarAtividade(Atividade $atividade)
 	{
 		$sql = "INSERT 
 			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
@@ -37,7 +37,55 @@ class atividadeDAO
 		}
 	}
 
-	public function buscar_uma_atividade(Atividade $atividade)
+	public function alterarAtividade(Atividade $atividade) 
+	{
+		$sql = 
+		"UPDATE atividade 
+		SET (
+			nome_workspace = :nome, 
+			descricao_atividade = :descricao,  
+			data_entrega_atividade = :data_entrega, 
+			data_criacao_atividade = :data_criacao, 
+			ativo_atividade = :ativo, 
+			concluido_atividade = :concluido, 
+			data_concluido_atividade = :data_concluido
+		)";
+
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"nome" => $atividade->getNome(),
+				"descricao" => $atividade->getDescricao(),
+				"data_entrega" => $atividade->getDataEntrega(),
+				"data_criacao" => $atividade->getDataCriacao(),
+				"ativo" => $atividade->getAtivo(),
+				"concluido" => $atividade->getConcluido(),
+				"data_concluido" => $atividade->getConcluido()
+			]);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao atualizar os dados da atividade: " + $e->getMessage());
+		}
+	}
+
+	public function removerAtividade(Atividade $atividade) 
+	{
+		$sql = 
+		"DELETE FROM atividade a
+		WHERE a.id_atividade = :id_atividade";
+
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"id_atividade" => $atividade->getId()
+			]);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao deletar a atividade: " + $e->getMessage());
+		}
+	}
+
+	public function buscarUmaAtividade(Atividade $atividade)
 	{
 		$sql = "SELECT * FROM atividade WHERE id_atividade = :id";
 		try {
@@ -51,11 +99,11 @@ class atividadeDAO
 		}
 	}
 
-	public function buscar_usuarios_em_atividade(Atividade $atividade) {
-
+	public function buscarUsuariosEmAtividade(Atividade $atividade) {
+		return $atividade;
 	}
 
-	public function cadastrar_usuario_em_atividade(Atividade $atividade, Usuario $usuario) {
+	public function cadastrarUsuarioEmAtividade(Atividade $atividade, Usuario $usuario) {
 		// Código abaixo ainda não é usado #TODO aplicar ele como condição para inserir o usuário
 
 		$sqlUsuarioExisteEmWorkspace = 

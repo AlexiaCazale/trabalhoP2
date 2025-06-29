@@ -1,7 +1,7 @@
 <?php
 class usuarioController
 {
-	public function login_usuario(): void
+	public function loginUsuario(): void
 	{
 		if (empty($_POST)) {
 			ViewRenderer::render("form_login");
@@ -12,7 +12,7 @@ class usuarioController
 				senha: $_POST['senha']
 			);
 			$usuarioEncontrado = ConversorStdClass::stdClassToModelClass(
-				$usuarioDAO->buscar_um_usuario($usuarioParaLogin),
+				$usuarioDAO->buscarUmUsuario($usuarioParaLogin),
 				Usuario::class
 			);
 			if (
@@ -37,12 +37,12 @@ class usuarioController
 		}
 	}
 
-	public function mostrar_perfil(): void {
+	public function mostrarPerfil(): void {
 
 		$usuarioDAO = new usuarioDAO();
 		if (isset($_SESSION['usuario_id'])) {
 			$usuarioEncontrado = ConversorStdClass::stdClassToModelClass(
-				$usuarioDAO->buscar_um_usuario(new Usuario(id: $_SESSION['usuario_id'])),
+				$usuarioDAO->buscarUmUsuario(new Usuario(id: $_SESSION['usuario_id'])),
 				Usuario::class
 			);
 		} else {
@@ -55,7 +55,7 @@ class usuarioController
 		]);
 	}
 
-	public function logout_usuario(): void
+	public function logoutUsuario(): void
 	{
 		session_unset();
 		session_destroy();
@@ -64,7 +64,7 @@ class usuarioController
 		exit();
 	}
 
-	public function cadastrar_usuario(): void
+	public function cadastrarUsuario(): void
 	{
 		if (empty($_POST)) {
 			ViewRenderer::render("form_cadastro");
@@ -76,19 +76,19 @@ class usuarioController
 				email: filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL),
 				senha: password_hash($_POST["senha"], PASSWORD_BCRYPT)
 			);
-			$usuarioDAO->cadastrar_usuario($usuario);
+			$usuarioDAO->cadastrarUsuario($usuario);
 
 			header('Location: /trabalhoP2/');
 			exit();
 		}
 	}
 
-	public function buscar_usuario_por_email(): string|bool|null
+	public function buscarUsuarioPorEmail(): string|bool|null
 	{
 		if (empty($_GET)) {
 			return json_encode(["erro" => "Não foi possível buscar os dados"]);
 		} else {
-			$usuariosEncontrados = (new usuarioDAO())->buscar_emails(new Usuario(email: $_GET['email']));
+			$usuariosEncontrados = (new usuarioDAO())->buscarEmails(new Usuario(email: $_GET['email']));
 			echo json_encode($usuariosEncontrados);
 			return null;
 		}
