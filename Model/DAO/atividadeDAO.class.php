@@ -98,26 +98,45 @@ class atividadeDAO
 			die("Erro ao buscar atividade:" . $e->getMessage());
 		}
 	}
+	
+	public function usuarioEstaNaAtividade(Atividade $atividade, Usuario $usuario)
+	{
+		$sql = "SELECT * FROM atividade a 
+				JOIN membro_atividade ma ON a.id_atividade = ma.id_atividade_fk
+				JOIN usuario u ON ma.id_usuario_fk = u.id_usuario 
+				WHERE u.id_usuario = :id_usuario and a.id_atividade = :id_atividade;";
+
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"id_usuario" => $usuario->getId(),
+				"id_atividade" => $atividade->getId()
+			]);
+			$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+			return count($result) !== 0;
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Problema ao buscar um usuário: " . $e->getMessage());
+		}
+	}
 
 	public function buscarUsuariosEmAtividade(Atividade $atividade) {
 		return $atividade;
 	}
 
-	public function cadastrarUsuarioEmAtividade(Atividade $atividade, Usuario $usuario) {
-		// Código abaixo ainda não é usado #TODO aplicar ele como condição para inserir o usuário
-
-		$sqlUsuarioExisteEmWorkspace = 
-		"SELECT u.nome_usuario, a.id_atividade, a.id_workspace_fk, w.id_workspace, ma.id_membro_atividade, mw.id_membro_workspace FROM atividade a
-		JOIN workspace w ON a.id_workspace_fk = w.id_workspace 
-		JOIN membro_atividade ma ON a.id_atividade = ma.id_atividade_fk
-		JOIN usuario u ON ma.id_usuario_fk = u.id_usuario
-		JOIN membro_workspace mw ON u.id_usuario = mw.id_usuario_fk
-		WHERE u.email_usuario = 'bruno2@gmail.com' AND mw.id_usuario_fk = ma.id_usuario_fk AND w.id_workspace = mw.id_workspace_fk;
-		";
-
-
-		$sql = "INSERT INTO membro_atividade (id_usuario_fk, id_atividade_fk) 
-				VALUES (:id_usuario, :id_atividade)";
+	public function cadastrarUsuarioNaAtividade(Atividade $atividade, Usuario $usuario) {
+		$sql = 
+		"INSERT INTO membro_atividade (id_usuario_fk, id_atividade_fk)
+		SELECT :id_usuario, :id_atividade
+		FROM DUAL
+		WHERE EXISTS (
+		    SELECT 1
+		    FROM membro_workspace mw
+		    JOIN atividade a ON mw.id_workspace_fk = a.id_workspace_fk
+		    WHERE mw.id_usuario_fk = :id_usuario
+		      AND a.id_atividade = :id_atividade);";
+		
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([

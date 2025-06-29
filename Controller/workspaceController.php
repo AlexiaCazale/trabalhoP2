@@ -106,7 +106,7 @@ class workspaceController
 			$workspace = new Workspace($_GET['id']);
 			$usuario = new Usuario($_SESSION['usuario_id']);
 			
-			if (!$this->usuarioFazParteDeWorkspace($workspace, $usuario)) { 
+			if (!$this->usuarioFazParteDoWorkspace($workspace, $usuario)) { 
 				// TODO Renderizar a View de erro
 				header("Location: /trabalhoP2");
 				exit();
@@ -131,7 +131,7 @@ class workspaceController
 		]);
 	}
 
-	private function usuarioFazParteDeWorkspace(Workspace $workspace, Usuario $usuario) {
+	private function usuarioFazParteDoWorkspace(Workspace $workspace, Usuario $usuario) {
 		return (new workspaceDAO())->usuarioEstaNoWorkspace($workspace, $usuario);
 	}
 

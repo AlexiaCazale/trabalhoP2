@@ -23,7 +23,6 @@
 		$atividade->setUsuarios(new Usuario()); // Usuário "padrão" #TODO alterar para buscar todos os usuários
 		$dataEntrega = explode(' ', $atividade->getDataEntrega())[0];
 		$divAvatares = CompositionHandler::createUsersAvatar($atividade);
-		// Cards de atividade 
 		echo "
 	<div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%;'>
 
@@ -39,14 +38,41 @@
 			{$atividade->getDataEntrega()}
 		</div>
 
+		<div>
+			{$divAvatares->criar()}
+		</div>
+
 		<div class='card-footer flex justify-content-start' style='display: flex; gap: 10px; align-items: center;'>
-			<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade'>
+			<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
 				Adicionar usuário
 			</button>
 			<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
 			<i type='button' class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
 		</div>
 
+	</div>
+
+	<div class='modal fade' id='modalUsuarioAtividade{$atividade->getId()}' tabindex='-1' aria-labelledby='modalUsuarioAtividade{$atividade->getId()}' aria-hidden='true'>
+		<div class='modal-dialog' role='document'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h5 class='modal-title' id='titleModalWorkspace'>Adicionar usuário à atividade {$atividade->getNome()}</h5>
+				</div>
+				<div class='modal-body'>
+					<form id='form_usuario_workspace' action='/trabalhoP2/usuario_em_atividade' method='POST'>
+						<label for='email_inp'>Email:</label>
+						<input type='email' class='form-control' id='email_inp' name='email' placeholder='E-mail do usuário' style='width: 450px;' >
+
+						<input type='hidden' value='{$atividade->getId()}' name='id_atividade'>
+
+						<div class='modal-footer'>
+							<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
+							<input type='submit' class='btn btn-primary' value='Salvar'>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 	";
 	}

@@ -56,6 +56,6 @@ $route->post("/criar_workspace", [workspaceController::class, "cadastrarWorkspac
 
 $route->post("/usuario_em_workspace", [workspaceController::class, "cadastrarUsuarioNoWorkspace"]);
 
-$route->post("/usuario_em_atividade", []);
+$route->post("/usuario_em_atividade", [atividadeController::class, "cadastrarUsuarioNaAtividade"]);
 
 ?>
