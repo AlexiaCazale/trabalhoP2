@@ -32,18 +32,18 @@ class CompositionHandler
 
         foreach($usuario->getWorkspaces() as $workspace)
         {
-            $divCard = new div(class:"card", style:"'margin-left: 20px; width: 421px; border-radius: 18px; background-color: #BEAFED; border: unset'");
+            $divCard = new div(class:"card", style:"'margin-left: 20px; width: 421px; border-radius: 18px; background-color: #BEAFED; border: unset;'");
 
             $divCardBody = new div(class:"card-body", style:"'border: unset'");
-            $divCardBody->setElemento(new a("/trabalhoP2/workspace?id={$workspace->getId()}", $workspace->getNome()));
+            $divCardBody->setElemento(new a("/trabalhoP2/workspace?id={$workspace->getId()}", $workspace->getNome(), style:"'text-decoration: none; color: black'"));
 
-            $divAvatarIcon = new div(style:"'display: flex; justify-content: space-between; align-items: center'");
+            $divAvatarIcon = new div(style:"'margin-top: 10px; display: flex; justify-content: space-between; align-items: center'");
 
             $divAvatarIcon->setElemento(CompositionHandler::createUsersAvatar($workspace));
             
             $divIcons = new div(style:"'display: flex; gap: 10px'");
-            $divIcons->setElemento(new a("/trabalhoP2", "Alterar"));
-            $divIcons->setElemento(new a("/trabalhoP2", "Remover"));
+            $divIcons->setElemento(new a("/trabalhoP2", iconeAntes:"<i class='ph ph-pencil-simple-line'></i>", style: "'text-decoration: none; color: black'"));
+            $divIcons->setElemento(new a("/trabalhoP2", iconeAntes: "<i class='ph ph-trash' color='red'></i>", style: "'text-decoration: none; color: black'"));
 
             $divAvatarIcon->setElemento($divIcons);
 
@@ -60,18 +60,27 @@ class CompositionHandler
 	public static function createQuickAccess()
 	{
 		$ul = new ul();
-		$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro")));
 
-		$ul->setElemento(new li(new a("/trabalhoP2/form_login", "Login")));
+		if (isset($_SESSION['usuario_primeiro_nome'])){
+			$ul->setElemento(new li(new a("/trabalhoP2", "Home")));
 
-		$ul->setElemento(new li(new a("/trabalhoP2", "Home")));
+			$ul->setElemento(new li(new a("/trabalhoP2/criar_workspace", "Criar Workspace")));
 
-		$ul->setElemento(new li(new a("/trabalhoP2/criar_workspace", "Criar Workspace")));
+			// $ul->setElemento(new li(new a("/trabalhoP2/workspace", "Workspace")));
 
-		$ul->setElemento(new li(new a("/trabalhoP2/workspace", "Workspace")));
+			// $ul->setElemento(new li(new a("/trabalhoP2/criar_atividade", "Criar atividade")));
 
-		$ul->setElemento(new li(new a("/trabalhoP2/criar_atividade", "Criar atividade")));
+			$ul->setElemento(new li(new a("/trabalhoP2/perfil", "Meu perfil")));
+			
+		}else{
 
+			$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro")));
+	
+			$ul->setElemento(new li(new a("/trabalhoP2/form_login", "Login")));
+		}
+
+
+		
 		return $ul;
 	}
 }

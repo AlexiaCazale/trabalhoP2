@@ -1,7 +1,17 @@
-<div style="margin: 50px 20px 10px 20px; display: flex; flex-direction: column; gap: 15px">
+<div style="margin: 50px 20px 10px 40px; display: flex; flex-direction: column; gap: 15px">
 	<div>
 		<h1 style=" font-size: 20px; text-align: start; color: black"><?php echo $workspace->getNome() ?></h1>
 		<p><?php echo $workspace->getDescricao() ?> </p>
+		<?php 
+			foreach ($workspace->getAtividades() as $atividade) {
+			$divAvatares = CompositionHandler::createUsersAvatar($atividade);
+				echo "
+					<div>
+						{$divAvatares->criar()}
+					</div>";
+			}
+		?>
+	
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalWorkspace'>
 			Adicionar usuário
 		</button>
@@ -11,7 +21,8 @@
 	</div>
 </div>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-4" style="margin: 40px;">
+<div style="display: flex; margin: 40px; gap: 25px; flex-wrap: wrap;">
+
 	<?php
 
 	foreach ($workspace->getAtividades() as $atividade) {
@@ -25,7 +36,8 @@
 
 		// Modal para cadastrar um usuário em um workspace
 		echo "
-		<div class='col'> <div class='card h-100' style='background-color: #BEAFED;'>
+		<div class='col'> <div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%; '>
+
 				<div class='card-body'>
 					<h5 class='card-title'>{$atividade->getNome()}</h5>
 					<p class='card-text'>
@@ -101,7 +113,7 @@
 				<h5 class="modal-title" id="titleModalWorkspace">Adicionar usuário ao workspace</h5>
 			</div>
 			<div class="modal-body">
-				<form id="form_usuario_workspace" action="/trabalhoP2/usuario_em_workspace" method="POST">
+				<form id="form_usuario_workspace" method="POST">
 					<label for="email_inp">Email:</label>
 					<input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;" >
 
@@ -178,10 +190,10 @@
 						</div>
 					</div>
 				</form>
-				<div class="modal-footer">
+					<!-- <div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 						<input type="submit" class="btn btn-primary" value="Save changes">
-					</div>
+					</div> -->
 			</div>
 		</div>
 	</div>
