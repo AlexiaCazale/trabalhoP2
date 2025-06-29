@@ -15,7 +15,7 @@ class workspaceDAO
 
 	public function buscarWorkspaces(): array
 	{
-		$sql = "SELECT * FROM workspace";
+		$sql = "SELECT * FROM workspace WHERE ativo_workspace";
 		try {
 			$stm = $this->db->prepare($sql);
 			$stm->execute();
@@ -29,7 +29,7 @@ class workspaceDAO
 
 	public function buscarUmWorkspace(Workspace $workspace): mixed
 	{
-		$sql = "SELECT * FROM workspace WHERE id_workspace = :id_workspace";
+		$sql = "SELECT * FROM workspace WHERE id_workspace = :id_workspace AND ativo_workspace";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -61,12 +61,34 @@ class workspaceDAO
 		}
 	}
 
+	public function alterarWorkspace(Workspace $workspace) {
+
+	}
+
+	public function desativarWorkspace(Workspace $workspace) {
+		$sql = 
+		"UPDATE workspace w 
+		SET nome_workspace = :nome, descricao_workspace = :descricao, ativo_workspace = :ativo";
+
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"nome" => $workspace->getNome(),
+				"descricao" => $workspace->getDescricao(),
+				"ativo" => $workspace->getAtivo()
+			]);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao desativar o workspace: " . $e->getMessage());
+		}
+	}
+
 	public function usuarioEstaNoWorkspace(Workspace $workspace, Usuario $usuario)
 	{
 		$sql = "SELECT * FROM workspace w 
 				JOIN membro_workspace mw ON w.id_workspace = mw.id_workspace_fk
 				JOIN usuario u ON mw.id_usuario_fk = u.id_usuario 
-				WHERE u.id_usuario = :id_usuario and w.id_workspace = :id_workspace;";
+				WHERE u.id_usuario = :id_usuario and w.id_workspace = :id_workspace AND u.ativo_usuario;";
 
 		try {
 			$stmt = $this->db->prepare($sql);
@@ -123,7 +145,7 @@ class workspaceDAO
 	{
 		$sql = "SELECT a.* FROM atividade a
 				JOIN workspace w ON a.id_workspace_fk = w.id_workspace
-				WHERE w.id_workspace = :id;";
+				WHERE w.id_workspace = :id AND a.ativo_atividade;";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([

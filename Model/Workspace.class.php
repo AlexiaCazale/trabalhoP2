@@ -35,6 +35,14 @@ class Workspace implements IAtividade, IUsuario
 	{
 		$this->descricao = $descricao;
 	}
+	public function getAtivo()
+	{
+		return $this->ativo;
+	}
+	public function setAtivo(bool $ativo)
+	{
+		$this->ativo = $ativo;
+	}
 }
 
 ?>

@@ -15,7 +15,7 @@ class usuarioDAO
 
 	public function buscarUsuarios()
 	{
-		$sql = "SELECT * FROM usuario"; // Adicionar um LIMIT e OFFSET; Criar uma classe para fazer a paginação?
+		$sql = "SELECT * FROM usuario WHERE ativo_usuario"; // Adicionar um LIMIT e OFFSET; Criar uma classe para fazer a paginação?
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute();
@@ -28,7 +28,7 @@ class usuarioDAO
 
 	public function buscarUmUsuario(Usuario $usuario): mixed
 	{
-		$sql = "SELECT * FROM usuario WHERE id_usuario = :id OR email_usuario = :email LIMIT 1";
+		$sql = "SELECT * FROM usuario WHERE id_usuario = :id OR email_usuario = :email AND ativo_usuario LIMIT 1";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -44,7 +44,7 @@ class usuarioDAO
 
 	public function buscarEmails(Usuario $usuario)
 	{
-		$sql = "SELECT id_usuario, email_usuario, avatar_usuario FROM usuario WHERE email_usuario LIKE CONCAT(:substr, '%') ;";
+		$sql = "SELECT id_usuario, email_usuario, avatar_usuario FROM usuario WHERE email_usuario LIKE CONCAT(:substr, '%') AND ativo_usuario ;";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -63,7 +63,7 @@ class usuarioDAO
         FROM workspace w 
         JOIN membro_workspace mw ON w.id_workspace = mw.id_workspace_fk 
         JOIN usuario u ON mw.id_usuario_fk = u.id_usuario 
-        WHERE u.id_usuario = :id;";
+        WHERE u.id_usuario = :id and w.ativo_workspace";
 
 		try {
 			$stmt = $this->db->prepare($sql);

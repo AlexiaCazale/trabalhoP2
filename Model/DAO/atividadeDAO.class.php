@@ -64,14 +64,15 @@ class atividadeDAO
 			]);
 		} catch (PDOException $e) {
 			$this->db = null;
-			die("Erro ao atualizar os dados da atividade: " + $e->getMessage());
+			die("Erro ao atualizar os dados da atividade: " . $e->getMessage());
 		}
 	}
 
-	public function removerAtividade(Atividade $atividade) 
+	public function desativarAtividade(Atividade $atividade) 
 	{
 		$sql = 
-		"DELETE FROM atividade a
+		"UPDATE atividade a 
+		SET a.ativo_atividade = false
 		WHERE a.id_atividade = :id_atividade";
 
 		try {
@@ -81,13 +82,13 @@ class atividadeDAO
 			]);
 		} catch (PDOException $e) {
 			$this->db = null;
-			die("Erro ao deletar a atividade: " + $e->getMessage());
+			die("Erro ao deletar a atividade: " . $e->getMessage());
 		}
 	}
 
 	public function buscarUmaAtividade(Atividade $atividade)
 	{
-		$sql = "SELECT * FROM atividade WHERE id_atividade = :id";
+		$sql = "SELECT * FROM atividade WHERE id_atividade = :id and atividade.ativo_atividade";
 		try {
 			$stm = $this->db->prepare($sql);
 			$stm->execute(["id" => $atividade->getId()]);
@@ -104,7 +105,7 @@ class atividadeDAO
 		$sql = "SELECT * FROM atividade a 
 				JOIN membro_atividade ma ON a.id_atividade = ma.id_atividade_fk
 				JOIN usuario u ON ma.id_usuario_fk = u.id_usuario 
-				WHERE u.id_usuario = :id_usuario and a.id_atividade = :id_atividade;";
+				WHERE u.id_usuario = :id_usuario and a.id_atividade = :id_atividade and u.ativo_usuario;";
 
 		try {
 			$stmt = $this->db->prepare($sql);
@@ -126,7 +127,7 @@ class atividadeDAO
 		"SELECT u.* FROM atividade a
 		JOIN membro_atividade ma ON a.id_atividade = ma.id_atividade_fk
 		JOIN usuario u ON ma.id_usuario_fk = u.id_usuario
-		WHERE a.id_atividade = :id";
+		WHERE a.id_atividade = :id and u.ativo_usuario";
 
 		try {
 			$stmt = $this->db->prepare($sql);
