@@ -15,7 +15,6 @@
 	<?php
 
 	foreach ($workspace->getAtividades() as $atividade) {
-		$atividade->setUsuarios(new Usuario()); // Usuário "padrão" #TODO alterar para buscar todos os usuários
 		$dataEntrega = explode(' ', $atividade->getDataEntrega())[0];
 		$divAvatares = CompositionHandler::createUsersAvatar($atividade); // Cria o objeto div para os avatares.
 

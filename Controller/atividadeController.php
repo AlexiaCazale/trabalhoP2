@@ -4,7 +4,6 @@ class atividadeController {
 
     public function cadastrarUsuarioNaAtividade(?Atividade $atividade = null, ?Usuario $usuario = null)
 	{
-		// TODO Alterar os $_GET por $_POST
 
 		if (empty($_POST) and ($atividade === null and $usuario === null)) {
 			return;
