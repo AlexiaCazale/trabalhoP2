@@ -28,7 +28,7 @@ class atividadeDAO
 					"id_workspace_fk" => $atividade->getWorkspace()->getId(),
 					"nome_atividade" => $atividade->getNome(),
 					"descricao_atividade" => $atividade->getDescricao(),
-					"data_entrega" => $atividade->getDataEntrega()
+					"data_entrega" => strtotime($atividade->getDataEntrega())
 				]
 			);
 		} catch (PDOException $e) {
@@ -122,7 +122,22 @@ class atividadeDAO
 	}
 
 	public function buscarUsuariosEmAtividade(Atividade $atividade) {
-		return $atividade;
+		$sql = 
+		"SELECT u.* FROM atividade a
+		JOIN membro_atividade ma ON a.id_atividade = ma.id_atividade_fk
+		JOIN usuario u ON ma.id_usuario_fk = u.id_usuario
+		WHERE a.id_atividade = :id";
+
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				"id" => $atividade->getId()
+			]);
+			return $stmt->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao buscar os usuários da atividade: " . $e->getMessage());
+		}
 	}
 
 	public function cadastrarUsuarioNaAtividade(Atividade $atividade, Usuario $usuario) {

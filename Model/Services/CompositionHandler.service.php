@@ -5,10 +5,23 @@ class CompositionHandler
 	public static function createUsersAvatar(IUsuario $obj, ?string $class = null, ?string $style = null): div // Recebe qualquer estrutura que possua usuários
 	{
 		$div = new div(
-			class: $class == null ? "avatar-stack flex justify-items-end" : $class, 
+			class: $class == null ? "avatar-stack flex justify-items-end" : $class,
 			style: $style == null ? "'display: flex; justify-content: start;'" : $style);
 		foreach ($obj->getUsuarios() as $usuario) {
-			$div->setElemento(new img(class:"avatar", src:$usuario->getAvatar() != null ? $usuario->getAvatar() : "View/Images/user_img.png"));
+            $avatarSrc = $usuario->getAvatar() != null ? $usuario->getAvatar() : "View/Images/user_img.png";
+
+            // Define os atributos para a tooltip
+            $tooltipAttributes = [
+                'title' => $usuario->getNome(), 
+                'data-bs-toggle' => 'tooltip',  
+                'data-bs-placement' => 'top'
+            ];
+
+            $div->setElemento(new img(
+                class: "avatar",
+                src: $avatarSrc,
+                attributes: $tooltipAttributes
+            ));
 		}
 		return $div;
 	}

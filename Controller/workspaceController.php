@@ -82,6 +82,8 @@ class workspaceController
 				comentarios: null // TODO Decidir se os comentários serão removidos
 			);
 
+			var_dump($atividade->getDataEntrega());
+
 			(new atividadeDAO())->cadastrarAtividade($atividade);
 
 			header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
@@ -120,6 +122,10 @@ class workspaceController
 
 			foreach ($workspaceDAO->buscarAtividadesDoWorkspace($workspace) as $atividade) {
 				$workspace->setAtividades(ConversorStdClass::stdClassToModelClass($atividade, Atividade::class));
+			}
+
+			foreach($workspace->getAtividades() as $atividade) {
+				(new atividadeController)->buscarUsuariosEmAtividade($atividade);
 			}
 
 			$avatares = CompositionHandler::createUsersAvatar($workspace, class: "'avatar-stack justify-content-center flex-row'");

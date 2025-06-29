@@ -25,9 +25,8 @@ class atividadeController {
 		$atividadeDAO->cadastrarUsuarioNaAtividade($atividade, $usuario);
 	}
 
-    public function buscarUsuariosEmAtividade() {
+    public function buscarUsuariosEmAtividade(Atividade $atividade) {
         $atividadeDAO = new atividadeDAO();
-        $atividade = new Atividade();
 		$usuarios = $atividadeDAO->buscarUsuariosEmAtividade($atividade);
 
 		foreach ($usuarios as $usuario) {

@@ -6,80 +6,79 @@
 			Adicionar usuário
 		</button>
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalAtividade'>
-			<!-- 
-				<i class="ph ph-plus-circle" style="font-size: 20px;"></i>
-				#TODO Tentar implementar o ícone no text do botão de modo melhor
-			-->
 			Adicionar atividade
 		</button>
 	</div>
 </div>
 
-<div style="display: flex; align-items: center; margin: 40px;">
-
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-4" style="margin: 40px;">
 	<?php
 
 	foreach ($workspace->getAtividades() as $atividade) {
 		$atividade->setUsuarios(new Usuario()); // Usuário "padrão" #TODO alterar para buscar todos os usuários
 		$dataEntrega = explode(' ', $atividade->getDataEntrega())[0];
-		$divAvatares = CompositionHandler::createUsersAvatar($atividade);
+		$divAvatares = CompositionHandler::createUsersAvatar($atividade); // Cria o objeto div para os avatares.
+
+		// Inicia o buffer de saída para capturar o HTML dos avatares
+		ob_start();
+		$divAvatares->criar(); // Esta chamada imprime para o buffer.
+		$avatarsHtml = ob_get_clean(); // Captura o conteúdo do buffer.
+
+		// Modal para cadastrar um usuário em um workspace
 		echo "
-	<div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%;'>
-
-		<div class='card-body'>
-			<h5 class='card-title'>{$atividade->getNome()}</h5>
-			<p class='card-text'>
-				{$atividade->getDescricao()}
-			</p>
-		</div>
-
-		<div class='text-center' style='margin: 10px;'>
-			<b>Para: </b> 
-			{$atividade->getDataEntrega()}
-		</div>
-
-		<div>
-			{$divAvatares->criar()}
-		</div>
-
-		<div class='card-footer flex justify-content-start' style='display: flex; gap: 10px; align-items: center;'>
-			<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
-				Adicionar usuário
-			</button>
-			<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
-			<i type='button' class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
-		</div>
-
-	</div>
-
-	<div class='modal fade' id='modalUsuarioAtividade{$atividade->getId()}' tabindex='-1' aria-labelledby='modalUsuarioAtividade{$atividade->getId()}' aria-hidden='true'>
-		<div class='modal-dialog' role='document'>
-			<div class='modal-content'>
-				<div class='modal-header'>
-					<h5 class='modal-title' id='titleModalWorkspace'>Adicionar usuário à atividade {$atividade->getNome()}</h5>
+		<div class='col'> <div class='card h-100' style='background-color: #BEAFED;'>
+				<div class='card-body'>
+					<h5 class='card-title'>{$atividade->getNome()}</h5>
+					<p class='card-text'>
+						{$atividade->getDescricao()}
+					</p>
+					<div style='margin-top: 15px;'>
+						{$avatarsHtml} </div>
 				</div>
-				<div class='modal-body'>
-					<form id='form_usuario_workspace' action='/trabalhoP2/usuario_em_atividade' method='POST'>
-						<label for='email_inp'>Email:</label>
-						<input type='email' class='form-control' id='email_inp' name='email' placeholder='E-mail do usuário' style='width: 450px;' >
 
-						<input type='hidden' value='{$atividade->getId()}' name='id_atividade'>
+				<div class='text-center' style='margin: 10px;'>
+					<b>Para: </b>
+					{$atividade->getDataEntrega()}
+				</div>
 
-						<div class='modal-footer'>
-							<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
-							<input type='submit' class='btn btn-primary' value='Salvar'>
-						</div>
-					</form>
+				<div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
+					<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
+						Adicionar usuário
+					</button>
+					<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
+					<i type='button' class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
 				</div>
 			</div>
 		</div>
-	</div>
-	";
+		";
+
+		echo "
+		<div class='modal fade' id='modalUsuarioAtividade{$atividade->getId()}' tabindex='-1' aria-labelledby='modalUsuarioAtividade{$atividade->getId()}' aria-hidden='true'>
+			<div class='modal-dialog' role='document'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h5 class='modal-title' id='titleModalUsuarioAtividade{$atividade->getId()}'>Adicionar usuário à atividade</h5>
+					</div>
+					<div class='modal-body'>
+						<form id='form_usuario_workspace' action='/trabalhoP2/usuario_em_atividade' method='POST'>
+							<label for='email_inp'>Email:</label>
+							<input type='email' class='form-control' id='email_inp' name='email' placeholder='E-mail do usuário' style='width: 450px;' >
+
+							<input type='hidden' value='{$atividade->getId()}' name='id_atividade'>
+
+							<div class='modal-footer'>
+								<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
+								<input type='submit' class='btn btn-primary' value='Salvar'>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		";
 	}
 	?>
-
 </div>
-
 
 <script>
 	document.addEventListener("DOMContentLoaded", function () {
@@ -96,7 +95,6 @@
 	});
 </script>
 
-<!-- Modal para registro do usuário no workspace -->
 <div class="modal fade" id="modalWorkspace" tabindex="-1" aria-labelledby="modalWorkspace" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -143,10 +141,7 @@
 			</div>
 			<div class="modal-body">
 				<form id="form_atividade" method="post" action="/trabalhoP2/criar_atividade" novalidate>
-
-					<input type="hidden" name="id_workspace" value="<?= $id ?>" />
-
-
+					
 					<div style="display: flex; flex-direction:column;">
 
 						<div class="col-md-4 position-relative">
