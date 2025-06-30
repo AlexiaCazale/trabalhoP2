@@ -21,97 +21,148 @@ Os traços são usados para implementar propriedades e métodos à uma classe. S
 ## Classes abstratas
 Classes abstratas determinam propriedades e métodos de uma classe. Essa classe não pode ser instânciada diretamente, para ser utilizada ela deve ser herdada (<code>extends</code>) por outra classe. Nesse projeto, é utilizada, por exemplo, para definir características e funcionalidades inatas para todos os componentes. 
 
-## Estrutura para documentação dentro do código
-
-```php
-/**
-     * Texto que explica a função ou método.
-     *
-     * @param Tipo $parametro
-     * @return string|null Valor de retorno.
-     */
-```
-
-<br>
 <h2>Diagramas</h2>
 
-Diagrama de classes **Adicionar os métodos**
+Diagrama de classes
 ```mermaid 
 classDiagram
-    class Workspace{
-        int id_workspace
-        date criacao_workspace
-        Usuario[] usuarios_workspace
-        Atividade[] atividades_workspace
+    direction LR
+
+    class IAtividade {
+        <<Interface>>
+        +getAtividades(): array
+        +setAtividades(Atividade atividade): void
     }
 
-    class Atividade{
-        int id_atividade
-        string titulo_atividade
-        string texto_atividade
-        Usuario[] usuarios_atividade 
+    class IUsuario {
+        <<Interface>>
+        +getUsuarios(): array
+        +setUsuarios(Usuario usuario): void
     }
 
-    class Usuario{
-        int id_usuario
-        string nome_usuario
-        Workspace[] workspaces_usuario
-        Atividade[] atividades_usuario
-    } 
+    class TemAtividade {
+        <<Trait>>
+        -atividades: array
+        +getAtividades(): array
+        +setAtividades(Atividade atividade): void
+    }
 
-    Workspace o--o Atividade
-    Workspace o--o Usuario
-    Atividade o--o Usuario
+    class TemUsuario {
+        <<Trait>>
+        -usuarios: array
+        +getUsuarios(): array
+        +setUsuarios(Usuario usuario): void
+        +limparUsuarios(): void
+    }
 
+    class Usuario {
+        -id: int
+        -nome: string
+        -email: string
+        -senha: string
+        -avatar: string
+        -workspaces: array
+        -ativo: bool
+        +get/set...()
+    }
+    Usuario ..|> IAtividade: implements
+    Usuario ..> TemAtividade: uses
+
+    class Workspace {
+        -id: int
+        -nome: string
+        -descricao: string
+        -ativo: bool
+        -admin: Usuario
+        +get/set...()
+    }
+    Workspace ..|> IUsuario: implements
+    Workspace ..|> IAtividade: implements
+    Workspace ..> TemUsuario: uses
+    Workspace ..> TemAtividade: uses
+
+    class Atividade {
+        -id: int
+        -nome: string
+        -dataEntrega: DateTime
+        -dataCriacao: DateTime
+        -descricao: string
+        -workspace: Workspace
+        -comentarios: array
+        -ativo: bool
+        -concluido: bool
+        -dataConcluido: DateTime
+        +get/set...()
+    }
+    Atividade ..|> IUsuario: implements
+    Atividade ..> TemUsuario: uses
+
+    class Comentario {
+        -id: int
+        -texto: string
+        -usuario: Usuario
+        +get/set...()
+    }
+
+    Workspace "1" -- "0..*" Atividade : contém
+    Workspace "1" -- "1" Usuario : "é administrado por"
+    Workspace "1" -- "0..*" Usuario : "possui membros"
+    Atividade "1" -- "0..*" Usuario : "possui membros"
+    Atividade "1" -- "1" Workspace : pertence a
+    Atividade "1" -- "0..*" Comentario : possui
+    Usuario "1" -- "0..*" Comentario : cria
 ```
 
 
 Diagrama de relacionamentos (banco de dados)
 ```mermaid
 erDiagram
-    WORKSPACE 1--1 MEMBRO_WORKSPACE : Está_em
-    USUARIO 1+--1 MEMBRO_WORKSPACE : Faz_parte_de
-
-    ATIVIDADE 1--1 MEMBRO_ATIVIDADE : Está_em
-    USUARIO 1+--1 MEMBRO_ATIVIDADE : Faz_parte_de
-
-    ATIVIDADE 1--0+ COMENTARIO : Em
-    USUARIO 1--0+ COMENTARIO : Fez
-
-    WORKSPACE {
-        int id_workspace
-        date criacao_workspace
+    USUARIO {
+        int id_usuario PK
+        varchar(200) nome_usuario
+        varchar(200) email_usuario
+        varchar(2000) senha_usuario
+        varchar(1000) avatar_usuario
+        tinyint ativo_usuario
     }
 
-    MEMBRO_WORKSPACE {
-        int id_membro_workspace
-        int id_workspace_fk
-        int id_usuario_fk
+    WORKSPACE {
+        int id_workspace PK
+        varchar(200) nome_workspace
+        varchar(1000) descricao_workspace
+        int id_usuario_admin_fk FK
+        tinyint ativo_workspace
     }
 
     ATIVIDADE {
-        int id_atividade
-        string titulo_atividade
-        string texto_atividade
-        int id_workspace_fk
+        int id_atividade PK
+        int id_workspace_fk FK
+        varchar(500) nome_atividade
+        varchar(5000) descricao_atividade
+        datetime data_entrega_atividade
+        timestamp data_criacao_atividade
+        tinyint ativo_atividade
+        tinyint concluido_atividade
+        timestamp data_concluido_atividade
     }
 
-    MEMBRO_ATIVIDADE {
-        int id_em_atividade
-        int id_usuario_fk
-        int id_atividade_fk
-    } 
-
-    USUARIO {
-        int id_usuario
-        string nome_usuario
-    } 
-
-    COMENTARIO {
-        int id_comentario
-        string texto_comentario
-        int id_atividade_fk
-        int id_usuario_fk
+    membro_workspace {
+        int id_membro_workspace PK
+        int id_workspace_fk FK
+        int id_usuario_fk FK
     }
+
+    membro_atividade {
+        int id_membro_atividade PK
+        int id_usuario_fk FK
+        int id_atividade_fk FK
+    }
+
+    USUARIO ||--o{ WORKSPACE : "administra"
+    WORKSPACE ||--|{ ATIVIDADE : "contém"
+    USUARIO }o--o{ membro_workspace : "participa"
+    WORKSPACE }o--o{ membro_workspace : "contém"
+    USUARIO }o--o{ membro_atividade : "participa"
+    ATIVIDADE }o--o{ membro_atividade : "contém"
 ```
 
