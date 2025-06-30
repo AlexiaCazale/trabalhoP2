@@ -2,15 +2,6 @@
 	<div>
 		<h1 style=" font-size: 20px; text-align: start; color: black"><?php echo $workspace->getNome() ?></h1>
 		<p><?php echo $workspace->getDescricao() ?> </p>
-		<?php
-		foreach ($workspace->getAtividades() as $atividade) {
-			$divAvatares = CompositionHandler::createUsersAvatar($atividade);
-			echo "
-					<div>
-						{$divAvatares->criar()}
-					</div>";
-		}
-		?>
 
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalWorkspace'>
 			Adicionar usuário
@@ -35,7 +26,7 @@
 
 		// Modal para cadastrar um usuário em um workspace
 		echo "
-		<div class='col'> <div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%; '>
+		<div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%; '>
 
 				<div class='card-body'>
 					<h5 class='card-title'>{$atividade->getNome()}</h5>
@@ -55,16 +46,17 @@
 					<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
 						Adicionar usuário
 					</button>
-					<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
+
+					<a href='/trabalhoP2/desativar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i></a>
+
 					<button class='btn btn-link p-0' 
 						data-bs-toggle='modal'
 						data-bs-target='#modalEditarAtividade{$atividade->getId()}'
-						title='Editar Atividade'>
+						title='Editar Atividade' style='text-decoration: none; color: black;'>
     						<i class='ph ph-pencil-simple-line' style='font-size: 20px; cursor: pointer;'></i>
 					</button>
 				</div>
 			</div>
-		</div>
 		";
 
 		// Modal para adicionar um usuário à atividade

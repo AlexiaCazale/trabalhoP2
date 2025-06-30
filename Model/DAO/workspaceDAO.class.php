@@ -62,14 +62,10 @@ class workspaceDAO
 	}
 
 	public function alterarWorkspace(Workspace $workspace) {
-
-	}
-
-	public function desativarWorkspace(Workspace $workspace) {
 		$sql = 
 		"UPDATE workspace w 
 		SET nome_workspace = :nome, descricao_workspace = :descricao, ativo_workspace = :ativo";
-
+	
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -77,6 +73,39 @@ class workspaceDAO
 				"descricao" => $workspace->getDescricao(),
 				"ativo" => $workspace->getAtivo()
 			]);
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao desativar o workspace: " . $e->getMessage());
+		}
+		
+	}
+	
+	public function desativarWorkspace(Workspace $workspace) {
+		$sql = 
+		"DELETE FROM workspace WHERE id_workspace = ?";
+	
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->bindValue(1, $workspace->getId());
+			$stmt->execute();
+			$this->db = null;
+
+		} catch (PDOException $e) {
+			$this->db = null;
+			die("Erro ao desativar o workspace: " . $e->getMessage());
+		}
+	}
+
+	public function desativarAtividade(Atividade $atividade) {
+		$sql = 
+		"DELETE FROM atividade WHERE id_atividade = ?";
+	
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->bindValue(1, $atividade->getId());
+			$stmt->execute();
+			$this->db = null;
+
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Erro ao desativar o workspace: " . $e->getMessage());

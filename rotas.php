@@ -50,6 +50,8 @@ $route->get("/desativar_workspace", [workspaceController::class, "desativarWorks
 
 $route->get("/desativar_atividade", [atividadeController::class, "desativarAtividade"]);
 
+$route->get("/editar_workspace", [workspaceController::class, "alterarWorkspace"]);
+
 //POST
 $route->post("/criar_atividade", [workspaceController::class, "cadastrarAtividadeEmWorkspace"]);
 
@@ -63,7 +65,7 @@ $route->post("/usuario_em_workspace", [workspaceController::class, "cadastrarUsu
 
 $route->post("/usuario_em_atividade", [atividadeController::class, "cadastrarUsuarioNaAtividade"]);
 
-$route->post("/alterar_workspace", [workspaceController::class, "alterarWorkspace"]);
+$route->post("/editar_workspace", [workspaceController::class, "alterarWorkspace"]);
 
 $route->post("/alterar_atividade", [atividadeController::class, "alterarAtividade"]);
 

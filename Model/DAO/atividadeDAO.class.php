@@ -20,7 +20,7 @@ class atividadeDAO
 	{
 		$sql = "INSERT 
 			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
-			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega)";
+			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega_atividade)";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute(
@@ -28,7 +28,7 @@ class atividadeDAO
 					"id_workspace_fk" => $atividade->getWorkspace()->getId(),
 					"nome_atividade" => $atividade->getNome(),
 					"descricao_atividade" => $atividade->getDescricao(),
-					"data_entrega" => strtotime($atividade->getDataEntrega())
+					"data_entrega_atividade" => $atividade->getDataEntrega()
 				]
 			);
 		} catch (PDOException $e) {

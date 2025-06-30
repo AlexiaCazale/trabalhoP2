@@ -75,32 +75,70 @@ class workspaceController
 		if (empty($_POST)) {
 			ViewRenderer::render("criar_atividade");
 		} else {
+			// Corrigido: se a coluna for DATETIME
+			$dataEntrega = $_POST['data_ent_atv'] . ' 00:00:00';
+
 			$atividade = new Atividade(
 				id: 0,
 				nome: $_POST['nome_atv'],
 				descricao: $_POST['desc_atv'],
-				dataEntrega: $_POST['data_ent_atv'],
+				dataEntrega: $dataEntrega,
 				dataCriacao: $dataCriacao,
 				workspace: new Workspace($_POST['id_workspace']),
-				comentarios: null // TODO Decidir se os comentários serão removidos
+				comentarios: null
 			);
-
-			var_dump($atividade->getDataEntrega());
 
 			(new atividadeDAO())->cadastrarAtividade($atividade);
 
 			header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
+			exit();
 		}
 	}
 
+
 	public function alterarWorkspace()
 	{
-		ViewRenderer::render("editar_workspace");
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			// Carregar a view com dados para edição
+			if (empty($_GET['id'])) {
+				header("Location: /trabalhoP2");
+				exit();
+			}
+			$workspaceDAO = new workspaceDAO();
+			$workspace = new Workspace($_GET['id']);
+			$workspace = ConversorStdClass::stdClassToModelClass(
+				$workspaceDAO->buscarUmWorkspace($workspace),
+				Workspace::class
+			);
+
+			ViewRenderer::render("editar_workspace", [
+				"workspace" => $workspace
+			]);
+		} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$workspaceDAO = new workspaceDAO();
+
+			$workspace = new Workspace(
+				id: $_POST['id_workspace'],
+				nome: $_POST['nome'],
+				descricao: $_POST['descricao']
+			);
+
+			$workspaceDAO->alterarWorkspace($workspace);
+
+			header("Location: /trabalhoP2/workspace?id=" . $workspace->getId());
+			exit();
+		}
 	}
+
+
 
 	public function desativarWorkspace()
 	{
-		
+		$workspace = new workspace($_GET["id"]);
+		$workspaceDAO = new workspaceDAO();
+		$workspaceDAO->desativarWorkspace($workspace);
+		header("Location: /trabalhoP2/");
+		die();
 	}
 
 	public function mostrarAtividadeWorkspace()
