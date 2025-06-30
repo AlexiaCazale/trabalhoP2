@@ -55,8 +55,22 @@ class atividadeController {
 
 	public function desativarAtividade()
 	{
-		
+		$atividade = new Atividade($_GET["id"]);
+		$atividadeDAO = new atividadeDAO();
+
+		$atividadeDAO->desativarAtividade($atividade);
+
+		$atividade->setWorkspace(
+			ConversorStdClass::stdClassToModelClass(
+				$atividadeDAO->buscarWorkspaceDaAtividade($atividade),
+				Workspace::class
+			)
+		);
+
+		header("Location: /trabalhoP2/workspace?id=" . $atividade->getWorkspace()->getId());
+		exit();
 	}
+
 
     public function buscarUsuariosEmAtividade(Atividade $atividade) {
         $atividadeDAO = new atividadeDAO();

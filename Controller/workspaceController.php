@@ -89,17 +89,54 @@ class workspaceController
 			(new atividadeDAO())->cadastrarAtividade($atividade);
 
 			header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
+			exit();
 		}
 	}
 
+
 	public function alterarWorkspace()
 	{
-		ViewRenderer::render("editar_workspace");
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			// Carregar a view com dados para edição
+			if (empty($_GET['id'])) {
+				header("Location: /trabalhoP2");
+				exit();
+			}
+			$workspaceDAO = new workspaceDAO();
+			$workspace = new Workspace($_GET['id']);
+			$workspace = ConversorStdClass::stdClassToModelClass(
+				$workspaceDAO->buscarUmWorkspace($workspace),
+				Workspace::class
+			);
+
+			ViewRenderer::render("editar_workspace", [
+				"workspace" => $workspace
+			]);
+		} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$workspaceDAO = new workspaceDAO();
+
+			$workspace = new Workspace(
+				id: $_POST['id_workspace'],
+				nome: $_POST['nome'],
+				descricao: $_POST['descricao']
+			);
+
+			$workspaceDAO->alterarWorkspace($workspace);
+
+			header("Location: /trabalhoP2/workspace?id=" . $workspace->getId());
+			exit();
+		}
 	}
+
+
 
 	public function desativarWorkspace()
 	{
-		
+		$workspace = new workspace($_GET["id"]);
+		$workspaceDAO = new workspaceDAO();
+		$workspaceDAO->desativarWorkspace($workspace);
+		header("Location: /trabalhoP2/");
+		die();
 	}
 
 	public function mostrarAtividadeWorkspace()

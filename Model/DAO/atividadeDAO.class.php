@@ -28,6 +28,7 @@ class atividadeDAO
 					"id_workspace_fk" => $atividade->getWorkspace()->getId(),
 					"nome_atividade" => $atividade->getNome(),
 					"descricao_atividade" => $atividade->getDescricao(),
+					"data_entrega_atividade" => $atividade->getDataEntrega()
 					"data_entrega" => $atividade->getDataEntrega()->format('Y-m-d H:i:s')
 				]
 			);
