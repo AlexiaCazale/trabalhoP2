@@ -18,7 +18,7 @@ class atividadeController {
 		$usuarioEncontrado = $usuarioDAO->buscarUmUsuario($usuario);
 
 		if (!$usuarioEncontrado) {
-			die("Usuário não encontrado com o email informado.");
+			throw new Exception("Usuário não encontrado com o email informado.", 400);
 		}
 
 		try {
@@ -27,7 +27,7 @@ class atividadeController {
 				Usuario::class
 			);
 		} catch (Exception $e) {
-			die("Erro ao converter usuário: " . $e->getMessage());
+			throw new Exception(code: 500);
 		}
 
 		$atividadeDAO->cadastrarUsuarioNaAtividade($atividade, $usuario);

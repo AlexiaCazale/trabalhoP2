@@ -224,17 +224,6 @@ HTML;
 				<form id="form_usuario_workspace" method="POST" action="usuario_em_workspace">
 					<label for="email_inp">Email:</label>
 					<input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;">
-					<!--
-					<select class="form-select" name="id_usuario" required>
-						<option selected disabled value="">Selecione um membro...</option>
-						<?php foreach ($usuarios as $user): ?>
-							<option value="<?= $user->id_usuario ?>">
-							<?= $user->nome_usuario ?> (<?= $user->email_usuario ?>)
-							</option>
-						<?php endforeach; ?>
-					</select>
-					-->
-
 
 					<input type="hidden" value="<?= $workspace->getId() ?>" name="id_workspace">
 

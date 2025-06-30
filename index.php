@@ -46,8 +46,14 @@ spl_autoload_register(function ($class) {
 		require_once 'Controller/' . $class . '.php';
 	} else if (file_exists('Model/' . $class . '.class.php')) {
 		require_once 'Model/' . $class . '.class.php';
-	} else if (file_exists('Model/Composite/' . $class . '.class.php')) {
-		require_once 'Model/Composite/' . $class . '.class.php';
+	} else if (file_exists('Security/' . $class . '.sec.php')) {
+		require_once 'Security/' . $class . '.sec.php';
+	} else if (file_exists('View/Helpers/' . $class . '.helper.php')) {
+		require_once 'View/Helpers/' . $class . '.helper.php';
+	} else if (file_exists('View/Helpers/Interfaces/' . $class . '.interface.php')) {
+		require_once 'View/Helpers/Interfaces/' . $class . '.interface.php';
+	} else if (file_exists('View/Helpers/Composite/' . $class . '.class.php')) {
+		require_once 'View/Helpers/Composite/' . $class . '.class.php';
 	} else if (file_exists('Model/DAO/' . $class . '.class.php')) {
 		require_once 'Model/DAO/' . $class . '.class.php';
 	} else if (file_exists('Model/Traits/' . $class . '.php')) {
