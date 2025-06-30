@@ -35,7 +35,9 @@ class CompositionHandler
 
             if ($index >= 4) { // Coloque o valor X onde X + 1 é o a quantidade de avatares que devem ser mostrados
                 $numeroDeAvataresExtras = count($obj->getUsuarios()) - 5;
-                $div->setElemento(new span(texto:"+{$numeroDeAvataresExtras}", class:"avatar"));
+                if ($numeroDeAvataresExtras > 0) {
+                    $div->setElemento(new span(texto:"+{$numeroDeAvataresExtras}", class:"avatar"));
+                }
                 $div->reverseElementos();
                 break;
             }
