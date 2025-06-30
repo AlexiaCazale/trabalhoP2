@@ -42,6 +42,7 @@
 	  </div>
 
 	  <div class="text-end" style="margin-top: 10px">
+		<button class="btn btn-subtle me-2" onclick="history.back()">Voltar</button>
 		<input type="reset" class="btn btn-subtle me-2" value="Cancelar" />
 		<input type="submit" class="btn btn-primary" value="Entrar" />
 	  </div>

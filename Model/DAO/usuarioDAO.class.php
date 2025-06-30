@@ -35,7 +35,7 @@ class usuarioDAO
 				"id" => $usuario->getId(),
 				"email" => $usuario->getEmail()
 			]);
-			return $stmt->fetchAll(PDO::FETCH_OBJ)[0];
+			return $stmt->fetch(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Erro ao buscar atividade: " . $e->getMessage());

@@ -53,7 +53,8 @@
     </div>
 
     <div class="text-end" style="margin-top: 20px;">
-      <input type="reset" class="btn btn-subtle me-2" value="Cancelar" />
+      <button class="btn btn-subtle me-2" onclick="history.back()">Voltar</button>
+      <input type="reset" class="btn btn-subtle me-2" value="Limpar" />
       <input type="submit" class="btn btn-primary" value="Cadastrar" />
     </div>
 
