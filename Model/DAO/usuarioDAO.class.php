@@ -27,20 +27,20 @@ class usuarioDAO
 	}
 
 	public function buscarUmUsuario(Usuario $usuario): mixed
-	{
-		$sql = "SELECT * FROM usuario WHERE id_usuario = :id OR email_usuario = :email AND ativo_usuario LIMIT 1";
-		try {
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute([
-				"id" => $usuario->getId(),
-				"email" => $usuario->getEmail()
-			]);
-			return $stmt->fetch(PDO::FETCH_OBJ);
-		} catch (PDOException $e) {
-			$this->db = null;
-			die("Erro ao buscar atividade: " . $e->getMessage());
-		}
-	}
+{
+    $sql = "SELECT * FROM usuario WHERE id_usuario = :id_usuario AND ativo_usuario";
+    try {
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            "id_usuario" => $usuario->getId()
+        ]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    } catch (PDOException $e) {
+        $this->db = null;
+        die("Problema ao buscar um usuário: " . $e->getMessage());
+    }
+}
+
 
 	public function buscarEmails(Usuario $usuario)
 	{

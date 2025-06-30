@@ -19,24 +19,22 @@ class atividadeDAO
 	public function cadastrarAtividade(Atividade $atividade)
 	{
 		$sql = "INSERT 
-        INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
-        VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega)";
+			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
+			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega)";
 		try {
 			$stmt = $this->db->prepare($sql);
-			$stmt->execute(
-				[
-					"id_workspace_fk" => $atividade->getWorkspace()->getId(),
-					"nome_atividade" => $atividade->getNome(),
-					"descricao_atividade" => $atividade->getDescricao(),
-					"data_entrega_atividade" => $atividade->getDataEntrega(),
-					"data_entrega" => $atividade->getDataEntrega()->format('Y-m-d H:i:s')
-				]
-			);
+			$stmt->execute([
+				"id_workspace_fk" => $atividade->getWorkspace()->getId(),
+				"nome_atividade" => $atividade->getNome(),
+				"descricao_atividade" => $atividade->getDescricao(),
+				"data_entrega" => $atividade->getDataEntrega()->format('Y-m-d H:i:s')  // apenas esta
+			]);
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Erro ao cadastrar atividade:" . $e->getMessage());
 		}
 	}
+
 
 	public function alterarAtividade(Atividade $atividade)
 	{
