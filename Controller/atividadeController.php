@@ -2,7 +2,7 @@
 
 class atividadeController {
 
-    public function cadastrarUsuarioNaAtividade(?Atividade $atividade = null, ?Usuario $usuario = null)
+   public function cadastrarUsuarioNaAtividade(?Atividade $atividade = null, ?Usuario $usuario = null)
 	{
 		if (empty($_POST) and ($atividade === null and $usuario === null)) {
 			return;
@@ -10,12 +10,33 @@ class atividadeController {
 			$usuario = new Usuario($_POST['id_usuario']);
 			$atividade = new Atividade($_POST['id_atividade']);
 		}
+
+		$usuarioDAO = new usuarioDAO();
 		$atividadeDAO = new atividadeDAO();
+
+		// Busca o usuário no banco
+		$usuarioEncontrado = $usuarioDAO->buscarUmUsuario($usuario);
+
+		if (!$usuarioEncontrado) {
+			die("Usuário não encontrado com o email informado.");
+		}
+
+		try {
+			$usuario = ConversorStdClass::stdClassToModelClass(
+				$usuarioEncontrado,
+				Usuario::class
+			);
+		} catch (Exception $e) {
+			die("Erro ao converter usuário: " . $e->getMessage());
+		}
+
 		$atividadeDAO->cadastrarUsuarioNaAtividade($atividade, $usuario);
 
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+		// Após cadastro, pode redirecionar para a página anterior ou workspace
+		header("Location: " . ($_SERVER['HTTP_REFERER'] ?? "/trabalhoP2/workspace"));
 		exit();
 	}
+
 
     public function alterarAtividade()
 	{

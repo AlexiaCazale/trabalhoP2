@@ -32,25 +32,33 @@ class workspaceController
 	}
 
 	public function cadastrarUsuarioNoWorkspace(?Workspace $workspace = null, ?Usuario $usuario = null)
-	{
+{
+    if (empty($_POST) and ($workspace === null and $usuario === null)) {
+        return;
+    } else if ($workspace == null and $usuario === null) {
+        // Aqui pegamos o usuário pelo id_usuario recebido no POST
+        $usuario = new Usuario(id: $_POST['id_usuario']);
+        $workspace = new Workspace($_POST['id_workspace']);
+    }
 
-		if (empty($_POST) and ($workspace === null and $usuario === null)) {
-			return;
-		} else if ($workspace == null and $usuario === null) {
-			$usuario = new Usuario(email: $_POST['email']);
-			$workspace = new Workspace($_POST['id_workspace']);
-		}
-		$usuarioDAO = new usuarioDAO();
-		$workspaceDAO = new workspaceDAO();
-		try {
-			$usuario = ConversorStdClass::stdClassToModelClass(
-				$usuarioDAO->buscarUmUsuario($usuario),
-				Usuario::class
-			);
-		} catch (Exception $e) {
-			die("Erro ao buscar o usuário: " . $e->getMessage());
-		}
-		$workspaceDAO->cadastrarUsuarioNoWorkspace($workspace, $usuario);
+    $usuarioDAO = new usuarioDAO();
+    $workspaceDAO = new workspaceDAO();
+
+    try {
+        // Busca o usuário pelo id no banco
+        $usuarioEncontrado = $usuarioDAO->buscarUmUsuario($usuario);
+        if (!$usuarioEncontrado) {
+            die("Usuário não encontrado com o ID informado.");
+        }
+        $usuario = ConversorStdClass::stdClassToModelClass(
+            $usuarioEncontrado,
+            Usuario::class
+        );
+    } catch (Exception $e) {
+        die("Erro ao buscar o usuário: " . $e->getMessage());
+    }
+
+    $workspaceDAO->cadastrarUsuarioNoWorkspace($workspace, $usuario);
 
 		header("Location: {$_SERVER['HTTP_REFERER']}");
 		exit();
@@ -61,7 +69,7 @@ class workspaceController
 		$workspaceDAO = new workspaceDAO();
 		$usuarios = $workspaceDAO->buscarUsuariosDoWorkspace($workspace);
 
-		$workspace->limparUsuarios(); // ✅ Limpa antes de adicionar
+		$workspace->limparUsuarios();
 
 		foreach ($usuarios as $usuario) {
 			$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuario, Usuario::class));

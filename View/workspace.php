@@ -4,7 +4,7 @@
 		<p><?php echo $workspace->getDescricao() ?> </p>
 
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalWorkspace'>
-			Adicionar usuário
+			Adicionar usuário ao <?php echo $workspace->getNome() ?>
 		</button>
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalAtividade'>
 			Adicionar atividade
@@ -46,22 +46,20 @@
                             {$avataresHtml} 
                         </div>
 
-                        <div class='text-center' style='margin: 10px;'>
-                            <b>Para: </b>
-                            {$atividade->getDataEntrega()->format('d/m/Y')}
-                        </div>
-                    </div>
-                </div>
+				<div class='text-center' style='margin: 10px;'>
+					<b>Para: </b>
+					" . $atividade->getDataEntrega()->format('d/m/Y') . "
+				</div>
 
-                <div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
-                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
-                        Adicionar usuário
-                    </button>
+				<div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
+					<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
+						Adicionar usuário
+					</button>
+
 					<a href='/trabalhoP2/desativar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i></a>
                     <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalEditarAtividade{$atividade->getId()}'>
                         <i class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
                     </button>
-                    <i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
                 </div>
             </div>
         </div>
@@ -161,7 +159,17 @@
 			<div class="modal-body">
 				<form id="form_usuario_workspace" method="POST" action="usuario_em_workspace">
 					<label for="email_inp">Email:</label>
-					<input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;">
+					<!-- <input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;"> -->
+						<select class="form-select" name="id_usuario" required>
+						<option selected disabled value="">Selecione um membro...</option>
+						<?php foreach ($usuarios as $user): ?>
+							<option value="<?= $user->id_usuario ?>">
+							<?= $user->nome_usuario ?> (<?= $user->email_usuario ?>)
+							</option>
+						<?php endforeach; ?>
+						</select>
+
+
 
 					<input type="hidden" value="<?= $workspace->getId() ?>" name="id_workspace">
 
@@ -172,7 +180,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+	</div>	
 </div>
 
 <script>
@@ -206,7 +214,7 @@
 							<input type="text" class="form-control" id="nome_inp" name="nome_atv"
 								placeholder="Defina um nome para a atividade" style="width: 450px;" required>
 							<div class="invalid-feedback">
-								Campo obrigatório!.
+								Campo obrigatório!
 							</div>
 						</div>
 
@@ -215,7 +223,7 @@
 							<input type="date" class="form-control" id="data_inp" name="data_ent_atv"
 								placeholder="Defina um nome para a atividade" style="width: 450px;" required>
 							<div class="invalid-feedback">
-								Campo obrigatório!.
+								Campo obrigatório!
 							</div>
 						</div>
 
@@ -224,7 +232,7 @@
 							<textarea class="form-control" id="desc_inp" name="desc_atv"
 								placeholder="Escreva uma descrição para sua atividade" style="width: 450px;" required></textarea>
 							<div class="invalid-feedback">
-								Campo obrigatório!.
+								Campo obrigatório!
 							</div>
 						</div>
 
