@@ -14,28 +14,29 @@
 
 <div class="row row-cols-1 row-cols-md-3 row-cols-lg-6 g-4" style="margin: 40px;">
 
-	<?php
+    <?php
+    foreach ($workspace->getAtividades() as $atividade) {
+        // Bloco para gerar avatares (pode continuar o mesmo)
+		$avataresHtml = CompositionHandler::compositionAfterBuffer(CompositionHandler::createUsersAvatar($atividade));
 
-	foreach ($workspace->getAtividades() as $atividade) {
-		$divAvatares = CompositionHandler::createUsersAvatar($atividade); // Cria o objeto div para os avatares.
+        // 2. A classe 'col' é a única coisa necessária no item filho.
+        // O Bootstrap cuidará do tamanho automaticamente.
+        echo "
+        <div class='col'  style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%; '> 
+            <div class='card h-100' style='background-color: #BEAFED;'>
+                <div class='card-body d-flex flex-column'>
+                    
+                    <div>
+                        <h5 class='card-title'>{$atividade->getNome()}</h5>
+                        <p class='card-text activity-card-description'>
+                            {$atividade->getDescricao()}
+                        </p>
+                    </div>
 
-		// Inicia o buffer de saída para capturar o HTML dos avatares
-		ob_start();
-		$divAvatares->criar(); // Esta chamada imprime para o buffer.
-		$avatarsHtml = ob_get_clean(); // Captura o conteúdo do buffer.
-
-		// Modal para cadastrar um usuário em um workspace
-		echo "
-		<div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%; '>
-
-				<div class='card-body'>
-					<h5 class='card-title'>{$atividade->getNome()}</h5>
-					<p class='card-text'>
-						{$atividade->getDescricao()}
-					</p>
-					<div style='margin-top: 15px;'>
-						{$avatarsHtml} </div>
-				</div>
+                    <div class='mt-auto'>
+                        <div style='margin-top: 15px;'>
+                            {$avataresHtml} 
+                        </div>
 
                         <div class='text-center' style='margin: 10px;'>
                             <b>Para: </b>
@@ -44,22 +45,19 @@
                     </div>
                 </div>
 
-				<div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
-					<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
-						Adicionar usuário
-					</button>
-
+                <div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
+                        Adicionar usuário
+                    </button>
 					<a href='/trabalhoP2/desativar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i></a>
-
-					<button class='btn btn-link p-0' 
-						data-bs-toggle='modal'
-						data-bs-target='#modalEditarAtividade{$atividade->getId()}'
-						title='Editar Atividade' style='text-decoration: none; color: black;'>
-    						<i class='ph ph-pencil-simple-line' style='font-size: 20px; cursor: pointer;'></i>
-					</button>
-				</div>
-			</div>
-		";
+                    <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalEditarAtividade{$atividade->getId()}'>
+                        <i class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
+                    </button>
+                    <i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
+                </div>
+            </div>
+        </div>
+        ";
 
 		// Modal para adicionar um usuário à atividade
 		echo <<<HTML
