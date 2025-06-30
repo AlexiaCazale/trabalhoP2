@@ -14,25 +14,25 @@
 
 <div class="row row-cols-1 row-cols-md-3 row-cols-lg-6 g-4" style="margin: 40px;">
 
-    <?php
-    foreach ($workspace->getAtividades() as $atividade) {
-        $avataresHtml = CompositionHandler::compositionAfterBuffer(CompositionHandler::createUsersAvatar($atividade));
-        $opcoesDeUsuarioHtml = '';
-        
-        $idsDeUsuariosNaAtividade = array_map(function($u) {
-            return $u->getId();
-        }, $atividade->getUsuarios());
+	<?php
+	foreach ($workspace->getAtividades() as $atividade) {
+		$avataresHtml = CompositionHandler::compositionAfterBuffer(CompositionHandler::createUsersAvatar($atividade));
+		$opcoesDeUsuarioHtml = '';
 
-        foreach ($workspace->getUsuarios() as $usuario) {
-            if (!in_array($usuario->getId(), $idsDeUsuariosNaAtividade)) {
-                $opcoesDeUsuarioHtml .= "<option value='{$usuario->getId()}'>" . htmlspecialchars($usuario->getNome()) . "</option>";
-            }
-        }
+		$idsDeUsuariosNaAtividade = array_map(function ($u) {
+			return $u->getId();
+		}, $atividade->getUsuarios());
 
-        echo "
-        <div class='col'> 
-            <div class='card h-100' style='background-color: #BEAFED;'>
-                <div class='card-body d-flex flex-column'>
+		foreach ($workspace->getUsuarios() as $usuario) {
+			if (!in_array($usuario->getId(), $idsDeUsuariosNaAtividade)) {
+				$opcoesDeUsuarioHtml .= "<option value='{$usuario->getId()}'>" . htmlspecialchars($usuario->getNome()) . "</option>";
+			}
+		}
+
+		echo "
+		<div class='col'> 
+			<div class='card h-100' " . ($atividade->getConcluido() ? "style='background-color:rgb(17, 198, 211);'" : "style='background-color: #BEAFED;'") . ">
+				<div class='card-body d-flex flex-column'>
                     <div>
                         <h5 class='card-title'>{$atividade->getNome()}</h5>
                         <p class='card-text activity-card-description'>
@@ -241,7 +241,7 @@ HTML;
 				</form>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 
 <script>

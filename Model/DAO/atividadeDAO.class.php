@@ -60,7 +60,7 @@ class atividadeDAO
 		]);
 	}
 
-	public function concluirAtividade(Atividade $atividade)
+	public function finalizar(Atividade $atividade)
 	{
 		$sql = 
 		"UPDATE atividade 
@@ -70,7 +70,7 @@ class atividadeDAO
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute([
 			"id" => $atividade->getId(),
-			"data_atual" => time()
+			"data_atual" => date("Y-m-d H:i:s", (time() - 18000)) // Subtrai 5 horas para acertar o fuso
 		]);
 	}
 

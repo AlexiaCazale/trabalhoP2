@@ -14,7 +14,7 @@ class Atividade implements IUsuario
 		private ?array $comentarios = [],
 		private ?bool $ativo = true,
 		private ?bool $concluido = false,
-		private DateTime|string $dataConcluido = ""
+		private DateTime|string|null $dataConcluido = null
 	) {
 		// As chamadas no construtor já estavam corretas
         if (is_string($dataCriacao)) {
@@ -114,13 +114,15 @@ class Atividade implements IUsuario
 	{
 		return $this->dataConcluido;
 	}
-	 public function setDataConcluido(DateTime|string $data): void
+	 public function setDataConcluido(DateTime|string|null $data): void
     {
         if (is_string($data) && !empty($data)) {
             $this->dataConcluido = new DateTime($data);
         } else if ($data instanceof DateTime) {
             $this->dataConcluido = $data;
-        } 
+        } else {
+			$this->dataConcluido = null;
+		}
     }
 }
 
