@@ -64,7 +64,9 @@ class atividadeDAO
 	{
 		$sql = 
 		"UPDATE atividade 
-		SET concluido_atividade = !concluido_atividade, data_concluido_atividade = :data_atual
+		SET 
+		concluido_atividade = !concluido_atividade, 
+		data_concluido_atividade = CASE WHEN !concluido_atividade THEN NULL ELSE :data_atual END
 		WHERE id_atividade = :id";
 
 		$stmt = $this->db->prepare($sql);
