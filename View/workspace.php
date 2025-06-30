@@ -9,6 +9,9 @@
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalAtividade'>
 			Adicionar atividade
 		</button>
+        <button type='button' class='btn btn-info' data-bs-toggle='modal' data-bs-target='#modalDetalhesWorkspace'>
+            Detalhes do Workspace
+        </button>
 		<?php CompositionHandler::compositionAfterBuffer($avatares) ?>
 	</div>
 </div>
@@ -309,4 +312,55 @@ HTML;
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class='modal fade' id='modalDetalhesWorkspace' tabindex='-1' aria-labelledby='modalDetalhesWorkspaceLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h5 class='modal-title' id='modalDetalhesWorkspaceLabel'>Detalhes do Workspace: <?= htmlspecialchars($workspace->getNome()) ?></h5>
+                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+            </div>
+            <div class='modal-body'>
+                <h6>Descrição</h6>
+                <p><?= htmlspecialchars($workspace->getDescricao()) ?></p>
+                <hr>
+                <h6>Membros do Workspace</h6>
+                <table class='table table-striped'>
+                    <thead>
+                        <tr>
+                            <th scope='col' style='width: 10%;'>Avatar</th>
+                            <th scope='col'>Nome</th>
+                            <th scope='col'>Email</th>
+                            <th scope='col' class='text-center'>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($workspace->getUsuarios())): ?>
+                            <tr><td colspan='4'>Nenhum usuário neste workspace.</td></tr>
+                        <?php else: ?>
+                            <?php foreach ($workspace->getUsuarios() as $usuario): ?>
+                                <?php
+                                $avatarSrc = $usuario->getAvatar() ? htmlspecialchars($usuario->getAvatar()) : 'View/Images/user.png';
+                                ?>
+                                <tr>
+                                    <td><img src='<?= $avatarSrc ?>' style='width: 40px; height: 40px; border-radius: 50%; object-fit: cover;' alt='Avatar de <?= htmlspecialchars($usuario->getNome()) ?>'></td>
+                                    <td><?= htmlspecialchars($usuario->getNome()) ?></td>
+                                    <td><?= htmlspecialchars($usuario->getEmail()) ?></td>
+                                    <td class='text-center'>
+                                        <a href='/trabalhoP2/remover_usuario_workspace?id_workspace=<?= $workspace->getId() ?>&id_usuario=<?= $usuario->getId() ?>' class='btn btn-danger btn-sm' onclick='return confirm("Tem certeza que deseja remover este usuário do workspace?");' title='Remover Usuário'>
+                                            <i class='ph ph-trash'></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+            </div>
+        </div>
+    </div>
 </div>

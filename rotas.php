@@ -60,6 +60,8 @@ $route->get("/remover_usuario_atividade", [atividadeController::class, "removerU
 
 $route->get("/finalizar_atividade", [atividadeController::class, "finalizarAtividade"]);
 
+$route->get("/remover_usuario_workspace", [workspaceController::class, "removerUsuarioDoWorkspace"]);
+
 //POST
 $route->post("/criar_atividade", [workspaceController::class, "cadastrarAtividadeEmWorkspace"]);
 

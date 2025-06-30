@@ -74,7 +74,6 @@ class workspaceDAO
 			"ativo" => $workspace->getAtivo(),
 			"id" => $workspace->getId()
 		]);
-
 	}
 
 	public function desativarWorkspace(Workspace $workspace)
@@ -132,14 +131,31 @@ class workspaceDAO
 
 	public function removerUsuarioDoWorkspace(Workspace $workspace, Usuario $usuario)
 	{
-		$sql = 
-		"DELETE FROM membro_workspace 
-		WHERE id_workspace_fk = :id_workspace AND id_usuario_fk = :id_usuario;";
+		$sql =
+			"DELETE FROM membro_workspace
+    WHERE id_workspace_fk = :id_workspace AND id_usuario_fk = :id_usuario;";
 
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute([
 			"id_workspace" => $workspace->getId(),
 			"id_usuario" => $usuario->getId()
+		]);
+	}
+
+	public function removerUsuarioDeTodasAtividadesNoWorkspace(Workspace $workspace, Usuario $usuario)
+	{
+		$sql = "
+        DELETE ma
+        FROM membro_atividade ma
+        JOIN atividade a ON ma.id_atividade_fk = a.id_atividade
+        WHERE ma.id_usuario_fk = :id_usuario
+          AND a.id_workspace_fk = :id_workspace;
+    ";
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([
+			'id_usuario' => $usuario->getId(),
+			'id_workspace' => $workspace->getId(),
 		]);
 	}
 

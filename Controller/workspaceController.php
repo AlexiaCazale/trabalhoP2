@@ -90,15 +90,48 @@ class workspaceController
 		exit();
 	}
 
-	public function removerUsuarioDoWorkspace() 
-	{
-		$workspace = new Workspace($_GET['id_workspace']);
-		$usuario = new Usuario($_GET['id_usuario']);
+	public function removerUsuarioDoWorkspace()
+{
+    UserAuth::userIsLogged();
 
-		$workspaceDAO = new workspaceDAO();
+    if (isset($_GET['id_workspace']) && isset($_GET['id_usuario'])) {
+        $workspaceId = $_GET['id_workspace'];
+        $usuarioARemoverId = $_GET['id_usuario'];
 
-		$workspaceDAO;
-	}
+        $workspace = new Workspace($workspaceId);
+        $usuario = new Usuario($usuarioARemoverId);
+        $workspaceDAO = new workspaceDAO();
+
+        // Busca os dados completos do workspace, incluindo o admin
+        $workspaceCompleto = ConversorStdClass::stdClassToModelClass(
+            $workspaceDAO->buscarUmWorkspace($workspace),
+            Workspace::class
+        );
+        $this->buscarAdminDoWorkspace($workspaceCompleto);
+
+        if ($workspaceCompleto->getAdmin()->getId() == $usuarioARemoverId) {
+            ViewRenderer::renderErrorPage(
+                403, // Forbidden
+                "Ação não permitida",
+                "O administrador não pode ser removido do workspace. Para removê-lo, você deve primeiro transferir a administração para outro membro."
+            );
+            exit();
+        }
+
+        if (!PermissionManager::loggedUserIsAdmin($workspace)) {
+            ViewRenderer::renderErrorPage(403, "Acesso Negado", "Apenas o administrador pode remover um usuário do workspace.");
+            exit();
+        }
+
+        $workspaceDAO->removerUsuarioDeTodasAtividadesNoWorkspace($workspace, $usuario);
+        $workspaceDAO->removerUsuarioDoWorkspace($workspace, $usuario);
+
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit();
+    } else {
+        throw new Exception("Dados insuficientes para remover o usuário.", 400);
+    }
+}
 
 	public static function buscarUsuariosEmWorkspace(Workspace $workspace)
 	{
