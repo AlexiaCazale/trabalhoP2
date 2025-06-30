@@ -123,7 +123,7 @@ class atividadeController {
 	public function finalizarAtividade() 
 	{
 		$atividade = new Atividade($_GET['id']);
-		(new atividadeDAO())->finalizar($atividade);
+		(new atividadeDAO())->alterarConcluidoAtividade($atividade);
 
 		header("Location: {$_SERVER['HTTP_REFERER']}");
 		exit();

@@ -60,11 +60,11 @@ class atividadeDAO
 		]);
 	}
 
-	public function finalizar(Atividade $atividade)
+	public function alterarConcluidoAtividade(Atividade $atividade)
 	{
 		$sql = 
 		"UPDATE atividade 
-		SET concluido_atividade = true, data_concluido_atividade = :data_atual
+		SET concluido_atividade = !concluido_atividade, data_concluido_atividade = :data_atual
 		WHERE id_atividade = :id";
 
 		$stmt = $this->db->prepare($sql);
