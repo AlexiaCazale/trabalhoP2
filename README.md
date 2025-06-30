@@ -1,5 +1,17 @@
 # Documentação da TaskHub
 
+## MVC (Model-View-Controller)
+É um padrão de arquitetura que divide a aplicação em três componentes para organizar e desacoplar o código, facilitando a manutenção.
+
+### Model (Modelo)
+Responsável pelos dados e pela lógica de negócio da aplicação. Neste projeto, as pastas `Model/` e `Model/DAO/` contêm as classes de entidade e de acesso ao banco de dados.
+
+### View (Visão)
+A camada de apresentação, responsável por exibir a interface com a qual o usuário interage. Neste projeto, a pasta `View/` contém os arquivos que geram o HTML, e a classe `ViewRenderer` é usada para carregá-los.
+
+### Controller (Controlador)
+Atua como o intermediário, recebendo as requisições do usuário, acionando o Model e selecionando a View para a resposta. Neste projeto, a pasta `Controller/` contém as classes que gerenciam o fluxo, e o arquivo `rotas.php` mapeia as URLs para os métodos dos controllers.
+
 ## Singleton e Composite
 ### Singleton
 É um padrão de projeto de software definido por uma classe que não pode ser reinstânciada, ou seja, um único objeto é criado e utilizado durante todo o funcionamento. Nesse projeto, é utilizado para a conexão com o banco de dados. 
@@ -10,7 +22,7 @@ Composite é um padrão de projeto usado para formar objetos a partir da união 
 
 ## Utilização de Interfaces e Traços
 ### Interfaces
-Interfaces são utilizadas para construir "contratos" que definem métodos que devem, obrigatóriamente, ser implementados numa classe. As interfaces também podem ser utilizadas para possibilitar o polimorfismo, o qual abstrai a estrutura de alguns componente.
+Interfaces são utilizadas para construir "contratos" que definem métodos que devem, obrigatóriamente, ser implementados numa classe. As interfaces também podem ser utilizadas para possibilitar o polimorfismo.
 
 #### Polimorfismo
 Conceito de OOP que visa criar estruturas únicas que podem processar diferentes tipos de objetos. As interfaces são utilizadas para definir que, ao invés de passar um parâmetro tipado com uma classe, uma função aceite qualquer objeto que contenha as assinaturas implementadas por ela.
@@ -19,7 +31,7 @@ Conceito de OOP que visa criar estruturas únicas que podem processar diferentes
 Os traços são usados para implementar propriedades e métodos à uma classe. São utilizados, nesse projeto, para reduzir código repetido entre várias classes. Em alguns casos, implementam os métodos definidos pelas interfaces.  
 
 ## Classes abstratas
-Classes abstratas determinam propriedades e métodos de uma classe. Essa classe não pode ser instânciada diretamente, para ser utilizada ela deve ser herdada (<code>extends</code>) por outra classe. Nesse projeto, é utilizada, por exemplo, para definir características e funcionalidades inatas para todos os componentes. 
+Classes abstratas determinam propriedades e métodos de uma classe. Essa classe não pode ser instânciada diretamente, para ser utilizada ela deve ser herdada (<code>extends</code>) por outra classe. Nesse projeto, é utilizada, por exemplo, para definir características e funcionalidades inatas para todos os componentes através da classe abstrata <code>Componente</code>. 
 
 <h2>Diagramas</h2>
 
