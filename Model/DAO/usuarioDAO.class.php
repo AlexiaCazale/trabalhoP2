@@ -54,6 +54,14 @@ class usuarioDAO
 		return $stmt->fetchAll(PDO::FETCH_OBJ);
 	}
 
+	public function buscarWorkspacesAdministrados(Usuario $usuario): array
+	{
+		$sql = "SELECT nome_workspace FROM workspace WHERE id_usuario_admin_fk = :id_usuario AND ativo_workspace = 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(['id_usuario' => $usuario->getId()]);
+		return $stmt->fetchAll(PDO::FETCH_OBJ);
+	}
+
 	public function cadastrarUsuario(Usuario $usuario)
 	{
 		$sql = "INSERT 
@@ -86,5 +94,3 @@ class usuarioDAO
 		$stmt->execute(['id' => $usuario->getId()]);
 	}
 }
-
-?>

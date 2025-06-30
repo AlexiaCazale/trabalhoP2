@@ -2,7 +2,7 @@
 class usuarioController
 {
 	// ... (outros métodos como loginUsuario, logoutUsuario, etc. permanecem os mesmos)
-    public function loginUsuario(): void
+	public function loginUsuario(): void
 	{
 		if (empty($_POST)) {
 			ViewRenderer::render("form_login");
@@ -35,8 +35,6 @@ class usuarioController
 				header('Location: /trabalhoP2/');
 				exit();
 			}
-
-
 		}
 	}
 
@@ -90,7 +88,7 @@ class usuarioController
 	public function alterarDadosUsuario(): void
 	{
 		UserAuth::userIsLogged();
-		
+
 		// Apenas a lógica POST é necessária agora
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$usuarioDAO = new usuarioDAO();
@@ -111,24 +109,40 @@ class usuarioController
 			header('Location: /trabalhoP2/perfil');
 			exit();
 		} else {
-            // Se alguém tentar acessar a URL via GET, redireciona para o perfil
-            header('Location: /trabalhoP2/perfil');
-            exit();
-        }
+			// Se alguém tentar acessar a URL via GET, redireciona para o perfil
+			header('Location: /trabalhoP2/perfil');
+			exit();
+		}
 	}
 
 	public function desativarConta(): void
 	{
-		UserAuth::userIsLogged();
+		UserAuth::userIsLogged(); // Garante que o usuário está logado
 		$usuarioDAO = new usuarioDAO();
 		$usuario = new Usuario(id: $_SESSION['usuario_id']);
-		$usuarioDAO->desativarUsuario($usuario);
 
-		// Logout
+		// Verifica se o usuário é administrador de algum workspace ativo
+		$workspacesAdministrados = $usuarioDAO->buscarWorkspacesAdministrados($usuario);
+
+		if (!empty($workspacesAdministrados)) {
+			// Se for admin, impede a desativação e exibe uma mensagem de erro
+			$nomesWorkspaces = array_map(fn($ws) => $ws->nome_workspace, $workspacesAdministrados);
+			ViewRenderer::renderErrorPage(
+				403, // Código de erro para "Forbidden" (Proibido)
+				"Ação não permitida",
+				"Você não pode desativar sua conta pois é o administrador do(s) seguinte(s) workspace(s): " . implode(', ', $nomesWorkspaces) . ". Por favor, transfira a administração para outro membro antes de desativar sua conta."
+			); //
+			exit();
+		}
+
+		// Caso não seja administrador de nenhum workspace, a conta é desativada
+		$usuarioDAO->desativarUsuario($usuario); //
+
+		// Faz o logout do usuário
 		session_unset();
 		session_destroy();
 
-		header('Location: /trabalhoP2/');
+		header('Location: /trabalhoP2/'); // Redireciona para a página inicial
 		exit();
 	}
 
@@ -144,4 +158,3 @@ class usuarioController
 		}
 	}
 }
-?>

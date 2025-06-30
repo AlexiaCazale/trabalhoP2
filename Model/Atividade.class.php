@@ -86,14 +86,6 @@ class Atividade implements IUsuario
 	{
 		$this->workspace = $workspace;
 	}
-	public function getComentarios()
-	{
-		return $this->comentarios;
-	}
-	public function setComentarios(Comentario $comentario)
-	{
-		$this->comentarios[] = $comentario;
-	}
 	public function getAtivo()
 	{
 		return $this->ativo;
