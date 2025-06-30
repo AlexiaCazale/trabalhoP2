@@ -57,6 +57,9 @@
                     <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalEditarAtividade{$atividade->getId()}'>
                         <i class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
                     </button>
+					<button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalDetalhesAtividade{$atividade->getId()}'>
+						<i class='ph ph-info' style='font-size: 20px;'></i>
+					</button>
                 </div>
             </div>
         </div>
@@ -126,6 +129,65 @@
 			</div>
 		</div>
 		";
+		// NOVO: Modal de Detalhes da Atividade
+		echo <<<HTML
+		<div class='modal fade' id='modalDetalhesAtividade{$atividade->getId()}' tabindex='-1' aria-labelledby='modalDetalhesAtividadeLabel{$atividade->getId()}' aria-hidden='true'>
+			<div class='modal-dialog modal-lg'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h5 class='modal-title' id='modalDetalhesAtividadeLabel{$atividade->getId()}'>Detalhes da Atividade: {$atividade->getNome()}</h5>
+						<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+					</div>
+					<div class='modal-body'>
+						<h6>Descrição</h6>
+						<p>{$atividade->getDescricao()}</p>
+						<h6>Data de Entrega</h6>
+						<p>{$atividade->getDataEntrega()->format('d/m/Y')}</p>
+						<hr>
+						<h6>Membros na Atividade</h6>
+						<table class='table table-striped'>
+							<thead>
+								<tr>
+									<th scope='col' style='width: 10%;'>Avatar</th>
+									<th scope='col'>Nome</th>
+									<th scope='col'>Email</th>
+									<th scope='col' class='text-center'>Ação</th>
+								</tr>
+							</thead>
+							<tbody>
+		HTML;
+
+		if (empty($atividade->getUsuarios())) {
+			echo "<tr><td colspan='4'>Nenhum usuário atribuído a esta atividade.</td></tr>";
+		} else {
+			foreach ($atividade->getUsuarios() as $usuario) {
+				$avatarSrc = $usuario->getAvatar() ? htmlspecialchars($usuario->getAvatar()) : 'View/Images/user.png';
+				echo "
+					<tr>
+						<td><img src='{$avatarSrc}' style='width: 40px; height: 40px; border-radius: 50%; object-fit: cover;' alt='Avatar de " . htmlspecialchars($usuario->getNome()) . "'></td>
+						<td>" . htmlspecialchars($usuario->getNome()) . "</td>
+						<td>" . htmlspecialchars($usuario->getEmail()) . "</td>
+						<td class='text-center'>
+							<a href='/trabalhoP2/remover_usuario_atividade?id_atividade={$atividade->getId()}&id_usuario={$usuario->getId()}' class='btn btn-danger btn-sm' onclick='return confirm(\"Tem certeza que deseja remover este usuário da atividade?\");' title='Remover Usuário'>
+								<i class='ph ph-trash'></i>
+							</a>
+						</td>
+					</tr>
+				";
+			}
+		}
+
+		echo <<<HTML
+							</tbody>
+						</table>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+HTML;
 	}
 	?>
 </div>

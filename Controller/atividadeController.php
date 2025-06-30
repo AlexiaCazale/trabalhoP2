@@ -37,6 +37,22 @@ class atividadeController {
 		exit();
 	}
 
+	public function removerUsuarioDaAtividade()
+	{
+		if (isset($_GET['id_atividade']) && isset($_GET['id_usuario'])) {
+			$atividade = new Atividade((int)$_GET['id_atividade']);
+			$usuario = new Usuario((int)$_GET['id_usuario']);
+
+			$atividadeDAO = new atividadeDAO();
+			$atividadeDAO->removerUsuarioDaAtividade($atividade, $usuario);
+
+			// Redireciona de volta para a página anterior (o workspace)
+			header("Location: " . $_SERVER['HTTP_REFERER']);
+			exit();
+		} else {
+			throw new Exception("Nem todos os dados foram inseridos", 400);
+		}
+	}
 
     public function alterarAtividade()
 	{

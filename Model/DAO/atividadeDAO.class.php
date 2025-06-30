@@ -132,4 +132,16 @@ class atividadeDAO
 		]);
 		return $stmt->fetchAll(PDO::FETCH_OBJ);
 	}
+
+	public function removerUsuarioDaAtividade(Atividade $atividade, Usuario $usuario) 
+	{
+		$sql = 
+		"DELETE FROM membro_atividade WHERE id_usuario_fk = :id_usuario AND id_atividade_fk = :id_atividade;";
+		
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([
+			"id_usuario" => $usuario->getId(),
+			"id_atividade" => $atividade->getId()
+		]);
+	}
 }
