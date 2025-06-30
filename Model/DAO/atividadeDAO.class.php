@@ -19,8 +19,8 @@ class atividadeDAO
 	public function cadastrarAtividade(Atividade $atividade)
 	{
 		$sql = "INSERT 
-			INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
-			VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega)";
+        INTO atividade (id_workspace_fk, nome_atividade, descricao_atividade, data_entrega_atividade) 
+        VALUES (:id_workspace_fk, :nome_atividade, :descricao_atividade, :data_entrega)";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute(
@@ -28,7 +28,7 @@ class atividadeDAO
 					"id_workspace_fk" => $atividade->getWorkspace()->getId(),
 					"nome_atividade" => $atividade->getNome(),
 					"descricao_atividade" => $atividade->getDescricao(),
-					"data_entrega" => strtotime($atividade->getDataEntrega())
+					"data_entrega" => $atividade->getDataEntrega()->format('Y-m-d H:i:s')
 				]
 			);
 		} catch (PDOException $e) {
@@ -37,10 +37,10 @@ class atividadeDAO
 		}
 	}
 
-	public function alterarAtividade(Atividade $atividade) 
+	public function alterarAtividade(Atividade $atividade)
 	{
-		$sql = 
-		"UPDATE atividade 
+		$sql =
+			"UPDATE atividade 
 		SET nome_atividade = :nome, descricao_atividade = :descricao, data_entrega_atividade = :data_entrega
 		WHERE id_atividade = :id";
 
@@ -49,7 +49,7 @@ class atividadeDAO
 			$stmt->execute([
 				"nome" => $atividade->getNome(),
 				"descricao" => $atividade->getDescricao(),
-				"data_entrega" => $atividade->getDataEntrega(),
+				"data_entrega" => $atividade->getDataEntrega()->format('Y-m-d H:i:s'),
 				"id" => $atividade->getId()
 			]);
 		} catch (PDOException $e) {
@@ -58,10 +58,10 @@ class atividadeDAO
 		}
 	}
 
-	public function desativarAtividade(Atividade $atividade) 
+	public function desativarAtividade(Atividade $atividade)
 	{
-		$sql = 
-		"UPDATE atividade a 
+		$sql =
+			"UPDATE atividade a 
 		SET a.ativo_atividade = false
 		WHERE a.id_atividade = :id_atividade";
 
@@ -88,7 +88,7 @@ class atividadeDAO
 			die("Erro ao buscar atividade:" . $e->getMessage());
 		}
 	}
-	
+
 	public function usuarioEstaNaAtividade(Atividade $atividade, Usuario $usuario)
 	{
 		$sql = "SELECT * FROM atividade a 
@@ -111,9 +111,10 @@ class atividadeDAO
 		}
 	}
 
-	public function buscarUsuariosEmAtividade(Atividade $atividade) {
-		$sql = 
-		"SELECT u.* FROM atividade a
+	public function buscarUsuariosEmAtividade(Atividade $atividade)
+	{
+		$sql =
+			"SELECT u.* FROM atividade a
 		JOIN membro_atividade ma ON a.id_atividade = ma.id_atividade_fk
 		JOIN usuario u ON ma.id_usuario_fk = u.id_usuario
 		WHERE a.id_atividade = :id and u.ativo_usuario";
@@ -130,9 +131,10 @@ class atividadeDAO
 		}
 	}
 
-	public function buscarWorkspaceDaAtividade(Atividade $atividade) {
-		$sql = 
-		"SELECT w.* FROM atividade a
+	public function buscarWorkspaceDaAtividade(Atividade $atividade)
+	{
+		$sql =
+			"SELECT w.* FROM atividade a
 		JOIN workspace w ON a.id_workspace_fk = w.id_workspace
 		WHERE a.id_atividade = :id";
 
@@ -148,9 +150,10 @@ class atividadeDAO
 		}
 	}
 
-	public function cadastrarUsuarioNaAtividade(Atividade $atividade, Usuario $usuario) {
-		$sql = 
-		"INSERT INTO membro_atividade (id_usuario_fk, id_atividade_fk)
+	public function cadastrarUsuarioNaAtividade(Atividade $atividade, Usuario $usuario)
+	{
+		$sql =
+			"INSERT INTO membro_atividade (id_usuario_fk, id_atividade_fk)
 		SELECT :id_usuario, :id_atividade
 		FROM DUAL
 		WHERE EXISTS (
@@ -159,7 +162,7 @@ class atividadeDAO
 		    JOIN atividade a ON mw.id_workspace_fk = a.id_workspace_fk
 		    WHERE mw.id_usuario_fk = :id_usuario
 		      AND a.id_atividade = :id_atividade);";
-		
+
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -173,4 +176,3 @@ class atividadeDAO
 		}
 	}
 }
-?>

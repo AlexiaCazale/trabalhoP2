@@ -67,25 +67,24 @@ class workspaceController
 		}
 	}
 
-
 	public function cadastrarAtividadeEmWorkspace()
 	{
 		$dataCriacao = date('Y-m-d H:i:s');
 
 		if (empty($_POST)) {
-			ViewRenderer::render("criar_atividade");
+        ViewRenderer::render("criar_atividade");
 		} else {
+			// Combina a data do formulário com um horário padrão
+			$dataEntregaCompleta = $_POST['data_ent_atv'] . ' 23:59:59';
+
 			$atividade = new Atividade(
 				id: 0,
 				nome: $_POST['nome_atv'],
 				descricao: $_POST['desc_atv'],
-				dataEntrega: $_POST['data_ent_atv'],
-				dataCriacao: $dataCriacao,
-				workspace: new Workspace($_POST['id_workspace']),
-				comentarios: null // TODO Decidir se os comentários serão removidos
+				dataEntrega: $dataEntregaCompleta, // Passa a string completa
+				dataCriacao: date('Y-m-d H:i:s'), // Já está no formato correto
+				workspace: new Workspace($_POST['id_workspace'])
 			);
-
-			var_dump($atividade->getDataEntrega());
 
 			(new atividadeDAO())->cadastrarAtividade($atividade);
 

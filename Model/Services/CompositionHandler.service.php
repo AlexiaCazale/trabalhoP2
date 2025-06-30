@@ -2,6 +2,16 @@
 
 class CompositionHandler
 {
+    public static function compositionAfterBuffer(IComponente|string $componente) {
+        ob_start();
+        if (is_string($componente)) {
+            echo $componente;
+        } else {
+            $componente->criar();
+        }
+        return ob_get_clean();
+    }
+
 	public static function createUsersAvatar(IUsuario $obj, ?string $class = null, ?string $style = null): div // Recebe qualquer estrutura que possua usuários
 	{
 		$div = new div(
@@ -52,10 +62,8 @@ class CompositionHandler
             $divCard->setElemento($divCardBody);
 
             $div->setElemento($divCard);
-
        
         }
-
 
 		return $div;
 	}
