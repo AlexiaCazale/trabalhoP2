@@ -95,24 +95,15 @@ class CompositionHandler
 		$ul = new ul();
 
 		if (isset($_SESSION['usuario_primeiro_nome'])){
-			$ul->setElemento(new li(new a("/trabalhoP2", "Home")));
-
+			//$ul->setElemento(new li(new a("/trabalhoP2", "Home")));
 			$ul->setElemento(new li(new a("/trabalhoP2/criar_workspace", "Criar Workspace")));
-
-			// $ul->setElemento(new li(new a("/trabalhoP2/workspace", "Workspace")));
-
-			// $ul->setElemento(new li(new a("/trabalhoP2/criar_atividade", "Criar atividade")));
-
 			$ul->setElemento(new li(new a("/trabalhoP2/perfil", "Meu perfil")));
+			$ul->setElemento(new li(new a("/trabalhoP2/workspaces_desativados", "Workspaces Desativados")));
 			
 		}else{
-
 			$ul->setElemento(new li(new a("/trabalhoP2/form_cadastro", "Cadastro")));
-	
 			$ul->setElemento(new li(new a("/trabalhoP2/form_login", "Login")));
 		}
-
-
 		
 		return $ul;
 	}

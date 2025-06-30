@@ -1,7 +1,8 @@
 <?php
 class usuarioController
 {
-	public function loginUsuario(): void
+	// ... (outros métodos como loginUsuario, logoutUsuario, etc. permanecem os mesmos)
+    public function loginUsuario(): void
 	{
 		if (empty($_POST)) {
 			ViewRenderer::render("form_login");
@@ -54,7 +55,7 @@ class usuarioController
 		}
 
 		ViewRenderer::render("perfil_usuario", [
-			"usuarioEncontrado" => $usuarioEncontrado
+			"usuario" => $usuarioEncontrado
 		]);
 	}
 
@@ -86,6 +87,52 @@ class usuarioController
 		}
 	}
 
+	public function alterarDadosUsuario(): void
+	{
+		UserAuth::userIsLogged();
+		
+		// Apenas a lógica POST é necessária agora
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$usuarioDAO = new usuarioDAO();
+			$usuario = new Usuario(
+				id: $_SESSION['usuario_id'],
+				nome: $_POST['nome'],
+				email: $_POST['email']
+			);
+			$usuarioDAO->alterarUsuario($usuario);
+
+			// Atualiza os dados da sessão
+			$_SESSION['usuario_nome'] = $usuario->getNome();
+			$partesNome = explode(' ', $usuario->getNome());
+			$_SESSION['usuario_primeiro_nome'] = $partesNome[0];
+			$_SESSION['usuario_ultimo_nome'] = end($partesNome);
+			$_SESSION['usuario_email'] = $usuario->getEmail();
+
+			header('Location: /trabalhoP2/perfil');
+			exit();
+		} else {
+            // Se alguém tentar acessar a URL via GET, redireciona para o perfil
+            header('Location: /trabalhoP2/perfil');
+            exit();
+        }
+	}
+
+	public function desativarConta(): void
+	{
+		UserAuth::userIsLogged();
+		$usuarioDAO = new usuarioDAO();
+		$usuario = new Usuario(id: $_SESSION['usuario_id']);
+		$usuarioDAO->desativarUsuario($usuario);
+
+		// Logout
+		session_unset();
+		session_destroy();
+
+		header('Location: /trabalhoP2/');
+		exit();
+	}
+
+
 	public function buscarUsuarioPorEmail(): string|bool|null
 	{
 		if (empty($_GET)) {
@@ -96,25 +143,5 @@ class usuarioController
 			return null;
 		}
 	}
-
-	/*
-	public function detalharWorkspace(): void
-	{
-		UserAuth::userIsLogged();
-
-		$workspaceDAO = new workspaceDAO();
-		$usuarioDAO = new usuarioDAO();
-
-		$workspace = $workspaceDAO->buscarPorId($_GET['id']); // Ajuste para pegar o workspace
-
-		$usuariosEncontrados = $usuarioDAO->buscarUsuarios(); // Pega todos os usuários ativos
-
-		ViewRenderer::render("detalhe_workspace", [
-			"workspace" => $workspace,
-			"usuariosEncontrados" => $usuariosEncontrados,
-		]);
-	}
-	*/
-
 }
 ?>

@@ -210,17 +210,36 @@ class workspaceController
 		}
 	}
 
-	public function desativarWorkspace()
+	public function mostrarWorkspacesDesativados()
+	{
+		UserAuth::userIsLogged();
+
+		$usuarioLogado = new Usuario(id: $_SESSION['usuario_id']);
+		$workspaceDAO = new workspaceDAO();
+		
+		$workspacesInativosStd = $workspaceDAO->buscarWorkspacesInativosDoAdmin($usuarioLogado);
+		
+		$workspacesInativos = [];
+		foreach($workspacesInativosStd as $ws) {
+			$workspacesInativos[] = ConversorStdClass::stdClassToModelClass($ws, Workspace::class);
+		}
+
+		ViewRenderer::render("workspaces_desativados", [
+			"workspacesInativos" => $workspacesInativos
+		]);
+	}
+
+	public function alterarAtivoWorkspace()
 	{
 		$workspace = new Workspace($_GET["id"]);
 
 		if (!PermissionManager::loggedUserIsAdmin($workspace)) {
-			ViewRenderer::renderErrorPage(403, "Acesso Negado", "Apenas o administrador pode desativar o workspace.");
+			ViewRenderer::renderErrorPage(403, "Acesso Negado", "Apenas o administrador pode alterar o status do workspace.");
 			exit();
 		}
 
 		$workspaceDAO = new workspaceDAO();
-		$workspaceDAO->desativarWorkspace($workspace);
+		$workspaceDAO->alterarAtivoWorkspace($workspace);
 		header("Location: /trabalhoP2/");
 		die();
 	}

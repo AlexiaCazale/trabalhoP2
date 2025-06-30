@@ -22,13 +22,11 @@ class workspaceDAO
 		return $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function buscarUmWorkspace(Workspace $workspace): mixed
+	public function buscarUmWorkspace(Workspace $workspace)
 	{
-		$sql = "SELECT * FROM workspace WHERE id_workspace = :id_workspace AND ativo_workspace";
+		$sql = "SELECT * FROM workspace WHERE id_workspace = :id";
 		$stmt = $this->db->prepare($sql);
-		$stmt->execute([
-			"id_workspace" => $workspace->getId()
-		]);
+		$stmt->execute(['id' => $workspace->getId()]);
 		return $stmt->fetch(PDO::FETCH_OBJ);
 	}
 
@@ -76,15 +74,20 @@ class workspaceDAO
 		]);
 	}
 
-	public function desativarWorkspace(Workspace $workspace)
+	public function buscarWorkspacesInativosDoAdmin(Usuario $usuario): array
 	{
-		$sql =
-			"UPDATE workspace SET ativo_workspace = false WHERE id_workspace = ?";
-
+		$sql = "SELECT * FROM workspace WHERE id_usuario_admin_fk = :id_admin AND ativo_workspace = 0";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(1, $workspace->getId());
-		$stmt->execute();
-		$this->db = null;
+		$stmt->execute(['id_admin' => $usuario->getId()]);
+		return $stmt->fetchAll(PDO::FETCH_OBJ);
+	}
+
+	public function alterarAtivoWorkspace(Workspace $workspace)
+	{
+		// Esta query alterna o valor de ativo_workspace (de 0 para 1, e de 1 para 0)
+		$sql = "UPDATE workspace SET ativo_workspace = !ativo_workspace WHERE id_workspace = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(['id' => $workspace->getId()]);
 	}
 
 	public function usuarioEstaNoWorkspace(Workspace $workspace, Usuario $usuario)

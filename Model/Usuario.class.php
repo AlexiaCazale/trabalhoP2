@@ -62,6 +62,14 @@ class Usuario implements IAtividade
 	{
 		$this->workspaces[] = $workspace;
 	}
+	public function getAtivo()
+	{
+		return $this->ativo;
+	}
+	public function setAtivo(bool $ativo)
+	{
+		$this->ativo = $ativo;
+	}
 }
 
 ?>

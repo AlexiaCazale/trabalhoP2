@@ -2,8 +2,6 @@
 class usuarioDAO
 {
 	# TODO Buscar atividades de um usuário 
-	# TODO Alterar dados do usuário 
-	# TODO Inativar o usuário 
 	# TODO Remover comentário
 
 	private $db;
@@ -44,8 +42,7 @@ class usuarioDAO
 
 	public function buscarWorkspaces(Usuario $usuario)
 	{
-		$sql = "SELECT w.* 
-        FROM workspace w 
+		$sql = "SELECT w.* FROM workspace w 
         JOIN membro_workspace mw ON w.id_workspace = mw.id_workspace_fk 
         JOIN usuario u ON mw.id_usuario_fk = u.id_usuario 
         WHERE u.id_usuario = :id and w.ativo_workspace";
@@ -69,6 +66,24 @@ class usuarioDAO
 			"email" => $usuario->getEmail(),
 			"senha" => $usuario->getSenha()
 		]);
+	}
+
+	public function alterarUsuario(Usuario $usuario)
+	{
+		$sql = "UPDATE usuario SET nome_usuario = :nome, email_usuario = :email WHERE id_usuario = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([
+			'nome' => $usuario->getNome(),
+			'email' => $usuario->getEmail(),
+			'id' => $usuario->getId()
+		]);
+	}
+
+	public function desativarUsuario(Usuario $usuario)
+	{
+		$sql = "UPDATE usuario SET ativo_usuario = 0 WHERE id_usuario = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(['id' => $usuario->getId()]);
 	}
 }
 
