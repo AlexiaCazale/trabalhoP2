@@ -109,7 +109,7 @@ class workspaceController
         );
         $this->buscarAdminDoWorkspace($workspaceCompleto);
 
-        if ($workspaceCompleto->getAdmin()->getId() == $usuarioARemoverId) {
+        if ($workspaceCompleto->getAdmin()->getId() == $usuario->getId()) {
             ViewRenderer::renderErrorPage(
                 403, // Forbidden
                 "Ação não permitida",
