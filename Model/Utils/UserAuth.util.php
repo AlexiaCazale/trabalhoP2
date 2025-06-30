@@ -1,7 +1,9 @@
 <?php
 
-class UserAuth {
-    public static function userIsLogged() {
+class UserAuth
+{
+    public static function userIsLogged()
+    {
         if (isset($_SESSION['usuario_id'])) {
             return True;
         } else {
