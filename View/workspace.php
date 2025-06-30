@@ -1,17 +1,6 @@
 <div style="margin: 50px 20px 10px 40px; display: flex; flex-direction: column; gap: 15px">
 	<div>
 		<h1 style=" font-size: 20px; text-align: start; color: black"><?php echo $workspace->getNome() ?></h1>
-		<p><?php echo $workspace->getDescricao() ?> </p>
-		<?php
-		foreach ($workspace->getAtividades() as $atividade) {
-			$divAvatares = CompositionHandler::createUsersAvatar($atividade);
-			echo "
-					<div>
-						{$divAvatares->criar()}
-					</div>";
-		}
-		?>
-
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalWorkspace'>
 			Adicionar usuário
 		</button>
@@ -21,67 +10,71 @@
 	</div>
 </div>
 
-<div style="display: flex; margin: 40px; gap: 25px; flex-wrap: wrap;">
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-6 g-4" style="margin: 40px;">
 
-	<?php
+    <?php
+    foreach ($workspace->getAtividades() as $atividade) {
+        // Bloco para gerar avatares (pode continuar o mesmo)
+		$avataresHtml = CompositionHandler::compositionAfterBuffer($avatares);
 
-	foreach ($workspace->getAtividades() as $atividade) {
-		$divAvatares = CompositionHandler::createUsersAvatar($atividade); // Cria o objeto div para os avatares.
+        // 2. A classe 'col' é a única coisa necessária no item filho.
+        // O Bootstrap cuidará do tamanho automaticamente.
+        echo "
+        <div class='col'> 
+            <div class='card h-100' style='background-color: #BEAFED;'>
+                <div class='card-body d-flex flex-column'>
+                    
+                    <div>
+                        <h5 class='card-title'>{$atividade->getNome()}</h5>
+                        <p class='card-text activity-card-description'>
+                            {$atividade->getDescricao()}
+                        </p>
+                    </div>
 
-		// Inicia o buffer de saída para capturar o HTML dos avatares
-		ob_start();
-		$divAvatares->criar(); // Esta chamada imprime para o buffer.
-		$avatarsHtml = ob_get_clean(); // Captura o conteúdo do buffer.
+                    <div class='mt-auto'>
+                        <div style='margin-top: 15px;'>
+                            {$avataresHtml} 
+                        </div>
 
-		// Modal para cadastrar um usuário em um workspace
-		echo "
-		<div class='col'> <div class='card' style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%; '>
+                        <div class='text-center' style='margin: 10px;'>
+                            <b>Para: </b>
+                            {$atividade->getDataEntrega()->format('d/m/Y')}
+                        </div>
+                    </div>
+                </div>
 
-				<div class='card-body'>
-					<h5 class='card-title'>{$atividade->getNome()}</h5>
-					<p class='card-text'>
-						{$atividade->getDescricao()}
-					</p>
-					<div style='margin-top: 15px;'>
-						{$avatarsHtml} </div>
-				</div>
-
-				<div class='text-center' style='margin: 10px;'>
-					<b>Para: </b>
-					{$atividade->getDataEntrega()}
-				</div>
-
-				<div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
-					<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
-						Adicionar usuário
-					</button>
-					<i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
-					<button class='btn btn-link p-0' 
-						data-bs-toggle='modal'
-						data-bs-target='#modalEditarAtividade{$atividade->getId()}'
-						title='Editar Atividade'>
-    						<i class='ph ph-pencil-simple-line' style='font-size: 20px; cursor: pointer;'></i>
-					</button>
-				</div>
-			</div>
-		</div>
-		";
+                <div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
+                        Adicionar usuário
+                    </button>
+                    <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalEditarAtividade{$atividade->getId()}'>
+                        <i class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
+                    </button>
+                    <i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i>
+                </div>
+            </div>
+        </div>
+        ";
 
 		// Modal para adicionar um usuário à atividade
-		echo "
-		<div class='modal fade' id='modalUsuarioAtividade{$atividade->getId()}' tabindex='-1' aria-labelledby='modalUsuarioAtividade{$atividade->getId()}' aria-hidden='true'>
-			<div class='modal-dialog' role='document'>
+		echo <<<HTML
+		<div class='modal fade' id='modalUsuarioAtividade{$atividade->getId()}' tabindex='-1' aria-hidden='true'>
+			<div class='modal-dialog'>
 				<div class='modal-content'>
 					<div class='modal-header'>
-						<h5 class='modal-title' id='titleModalUsuarioAtividade{$atividade->getId()}'>Adicionar usuário à atividade</h5>
+						<h5 class='modal-title'>Adicionar usuário à atividade</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class='modal-body'>
-						<form id='form_usuario_workspace' action='/trabalhoP2/usuario_em_atividade' method='POST'>
-							<label for='email_inp'>Email:</label>
-							<input type='email' class='form-control' id='email_inp' name='email' placeholder='E-mail do usuário' style='width: 450px;' >
-
+						<form action='/trabalhoP2/usuario_em_atividade' method='POST'>
+							<div class="mb-3">
+								<label for="select-usuario-{$atividade->getId()}" class="form-label">Membro</label>
+								<select class="form-select" name="id_usuario" id="select-usuario-{$atividade->getId()}" required>
+									<option selected disabled value="">Selecione um membro...</option>
+									
+								</select>
+							</div>
 							<input type='hidden' value='{$atividade->getId()}' name='id_atividade'>
-
 							<div class='modal-footer'>
 								<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
 								<input type='submit' class='btn btn-primary' value='Salvar'>
@@ -91,7 +84,7 @@
 				</div>
 			</div>
 		</div>
-		";
+		HTML;
 
 		// Modal para alterar uma atividade
 		echo "
@@ -114,7 +107,7 @@
 							</div>
 							<div class='mb-3'>
 								<label>Data de entrega</label>
-								<input type='date' name='data_entrega_atividade' class='form-control' value='{$atividade->getDataEntrega()}'>
+								<input type='date' name='data_entrega_atividade' class='form-control' value='{$atividade->getDataEntrega()->format('d/m/Y')}'>
 							</div>
 							<input name='id_atividade' type='hidden' value='{$atividade->getId()}'>
 							<div class='modal-footer'>
@@ -157,17 +150,7 @@
 			<div class="modal-body">
 				<form id="form_usuario_workspace" method="POST" action="usuario_em_workspace">
 					<label for="email_inp">Email:</label>
-					<!-- <input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;"> -->
-						<select class="form-select" name="id_usuario" required>
-						<option selected disabled value="">Selecione um membro...</option>
-						<?php foreach ($usuarios as $user): ?>
-							<option value="<?= $user->id_usuario ?>">
-							<?= $user->nome_usuario ?> (<?= $user->email_usuario ?>)
-							</option>
-						<?php endforeach; ?>
-						</select>
-
-
+					<input type="email" class="form-control" id="email_inp" name="email" placeholder="E-mail do usuário" style="width: 450px;">
 
 					<input type="hidden" value="<?= $workspace->getId() ?>" name="id_workspace">
 
@@ -178,7 +161,7 @@
 				</form>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 
 <script>
@@ -236,16 +219,12 @@
 
 						<input type="hidden" name="id_workspace" value="<?= $workspace->getId() ?>" />
 
-						<div class="mb-3" style="margin-top: 15px; display: flex; justify-content: end; gap: 5px">
+						<div class="mb-3 modal-footer" style="margin-top: 15px; display: flex; justify-content: end; gap: 5px">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 							<input type="submit" class="btn btn-primary" value="Salvar" />
 						</div>
 					</div>
 				</form>
-				<!-- <div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<input type="submit" class="btn btn-primary" value="Save changes">
-					</div> -->
 			</div>
 		</div>
 	</div>
