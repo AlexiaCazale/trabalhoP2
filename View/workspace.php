@@ -16,47 +16,44 @@
 
     <?php
     foreach ($workspace->getAtividades() as $atividade) {
-        // Bloco para gerar avatares (pode continuar o mesmo)
-		$avataresHtml = CompositionHandler::compositionAfterBuffer(CompositionHandler::createUsersAvatar($atividade));
+        $avataresHtml = CompositionHandler::compositionAfterBuffer(CompositionHandler::createUsersAvatar($atividade));
+        $opcoesDeUsuarioHtml = '';
+        
+        $idsDeUsuariosNaAtividade = array_map(function($u) {
+            return $u->getId();
+        }, $atividade->getUsuarios());
 
-		$opcoesDeUsuarioHtml = '';
-		foreach ($workspace->getUsuarios() as $usuario) {
-			// Para cada usuário no workspace, crie uma tag <option>
-			if (!in_array($usuario, $atividade->getUsuarios())) {
-				$opcoesDeUsuarioHtml .= "<option name='id_usuario' value='{$usuario->getId()}'>" . htmlspecialchars($usuario->getNome()) . "</option>";
-			}
-		}
+        foreach ($workspace->getUsuarios() as $usuario) {
+            if (!in_array($usuario->getId(), $idsDeUsuariosNaAtividade)) {
+                $opcoesDeUsuarioHtml .= "<option value='{$usuario->getId()}'>" . htmlspecialchars($usuario->getNome()) . "</option>";
+            }
+        }
 
-        // 2. A classe 'col' é a única coisa necessária no item filho.
-        // O Bootstrap cuidará do tamanho automaticamente.
         echo "
-        <div class='col'  style='backgroud-color: #BEAFED; max-width: 280px; overflow: auto; width: 100%; '> 
+        <div class='col'> 
             <div class='card h-100' style='background-color: #BEAFED;'>
                 <div class='card-body d-flex flex-column'>
-                    
                     <div>
                         <h5 class='card-title'>{$atividade->getNome()}</h5>
                         <p class='card-text activity-card-description'>
                             {$atividade->getDescricao()}
                         </p>
                     </div>
-
                     <div class='mt-auto'>
                         <div style='margin-top: 15px;'>
                             {$avataresHtml} 
                         </div>
-
-				<div class='text-center' style='margin: 10px;'>
-					<b>Para: </b>
-					" . $atividade->getDataEntrega()->format('d/m/Y') . "
-				</div>
-
-				<div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
-					<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
-						Adicionar usuário
-					</button>
-
-					<a href='/trabalhoP2/desativar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i type='button' class='ph ph-trash' style='font-size: 20px; color: red'></i></a>
+                        <div class='text-center' style='margin: 10px;'>
+                            <b>Para: </b>
+                            {$atividade->getDataEntrega()->format('d/m/Y')}
+                        </div>
+                    </div>
+                </div>
+                <div class='card-footer d-flex justify-content-start align-items-center' style='gap: 10px;'>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
+                        Adicionar usuário
+                    </button>
+                    <a href='/trabalhoP2/desativar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i class='ph ph-trash' style='font-size: 20px; color: red'></i></a>
                     <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalEditarAtividade{$atividade->getId()}'>
                         <i class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
                     </button>
