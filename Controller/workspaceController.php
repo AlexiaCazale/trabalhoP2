@@ -90,6 +90,16 @@ class workspaceController
 		exit();
 	}
 
+	public function removerUsuarioDoWorkspace() 
+	{
+		$workspace = new Workspace($_GET['id_workspace']);
+		$usuario = new Usuario($_GET['id_usuario']);
+
+		$workspaceDAO = new workspaceDAO();
+
+		$workspaceDAO;
+	}
+
 	public static function buscarUsuariosEmWorkspace(Workspace $workspace)
 	{
 		$workspaceDAO = new workspaceDAO();
@@ -236,7 +246,4 @@ class workspaceController
 	{
 		return (new workspaceDAO())->usuarioEstaNoWorkspace($workspace, $usuario);
 	}
-
 }
-
-?>

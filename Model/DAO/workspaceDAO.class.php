@@ -130,6 +130,19 @@ class workspaceDAO
 		return $stmt->fetchAll(PDO::FETCH_OBJ);
 	}
 
+	public function removerUsuarioDoWorkspace(Workspace $workspace, Usuario $usuario)
+	{
+		$sql = 
+		"DELETE FROM membro_workspace 
+		WHERE id_workspace_fk = :id_workspace AND id_usuario_fk = :id_usuario;";
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([
+			"id_workspace" => $workspace->getId(),
+			"id_usuario" => $usuario->getId()
+		]);
+	}
+
 	public function buscarAtividadesDoWorkspace(Workspace $workspace)
 	{
 		$sql = "SELECT a.* FROM atividade a

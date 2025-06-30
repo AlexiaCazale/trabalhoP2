@@ -18,9 +18,17 @@ class div extends Componente
 
 		echo "</div>";
 	}
-	public function setElemento($elemento)
+	public function setElemento($elemento, bool $setInFirstIndex = false)
 	{
 		$this->elementos[] = $elemento;
+	}
+
+	public function reverseElementos()
+	{
+		if (count($this->elementos) > 1) 
+		{
+			$this->elementos = array_reverse($this->elementos);
+		} 
 	}
 
 	public function getElemento()

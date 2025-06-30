@@ -9,6 +9,7 @@
 		<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalAtividade'>
 			Adicionar atividade
 		</button>
+		<?php CompositionHandler::compositionAfterBuffer($avatares) ?>
 	</div>
 </div>
 
@@ -31,7 +32,7 @@
 
 		echo "
 		<div class='col'> 
-			<div class='card h-100' " . ($atividade->getConcluido() ? "style='background-color:rgb(17, 198, 211);'" : "style='background-color: #BEAFED;'") . ">
+			<div class='card h-100' " . ($atividade->getConcluido() ? "style='background-color: #E9E3FD;'" : "style='background-color: #BEAFED;'") . ">
 				<div class='card-body d-flex flex-column'>
                     <div>
                         <h5 class='card-title'>{$atividade->getNome()}</h5>
@@ -53,7 +54,7 @@
                     <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
                         Adicionar usuário
                     </button>
-					<a href='/trabalhoP2/finalizar_atividade?id={$atividade->getId()}' style='text-decoration: none;'>" . (!$atividade->getConcluido() ? "<i class='ph ph-check'></i>" : "<i class='ph ph-x'></i>") . "</a>
+					<a href='/trabalhoP2/finalizar_atividade?id={$atividade->getId()}' style='text-decoration: none;'>" . (!$atividade->getConcluido() ? "<i class='ph ph-check' style='color: green'></i>" : "<i class='ph ph-x' style='color: red'></i>") . "</a>
                     <a href='/trabalhoP2/desativar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i class='ph ph-trash' style='font-size: 20px; color: red'></i></a>
                     <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalEditarAtividade{$atividade->getId()}'>
                         <i class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>

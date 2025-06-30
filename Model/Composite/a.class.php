@@ -7,8 +7,8 @@ class a extends Componente
 		protected ?string $tagId = null,
 		protected ?string $class = null,
 		protected ?string $style = null,
-		protected ?string $iconeAntes = null,  // Novo: ícone antes do texto
-		protected ?string $iconeDepois = null  // Novo: ícone depois do texto
+		protected ?string $iconeAntes = null, 
+		protected ?string $iconeDepois = null
 	) {
 		if ($this->style === null) {
 			$this->style = "text-decoration: none;";

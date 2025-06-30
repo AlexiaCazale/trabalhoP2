@@ -17,7 +17,7 @@ class CompositionHandler
 		$div = new div(
 			class: $class == null ? "avatar-stack flex justify-items-end" : $class,
 			style: $style == null ? "'display: flex; justify-content: start;'" : $style);
-		foreach ($obj->getUsuarios() as $usuario) {
+		foreach ($obj->getUsuarios() as $index=>$usuario) {
             $avatarSrc = $usuario->getAvatar() != null ? $usuario->getAvatar() : "View/Images/user.png";
 
             // Define os atributos para a tooltip
@@ -32,6 +32,15 @@ class CompositionHandler
                 src: $avatarSrc,
                 attributes: $tooltipAttributes
             ));
+
+            if ($index >= 4) { // Coloque o valor X onde X + 1 é o a quantidade de avatares que devem ser mostrados
+                $numeroDeAvataresExtras = count($obj->getUsuarios()) - 5;
+                $div->setElemento(new span(texto:"+{$numeroDeAvataresExtras}", class:"avatar"));
+                $div->reverseElementos();
+                break;
+            }
+
+            $div->reverseElementos();
 		}
 		return $div;
 	}
