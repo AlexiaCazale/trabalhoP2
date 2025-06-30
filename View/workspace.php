@@ -19,6 +19,14 @@
         // Bloco para gerar avatares (pode continuar o mesmo)
 		$avataresHtml = CompositionHandler::compositionAfterBuffer(CompositionHandler::createUsersAvatar($atividade));
 
+		$opcoesDeUsuarioHtml = '';
+		foreach ($workspace->getUsuarios() as $usuario) {
+			// Para cada usuário no workspace, crie uma tag <option>
+			if (!in_array($usuario, $atividade->getUsuarios())) {
+				$opcoesDeUsuarioHtml .= "<option name='id_usuario' value='{$usuario->getId()}'>" . htmlspecialchars($usuario->getNome()) . "</option>";
+			}
+		}
+
         // 2. A classe 'col' é a única coisa necessária no item filho.
         // O Bootstrap cuidará do tamanho automaticamente.
         echo "
@@ -74,7 +82,7 @@
 								<label for="select-usuario-{$atividade->getId()}" class="form-label">Membro</label>
 								<select class="form-select" name="id_usuario" id="select-usuario-{$atividade->getId()}" required>
 									<option selected disabled value="">Selecione um membro...</option>
-									
+									{$opcoesDeUsuarioHtml}
 								</select>
 							</div>
 							<input type='hidden' value='{$atividade->getId()}' name='id_atividade'>

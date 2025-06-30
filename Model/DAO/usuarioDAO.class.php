@@ -28,14 +28,14 @@ class usuarioDAO
 
 	public function buscarUmUsuario(Usuario $usuario): mixed
 	{
-		$sql = "SELECT * FROM usuario WHERE id_usuario = :id OR email_usuario = :email AND ativo_usuario LIMIT 1";
+		$sql = "SELECT * FROM usuario WHERE (id_usuario = :id OR email_usuario = :email) AND ativo_usuario LIMIT 1";
 		try {
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
 				"id" => $usuario->getId(),
 				"email" => $usuario->getEmail()
 			]);
-			return $stmt->fetch(PDO::FETCH_OBJ);
+			return $stmt->fetchAll(PDO::FETCH_OBJ)[0];
 		} catch (PDOException $e) {
 			$this->db = null;
 			die("Erro ao buscar atividade: " . $e->getMessage());

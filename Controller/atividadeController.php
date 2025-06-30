@@ -4,26 +4,17 @@ class atividadeController {
 
     public function cadastrarUsuarioNaAtividade(?Atividade $atividade = null, ?Usuario $usuario = null)
 	{
-
 		if (empty($_POST) and ($atividade === null and $usuario === null)) {
 			return;
 		} else if ($atividade == null and $usuario === null) {
-			$usuario = new Usuario(email: $_POST['email']);
+			$usuario = new Usuario($_POST['id_usuario']);
 			$atividade = new Atividade($_POST['id_atividade']);
 		}
-		$usuarioDAO = new usuarioDAO();
 		$atividadeDAO = new atividadeDAO();
-		try {
-			$usuario = ConversorStdClass::stdClassToModelClass(
-				$usuarioDAO->buscarUmUsuario($usuario),
-				Usuario::class
-			);
-		} catch (Exception $e) {
-			die("Erro ao buscar o usuário: " . $e->getMessage());
-		}
 		$atividadeDAO->cadastrarUsuarioNaAtividade($atividade, $usuario);
 
-        var_dump($_SERVER['HTTP_REFERER']);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+		exit();
 	}
 
     public function alterarAtividade()
@@ -50,7 +41,8 @@ class atividadeController {
             $atividadeDAO->alterarAtividade($atividade);
         }
 
-		header("Location: /trabalhoP2/workspace?id={$atividade->getWorkspace()->getId()}");
+		header("Location: {$_SERVER['HTTP_REFERER']}");
+		exit();
 	}
 
 	public function desativarAtividade()
@@ -67,7 +59,7 @@ class atividadeController {
 			)
 		);
 
-		header("Location: /trabalhoP2/workspace?id=" . $atividade->getWorkspace()->getId());
+		header("Location: {$_SERVER['HTTP_REFERER']}");
 		exit();
 	}
 

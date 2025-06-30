@@ -94,7 +94,7 @@ class usuarioController
 		}
 	}
 
-		public function detalharWorkspace(): void
+	public function detalharWorkspace(): void
 	{
 		UserAuth::userIsLogged();
 

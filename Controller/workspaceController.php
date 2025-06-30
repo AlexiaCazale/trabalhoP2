@@ -26,7 +26,7 @@ class workspaceController
 			
 			var_dump($id_workspace);
 
-			header("Location: /trabalhoP2/workspace?id={$id_workspace}");
+			header("Location: {$_SERVER['HTTP_REFERER']}");
 			exit();
 		}
 	}
@@ -52,7 +52,8 @@ class workspaceController
 		}
 		$workspaceDAO->cadastrarUsuarioNoWorkspace($workspace, $usuario);
 
-		header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
+		header("Location: {$_SERVER['HTTP_REFERER']}");
+		exit();
 	}
 
 	public static function buscarUsuariosEmWorkspace(Workspace $workspace)
@@ -88,7 +89,7 @@ class workspaceController
 
 			(new atividadeDAO())->cadastrarAtividade($atividade);
 
-			header("Location: /trabalhoP2/workspace?id={$_POST['id_workspace']}");
+			header("Location: {$_SERVER['HTTP_REFERER']}");
 			exit();
 		}
 	}
@@ -123,7 +124,7 @@ class workspaceController
 
 			$workspaceDAO->alterarWorkspace($workspace);
 
-			header("Location: /trabalhoP2/workspace?id=" . $workspace->getId());
+			header("Location: {$_SERVER['HTTP_REFERER']}");
 			exit();
 		}
 	}
