@@ -88,7 +88,6 @@ classDiagram
         -dataCriacao: DateTime
         -descricao: string
         -workspace: Workspace
-        -comentarios: array
         -ativo: bool
         -concluido: bool
         -dataConcluido: DateTime
@@ -97,20 +96,11 @@ classDiagram
     Atividade ..|> IUsuario: implements
     Atividade ..> TemUsuario: uses
 
-    class Comentario {
-        -id: int
-        -texto: string
-        -usuario: Usuario
-        +get/set...()
-    }
-
     Workspace "1" -- "0..*" Atividade : contém
     Workspace "1" -- "1" Usuario : "é administrado por"
     Workspace "1" -- "0..*" Usuario : "possui membros"
     Atividade "1" -- "0..*" Usuario : "possui membros"
     Atividade "1" -- "1" Workspace : pertence a
-    Atividade "1" -- "0..*" Comentario : possui
-    Usuario "1" -- "0..*" Comentario : cria
 ```
 
 
