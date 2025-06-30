@@ -29,27 +29,35 @@ class workspaceController
 		}
 	}
 
-	public function cadastrarUsuarioNoWorkspace(?Workspace $workspace = null, ?Usuario $usuario = null)
+	public function cadastrarUsuarioNoWorkspace(?Workspace $workspaceInjection = null, ?Usuario $usuarioInjection = null)
 	{
-		if (empty($_POST) and ($workspace === null and $usuario === null)) {
+		$workspace = null;
+		$usuario = null;
+
+		if ($workspaceInjection !== null && $usuarioInjection !== null) {
+			$workspace = $workspaceInjection;
+			$usuario = $usuarioInjection;
+		} else if (isset($_POST['email'], $_POST['id_workspace'])) {
+			$usuario = new Usuario(email: $_POST['email']);
+			$workspace = new Workspace($_POST['id_workspace']);
+		} else if (isset($_POST['id_usuario'], $_POST['id_workspace'])) {
+			$usuario = new Usuario(id: $_POST['id_usuario']);
+			$workspace = new Workspace($_POST['id_workspace']);
+		}
+		
+		if ($usuario === null || $workspace === null) {
+			# TODO Mandar para página de erro
 			return;
-		} else if (($workspace == null and $usuario === null) and isset($_POST['email_usuario'])) {
-			$usuario = new Usuario(email: $_POST['email_usuario']);
-			$workspace = new Workspace($_POST['id_workspace']);
-		} else if (isset($_POST['id_usuario'])) {
-			$usuario = new Usuario($_POST['id_usuario']);
-			var_dump($usuario);
-			$workspace = new Workspace($_POST['id_workspace']);
 		}
 
 		$usuarioDAO = new usuarioDAO();
 		$workspaceDAO = new workspaceDAO();
 
 		try {
-			// Busca o usuário pelo id no banco
+			// Busca o usuário no banco
 			$usuarioEncontrado = $usuarioDAO->buscarUmUsuario($usuario);
 			if (!$usuarioEncontrado) {
-				die("Usuário não encontrado com o ID informado.");
+				die("Usuário não encontrado com os dados informados.");
 			}
 			$usuario = ConversorStdClass::stdClassToModelClass(
 				$usuarioEncontrado,
@@ -61,7 +69,7 @@ class workspaceController
 
 		$workspaceDAO->cadastrarUsuarioNoWorkspace($workspace, $usuario);
 
-		header("Location: /trabalhoP2");
+		header("Location: /trabalhoP2/workspace?id=" . $workspace->getId());
 		exit();
 	}
 
@@ -142,7 +150,7 @@ class workspaceController
 
 	public function desativarWorkspace()
 	{
-		$workspace = new workspace($_GET["id"]);
+		$workspace = new Workspace($_GET["id"]);
 		$workspaceDAO = new workspaceDAO();
 		$workspaceDAO->desativarWorkspace($workspace);
 		header("Location: /trabalhoP2/");
@@ -167,9 +175,7 @@ class workspaceController
 			$usuariosTodos = $usuarioDAO->buscarUsuarios();
 
 			if (!$this->usuarioFazParteDoWorkspace($workspace, $usuario)) {
-				// TODO Renderizar a View de erro
-				header("Location: /trabalhoP2");
-				exit();
+				ViewRenderer::renderErrorPage(404, "Usuário não encontrado", "O usuário inserido não foi encontrado no workspace atual!");
 			}
 
 			$workspace = ConversorStdClass::stdClassToModelClass($workspaceDAO->buscarUmWorkspace($workspace), Workspace::class); //

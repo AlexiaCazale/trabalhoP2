@@ -40,7 +40,7 @@ class atividadeController {
 
     public function alterarAtividade()
 	{
-        $atividadeDAO = new AtividadeDAO();
+        $atividadeDAO = new atividadeDAO();
 
         if (isset($_POST)) {
             $atividade = new Atividade($_POST['id_atividade']);

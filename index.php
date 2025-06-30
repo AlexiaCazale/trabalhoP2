@@ -2,6 +2,40 @@
 
 session_start(); // Inicia a sessão globalmente
 
+set_error_handler(function ($severity, $message, $file, $line) {
+    // Esta verificação respeita o operador '@' que suprime erros.
+    if (!(error_reporting() & $severity)) {
+        return false;
+    }
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
+set_exception_handler(function (Throwable $exception) {
+    http_response_code(500);
+
+    $errorCode = $exception->getCode();
+    $errorTitle = "Ocorreu um Erro Inesperado";
+    $errorDescription = "Nossa equipe foi notificada e está trabalhando para resolver o problema. Por favor, tente novamente mais tarde.";
+    
+    if ($exception instanceof PDOException) {
+        $errorTitle = "Erro no Banco de Dados";
+    } else if ($exception->getCode() == 404) {
+        http_response_code(404);
+        $errorTitle = "Página Não Encontrada";
+        $errorDescription = "O recurso que você está tentando acessar não existe ou foi movido.";
+    }
+
+    // Renderiza a sua página de erro customizada.
+    // Usamos @ para suprimir qualquer erro que possa acontecer dentro do próprio renderizador.
+    @ViewRenderer::renderErrorPage(
+		errorCode: $errorCode, 
+		errorTitle: $errorTitle, 
+		errorDescription: $errorDescription
+	);
+
+    exit();
+});
+
 require_once "rotas.php";
 spl_autoload_register(function ($class) {
 	if (file_exists('Controller/' . $class . '.php')) {

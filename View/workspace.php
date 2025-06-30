@@ -165,7 +165,7 @@
 							<?= $user->nome_usuario ?> (<?= $user->email_usuario ?>)
 							</option>
 						<?php endforeach; ?>
-						</select>
+					</select>
 					-->
 
 

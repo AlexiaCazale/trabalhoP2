@@ -23,6 +23,15 @@ class ViewRenderer
 
         echo "</html>";
     }
+
+    public static function renderErrorPage(int $errorCode, string $errorTitle, string $errorDescription) 
+    {
+        echo ViewRenderer::render("error_view", [
+            "errorCode" => $errorCode,
+            "errorTitle" => $errorTitle,
+            "errorDescription" => $errorDescription
+        ]);
+    }
 }
 
 ?>
