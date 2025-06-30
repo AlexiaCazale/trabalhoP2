@@ -1,6 +1,25 @@
 <?php
 class workspaceController
 {
+	public function buscarAdminDoWorkspace(Workspace $workspace): ?Workspace
+	{
+		$workspaceDAO = new workspaceDAO();
+
+		$adminObjeto =
+			ConversorStdClass::stdClassToModelClass(
+				$workspaceDAO->buscarAdminDoWorkspace($workspace),
+				Usuario::class
+			);
+
+		if ($adminObjeto) {
+			$workspace->setAdmin($adminObjeto);
+		} else {
+			throw new Exception("Não foi possível encontrar o administrador do workspace", 404);
+		}
+
+		return $workspace;
+	}
+
 	public function cadastrarWorkspace()
 	{
 		UserAuth::userIsLogged();
@@ -16,6 +35,8 @@ class workspaceController
 				descricao: $_POST['descricao']
 			);
 
+			$workspaceCriado->setUsuarios(new Usuario($_SESSION['usuario_id']));
+
 			$workspaceDAO->cadastrarWorkspace($workspaceCriado);
 			$id_workspace = $workspaceDAO->buscarUltimoId();
 
@@ -24,7 +45,7 @@ class workspaceController
 				new Usuario($_SESSION["usuario_id"])
 			);
 
-			header("Location: {$_SERVER['HTTP_REFERER']}");
+			header("Location: /trabalhoP2");
 			exit();
 		}
 	}
@@ -44,7 +65,7 @@ class workspaceController
 			$usuario = new Usuario(id: $_POST['id_usuario']);
 			$workspace = new Workspace($_POST['id_workspace']);
 		}
-		
+
 		if ($usuario === null || $workspace === null) {
 			# TODO Mandar para página de erro
 			return;
@@ -53,19 +74,15 @@ class workspaceController
 		$usuarioDAO = new usuarioDAO();
 		$workspaceDAO = new workspaceDAO();
 
-		try {
-			// Busca o usuário no banco
-			$usuarioEncontrado = $usuarioDAO->buscarUmUsuario($usuario);
-			if (!$usuarioEncontrado) {
-				die("Usuário não encontrado com os dados informados.");
-			}
-			$usuario = ConversorStdClass::stdClassToModelClass(
-				$usuarioEncontrado,
-				Usuario::class
-			);
-		} catch (Exception $e) {
-			die("Erro ao buscar o usuário: " . $e->getMessage());
+		// Busca o usuário no banco
+		$usuarioEncontrado = $usuarioDAO->buscarUmUsuario($usuario);
+		if (!$usuarioEncontrado) {
+			throw new Exception("Usuário não encontrado com os dados informados.", 404);
 		}
+		$usuario = ConversorStdClass::stdClassToModelClass(
+			$usuarioEncontrado,
+			Usuario::class
+		);
 
 		$workspaceDAO->cadastrarUsuarioNoWorkspace($workspace, $usuario);
 
@@ -114,14 +131,18 @@ class workspaceController
 
 	public function alterarWorkspace()
 	{
-		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			// Carregar a view com dados para edição
+		if ($_GET) {
 			if (empty($_GET['id'])) {
-				header("Location: /trabalhoP2");
-				exit();
+				throw new Exception("Erro ao buscar workspace para alterar", 403);
 			}
 			$workspaceDAO = new workspaceDAO();
 			$workspace = new Workspace($_GET['id']);
+
+			if (!PermissionManager::loggedUserIsAdmin($workspace)) {
+				ViewRenderer::renderErrorPage(403, "Acesso Negado", "Apenas o administrador pode desativar o workspace.");
+				exit();
+			}
+
 			$workspace = ConversorStdClass::stdClassToModelClass(
 				$workspaceDAO->buscarUmWorkspace($workspace),
 				Workspace::class
@@ -146,11 +167,15 @@ class workspaceController
 		}
 	}
 
-
-
 	public function desativarWorkspace()
 	{
 		$workspace = new Workspace($_GET["id"]);
+
+		if (!PermissionManager::loggedUserIsAdmin($workspace)) {
+			ViewRenderer::renderErrorPage(403, "Acesso Negado", "Apenas o administrador pode desativar o workspace.");
+			exit();
+		}
+
 		$workspaceDAO = new workspaceDAO();
 		$workspaceDAO->desativarWorkspace($workspace);
 		header("Location: /trabalhoP2/");
@@ -184,11 +209,12 @@ class workspaceController
 				$workspace->setUsuarios(ConversorStdClass::stdClassToModelClass($usuarioData, Usuario::class)); //
 			}
 
+			$this->buscarAdminDoWorkspace($workspace);
+
 			foreach ($workspaceDAO->buscarAtividadesDoWorkspace($workspace) as $atividadeData) {
 				$atividade = ConversorStdClass::stdClassToModelClass($atividadeData, Atividade::class); //
 
-				// Directly hydrate activity's users here, removing the controller instantiation
-				$usuariosDaAtividade = $atividadeDAO->buscarUsuariosEmAtividade($atividade); //
+				$usuariosDaAtividade = $atividadeDAO->buscarUsuariosEmAtividade($atividade);
 				foreach ($usuariosDaAtividade as $usuarioAtividadeData) {
 					$atividade->setUsuarios(ConversorStdClass::stdClassToModelClass($usuarioAtividadeData, Usuario::class));
 				}

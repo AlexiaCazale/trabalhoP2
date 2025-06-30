@@ -60,6 +60,20 @@ class atividadeDAO
 		]);
 	}
 
+	public function concluirAtividade(Atividade $atividade)
+	{
+		$sql = 
+		"UPDATE atividade 
+		SET concluido_atividade = true, data_concluido_atividade = :data_atual
+		WHERE id_atividade = :id";
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([
+			"id" => $atividade->getId(),
+			"data_atual" => time()
+		]);
+	}
+
 	public function buscarUmaAtividade(Atividade $atividade)
 	{
 		$sql = "SELECT * FROM atividade WHERE id_atividade = :id and atividade.ativo_atividade";

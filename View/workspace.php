@@ -53,6 +53,7 @@
                     <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUsuarioAtividade{$atividade->getId()}'>
                         Adicionar usuário
                     </button>
+					<a href='/trabalhoP2/finalizar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i class='ph ph-check'></i></a>
                     <a href='/trabalhoP2/desativar_atividade?id={$atividade->getId()}' style='text-decoration: none;'><i class='ph ph-trash' style='font-size: 20px; color: red'></i></a>
                     <button type='button' class='btn' data-bs-toggle='modal' data-bs-target='#modalEditarAtividade{$atividade->getId()}'>
                         <i class='ph ph-pencil-simple-line' style='font-size: 20px;'></i>
@@ -116,12 +117,12 @@
 							</div>
 							<div class='mb-3'>
 								<label>Data de entrega</label>
-								<input type='date' name='data_entrega_atividade' class='form-control' value='{$atividade->getDataEntrega()->format('d/m/Y')}'>
+								<input type='date' name='data_entrega_atividade' class='form-control' value='{$atividade->getDataEntrega()->format('Y-m-d')}'>
 							</div>
 							<input name='id_atividade' type='hidden' value='{$atividade->getId()}'>
 							<div class='modal-footer'>
 								<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
-								<input type='submit' class='btn btn-primary' value'Alterar'></input>
+								<input type='submit' class='btn btn-primary' value='Alterar'></input>
 							</div>
 						</form>
 					</div>

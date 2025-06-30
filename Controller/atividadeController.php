@@ -40,8 +40,22 @@ class atividadeController {
 	public function removerUsuarioDaAtividade()
 	{
 		if (isset($_GET['id_atividade']) && isset($_GET['id_usuario'])) {
-			$atividade = new Atividade((int)$_GET['id_atividade']);
-			$usuario = new Usuario((int)$_GET['id_usuario']);
+			$atividade = new Atividade($_GET['id_atividade']);
+			$usuario = new Usuario($_GET['id_usuario']);
+
+			$atividadeDAO = new atividadeDAO();
+			$atividade = ConversorStdClass::stdClassToModelClass(
+				$atividadeDAO->buscarUmaAtividade($atividade), 
+				Atividade::class);
+			$atividade->setWorkspace(
+				ConversorStdClass::stdClassToModelClass(
+				$atividadeDAO->buscarWorkspaceDaAtividade($atividade), 
+				Workspace::class));
+
+			if (!PermissionManager::loggedUserIsAdmin($atividade->getWorkspace())) {
+				ViewRenderer::renderErrorPage(403, "Acesso Negado", "Apenas o administrador pode remover um usuário.");
+				exit();
+			}
 
 			$atividadeDAO = new atividadeDAO();
 			$atividadeDAO->removerUsuarioDaAtividade($atividade, $usuario);
@@ -85,19 +99,31 @@ class atividadeController {
 	public function desativarAtividade()
 	{
 		$atividade = new Atividade($_GET["id"]);
+
 		$atividadeDAO = new atividadeDAO();
+			$atividade = ConversorStdClass::stdClassToModelClass(
+				$atividadeDAO->buscarUmaAtividade($atividade), 
+				Atividade::class);
+			$atividade->setWorkspace(
+				ConversorStdClass::stdClassToModelClass(
+				$atividadeDAO->buscarWorkspaceDaAtividade($atividade), 
+				Workspace::class));
+
+			if (!PermissionManager::loggedUserIsAdmin($atividade->getWorkspace())) {
+				ViewRenderer::renderErrorPage(403, "Acesso Negado", "Apenas o administrador pode remover um usuário.");
+				exit();
+			}
 
 		$atividadeDAO->desativarAtividade($atividade);
 
-		$atividade->setWorkspace(
-			ConversorStdClass::stdClassToModelClass(
-				$atividadeDAO->buscarWorkspaceDaAtividade($atividade),
-				Workspace::class
-			)
-		);
-
 		header("Location: {$_SERVER['HTTP_REFERER']}");
 		exit();
+	}
+
+	public function finalizarAtividade() 
+	{
+		$atividade = new Atividade($_GET('id'));
+		(new atividadeDAO())->concluirAtividade($atividade);
 	}
 
 

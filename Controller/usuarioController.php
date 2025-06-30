@@ -21,23 +21,26 @@ class usuarioController
 					hash: $usuarioEncontrado->getSenha()
 				)
 			) {
-				$_SESSION['usuario_nome'] = $usuarioEncontrado->getNome();
-				$_SESSION['usuario_primeiro_nome'] = explode(' ', $usuarioEncontrado->getNome())[0];
-				$_SESSION['usuario_ultimo_nome'] = end(explode(' ', $usuarioEncontrado->getNome()));
+				$nomeCompleto = $usuarioEncontrado->getNome();
+				$partesNome = explode(' ', $nomeCompleto); // Armazena o array em uma variável
+
+				$_SESSION['usuario_nome'] = $nomeCompleto;
+				$_SESSION['usuario_primeiro_nome'] = $partesNome[0]; // Pega o primeiro nome do array
+				$_SESSION['usuario_ultimo_nome'] = end($partesNome); // Agora funciona, pois passamos uma variável
 				$_SESSION['usuario_email'] = $usuarioEncontrado->getEmail();
 				$_SESSION['usuario_id'] = $usuarioEncontrado->getId();
 				session_regenerate_id(true);
 
 				header('Location: /trabalhoP2/');
 				exit();
-			} else {
-				var_dump("Senha errada");
 			}
+
 
 		}
 	}
 
-	public function mostrarPerfil(): void {
+	public function mostrarPerfil(): void
+	{
 
 		$usuarioDAO = new usuarioDAO();
 		if (isset($_SESSION['usuario_id'])) {
@@ -94,6 +97,7 @@ class usuarioController
 		}
 	}
 
+	/*
 	public function detalharWorkspace(): void
 	{
 		UserAuth::userIsLogged();
@@ -110,6 +114,7 @@ class usuarioController
 			"usuariosEncontrados" => $usuariosEncontrados,
 		]);
 	}
+	*/
 
 }
 ?>

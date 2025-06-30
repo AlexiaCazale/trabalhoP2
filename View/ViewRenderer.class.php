@@ -24,9 +24,9 @@ class ViewRenderer
         echo "</html>";
     }
 
-    public static function renderErrorPage(int $errorCode, string $errorTitle, string $errorDescription) 
+    public static function renderErrorPage(string $errorCode, string $errorTitle, string $errorDescription) 
     {
-        echo ViewRenderer::render("error_view", [
+        self::render("error_view", [
             "errorCode" => $errorCode,
             "errorTitle" => $errorTitle,
             "errorDescription" => $errorDescription

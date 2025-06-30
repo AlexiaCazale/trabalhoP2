@@ -2,12 +2,14 @@
 class Workspace implements IAtividade, IUsuario
 {
 	use TemUsuario, TemAtividade;
-
+	
+	
 	public function __construct(
 		private ?int $id = 0,
 		private ?string $nome = "",
 		private ?string $descricao = "",
-		private ?bool $ativo = true
+		private ?bool $ativo = true,
+		private ?Usuario $admin = null
 	) {
 	}
 
@@ -42,6 +44,14 @@ class Workspace implements IAtividade, IUsuario
 	public function setAtivo(bool $ativo)
 	{
 		$this->ativo = $ativo;
+	}
+	public function getAdmin(): ?Usuario
+	{
+		return $this->admin;
+	}
+	public function setAdmin(Usuario $admin): void
+	{
+		$this->admin = $admin;
 	}
 }
 
