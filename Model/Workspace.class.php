@@ -3,7 +3,6 @@ class Workspace implements IAtividade, IUsuario
 {
 	use TemUsuario, TemAtividade;
 	
-	
 	public function __construct(
 		private ?int $id = 0,
 		private ?string $nome = "",

@@ -7,7 +7,7 @@
 
 		<?php if (isset($_SESSION['usuario_primeiro_nome'])): ?>
 			<p style="margin-left: 20px; font-size: 16px; text-align: start; color: black">Workspaces</p>
-			<?php $tagWorkspaces->criar(); // Usa CompositionHandler::createWorkspaces ?>
+			<?php $tagWorkspaces->criar(); ?>
 		<?php endif; ?>
 	</div>
 
@@ -16,7 +16,7 @@
 			<h5 class="card-title" style="margin: 50px 20px 10px 20px; font-size: 20px; text-align: start; color: black">
 				Acesso rápido
 			</h5>
-			<?php $ul->criar(); // Usa CompositionHandler::createQuickAccess ?>
+			<?php $ul->criar(); ?>
 		</div>
 	</div>
 </div>

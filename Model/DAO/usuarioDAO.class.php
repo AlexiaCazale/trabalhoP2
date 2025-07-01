@@ -1,9 +1,6 @@
 <?php
 class usuarioDAO
 {
-	# TODO Buscar atividades de um usuário 
-	# TODO Remover comentário
-
 	private $db;
 
 	public function __construct()
@@ -13,7 +10,7 @@ class usuarioDAO
 
 	public function buscarUsuarios()
 	{
-		$sql = "SELECT * FROM usuario WHERE ativo_usuario"; // Adicionar um LIMIT e OFFSET; Criar uma classe para fazer a paginação?
+		$sql = "SELECT * FROM usuario WHERE ativo_usuario";
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_OBJ);

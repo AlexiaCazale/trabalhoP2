@@ -16,18 +16,17 @@ class Atividade implements IUsuario
 		private ?bool $concluido = false,
 		private DateTime|string|null $dataConcluido = null
 	) {
-		// As chamadas no construtor já estavam corretas
-        if (is_string($dataCriacao)) {
-            $this->setDataCriacao($dataCriacao);
-        }
-        
-        if (is_string($dataEntrega)) {
-            $this->setDataEntrega($dataEntrega);
-        }
+		if (is_string($dataCriacao)) {
+			$this->setDataCriacao($dataCriacao);
+		}
 
-        if (is_string($dataConcluido)) {
-            $this->setDataConcluido($dataConcluido);
-        }
+		if (is_string($dataEntrega)) {
+			$this->setDataEntrega($dataEntrega);
+		}
+
+		if (is_string($dataConcluido)) {
+			$this->setDataConcluido($dataConcluido);
+		}
 	}
 
 	public function getId()
@@ -50,26 +49,26 @@ class Atividade implements IUsuario
 	{
 		return $this->dataEntrega;
 	}
-	 public function setDataEntrega(DateTime|string $data): void
-    {
-        if (is_string($data) && !empty($data)) {
-            $this->dataEntrega = new DateTime($data);
-        } elseif ($data instanceof DateTime) {
-            $this->dataEntrega = $data;
-        }
-    }
+	public function setDataEntrega(DateTime|string $data): void
+	{
+		if (is_string($data) && !empty($data)) {
+			$this->dataEntrega = new DateTime($data);
+		} elseif ($data instanceof DateTime) {
+			$this->dataEntrega = $data;
+		}
+	}
 	public function getDataCriacao()
 	{
 		return $this->dataCriacao;
 	}
 	public function setDataCriacao(DateTime|string $data): void
-    {
-        if (is_string($data) && !empty($data)) {
-            $this->dataCriacao = new DateTime($data);
-        } elseif ($data instanceof DateTime) {
-            $this->dataCriacao = $data;
-        }
-    }
+	{
+		if (is_string($data) && !empty($data)) {
+			$this->dataCriacao = new DateTime($data);
+		} elseif ($data instanceof DateTime) {
+			$this->dataCriacao = $data;
+		}
+	}
 	public function getDescricao()
 	{
 		return $this->descricao;
@@ -94,28 +93,26 @@ class Atividade implements IUsuario
 	{
 		$this->ativo = $ativo;
 	}
-	public function getConcluido() 
+	public function getConcluido()
 	{
 		return $this->concluido;
 	}
-	public function setConcluido(bool $concluido) 
+	public function setConcluido(bool $concluido)
 	{
 		$this->concluido = $concluido;
 	}
-	public function getDataConcluido() 
+	public function getDataConcluido()
 	{
 		return $this->dataConcluido;
 	}
-	 public function setDataConcluido(DateTime|string|null $data): void
-    {
-        if (is_string($data) && !empty($data)) {
-            $this->dataConcluido = new DateTime($data);
-        } else if ($data instanceof DateTime) {
-            $this->dataConcluido = $data;
-        } else {
+	public function setDataConcluido(DateTime|string|null $data): void
+	{
+		if (is_string($data) && !empty($data)) {
+			$this->dataConcluido = new DateTime($data);
+		} else if ($data instanceof DateTime) {
+			$this->dataConcluido = $data;
+		} else {
 			$this->dataConcluido = null;
 		}
-    }
+	}
 }
-
-?>

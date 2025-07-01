@@ -1,8 +1,8 @@
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("form_cadastro");
 
-    form.addEventListener("submit", function (event) {
+    form.addEventListener("submit", function(event) {
       if (!form.checkValidity()) {
         event.preventDefault();
         event.stopPropagation();
@@ -20,7 +20,7 @@
   border: unset;
   border-radius: 16px;
   margin: 10% 30%;">
-  
+
   <form id="form_cadastro" style="display: flex; flex-direction: column; gap: 20px;" method="post" novalidate>
 
     <h1 style="font-size: 20px; text-align: center; color: black">Cadastre-se!</h1>

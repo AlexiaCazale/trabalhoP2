@@ -1,14 +1,6 @@
 <?php
 class atividadeDAO
 {
-
-	# TODO Adicionar usuários a uma atividade
-	# TODO Remover usuário 
-	# TODO Alterar dados da atividade 
-	# TODO Desativar a atividade
-	# TODO Buscar comentários
-	# TODO Excluir comentários
-
 	public ?PDO $db;
 
 	public function __construct()
@@ -62,8 +54,8 @@ class atividadeDAO
 
 	public function alterarConcluidoAtividade(Atividade $atividade)
 	{
-		$sql = 
-		"UPDATE atividade 
+		$sql =
+			"UPDATE atividade 
 		SET 
 		concluido_atividade = !concluido_atividade, 
 		data_concluido_atividade = CASE WHEN !concluido_atividade THEN NULL ELSE :data_atual END
@@ -149,11 +141,11 @@ class atividadeDAO
 		return $stmt->fetchAll(PDO::FETCH_OBJ);
 	}
 
-	public function removerUsuarioDaAtividade(Atividade $atividade, Usuario $usuario) 
+	public function removerUsuarioDaAtividade(Atividade $atividade, Usuario $usuario)
 	{
-		$sql = 
-		"DELETE FROM membro_atividade WHERE id_usuario_fk = :id_usuario AND id_atividade_fk = :id_atividade;";
-		
+		$sql =
+			"DELETE FROM membro_atividade WHERE id_usuario_fk = :id_usuario AND id_atividade_fk = :id_atividade;";
+
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute([
 			"id_usuario" => $usuario->getId(),

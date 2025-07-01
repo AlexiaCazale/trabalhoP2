@@ -2,10 +2,6 @@
 
 class ConversorStdClass
 {
-	/**
-	 * @method [?object] stdClassToModelClass() transforma um objeto stdClass retornado pelo PDO em um objeto de uma das nossas classes
-	 */
-
 	public static function stdClassToModelClass(stdClass $stdClassObject, string $targetClassName): ?object
 	{
 		if (!class_exists($targetClassName)) {
@@ -17,7 +13,7 @@ class ConversorStdClass
 		foreach ((array) $stdClassObject as $dbColumnName => $value) {
 			$parts = explode('_', $dbColumnName);
 			if (count($parts) > 1) {
-				array_pop($parts); // Remove o último elemento
+				array_pop($parts);
 			}
 			$modelPropertyName = implode('_', $parts);
 			$modelPropertyName = lcfirst(str_replace('_', '', ucwords($modelPropertyName, '_')));

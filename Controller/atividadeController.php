@@ -32,8 +32,7 @@ class atividadeController {
 
 		$atividadeDAO->cadastrarUsuarioNaAtividade($atividade, $usuario);
 
-		// Após cadastro, pode redirecionar para a página anterior ou workspace
-		header("Location: " . ($_SERVER['HTTP_REFERER'] ?? "/trabalhoP2/workspace"));
+		header("Location: {$_SERVER['HTTP_REFERER']}");
 		exit();
 	}
 

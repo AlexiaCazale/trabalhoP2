@@ -21,7 +21,6 @@
         Campo obrigatório!
       </div>
     </div>
-    <!-- Você pode adicionar o select de membros aqui preenchendo dinamicamente -->
     <div class="mb-3" style="margin-top: 15px;">
       <a href="/trabalhoP2/" class="btn btn-primary">Cancelar</a>
       <button class="btn btn-secondary" type="submit">Salvar</button>
